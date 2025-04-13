@@ -33,7 +33,7 @@ const PhoneOtpComponent = () => {
 
     return () => unsubscribe();
   }, []);
-
+// اعدادات الريكباتشا 
   const setupRecaptcha = () => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
@@ -45,7 +45,7 @@ const PhoneOtpComponent = () => {
       });
     }
   };
-
+// sending otp
   const handleSendOTP = () => {
     const fullPhone = countryCode + phoneNumber;
     if (!/^\d+$/.test(phoneNumber)) {
@@ -73,7 +73,7 @@ const PhoneOtpComponent = () => {
         alert(errorMessage);
       });
   };
-
+// handle otp verification
   const handleVerifyOTP = () => {
     const code = otp.join("");
     if (!confirmationResult) return alert("No OTP sent yet!");
@@ -81,7 +81,7 @@ const PhoneOtpComponent = () => {
       alert("Please enter a valid 6-digit OTP.");
       return;
     }
-// Verify the OTP
+// compare the OTP
     confirmationResult.confirm(code)
       .then((result) => {
         console.log("Phone number verified!", result.user);
@@ -110,26 +110,60 @@ const PhoneOtpComponent = () => {
     if (e.key === "Backspace" && !otp[index] && index > 0) otpRefs.current[index - 1].focus();
   };
 //تسجيل الدخول باستخدام حساب جوجل
-  const handleGoogleLoginSuccess = (response) => {
+  // const handleGoogleLoginSuccess = (response) => {
+  //   console.log("Google login successful:", response);
+  //   alert("Google login successful!");
+  //   setGoogleCredential(response.credential);
+  //   localStorage.setItem("googleToken", response.credential);
+  //   setIsLoggedIn(true);
+  //   modalRef.current?.classList.remove('show');
+  //   document.body.style.overflow = 'auto';
+  // };
+  const handleGoogleLoginSuccess = async (response) => {
     console.log("Google login successful:", response);
-    alert("Google login successful!");
-    setGoogleCredential(response.credential);
-    localStorage.setItem("googleToken", response.credential);
-    setIsLoggedIn(true);
-    modalRef.current?.classList.remove('show');
+  
+    try {
+      const res = await fetch('http://localhost:3000/api/users/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idToken: response.credential
+        }),
+      });
+  
+      const data = await res.json();
+  
+      if (data.success) {
+        console.log('✅ User verified by server:', data.user);
+       
+ 
+        alert(`Welcome ${data.user.name}!`);
+        // هنا لو السيرفر بيرجع JWT تاني ممكن تخزنه بشكل مؤقت
+        localStorage.setItem('authToken', data.token);  // لو السيرفر بيرجع token
+        setIsLoggedIn(true);
+   modalRef.current?.classList.remove('show');
     document.body.style.overflow = 'auto';
+      } else {
+        alert('Login failed on server.');
+      }
+    } catch (error) {
+      console.error('Error verifying token on server:', error);
+      alert('An error occurred, please try again.');
+    }
   };
-
+  
   const handleGoogleLoginError = () => {
     console.log("Google login failed");
     alert("Google login failed. Please try again.");
   };
 // تسجيل الخروج 
   const handleLogout = () => {
+    localStorage.removeItem("authToken");
     if (googleCredential) {
       window.google.accounts.id.revoke(googleCredential, () => {
         console.log("Google logout successful");
-        localStorage.removeItem("googleToken");
         setGoogleCredential(null);
         setIsLoggedIn(false);
       });
