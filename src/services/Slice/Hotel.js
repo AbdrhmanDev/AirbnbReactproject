@@ -21,9 +21,7 @@ const FetchCategoryHotels = async (CategoryId) => {
     try {
         response = await axios.post(
             'http://localhost:3000/Hotel/search/category',
-            {
-                id: CategoryId
-            },
+            CategoryId ? { id: CategoryId } : {},
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +30,13 @@ const FetchCategoryHotels = async (CategoryId) => {
             }
         );
     } catch (error) {
-        console.log(error);
+        if (error.response && error.response.status === 404) {
+            throw new Error("No hotels available in this category");
+        } else if (error.response && error.response.status === 400) {
+            throw new Error("Invalid Category ID");
+        } else {
+            throw new Error("An error occurred while fetching hotels");
+        }
     }
     console.log("category Hotels: ", response.data);
 
@@ -44,35 +48,45 @@ export const FetchCategoryHotelsAsync = createAsyncThunk('FetchCategoryHotels', 
 const AllHotelSlice = createSlice({
     name: "FetchAllHotel",
     initialState: {
-        items: [], // All hotels
+        allHotels: [], // All hotels
         filteredHotels: [], // Filtered hotels based on category
         isLoading: true,
         isError: false,
+        errorMessage: null
     },
     extraReducers: (builder) => {
         // Fetch All Hotels
         builder.addCase(fetchAllHotelAsync.fulfilled, (states, action) => {
-            states.items = action.payload,
-                states.isLoading = false
+            states.allHotels = action.payload;
+            states.isLoading = false
+            states.isError = false;
         })
-        builder.addCase(fetchAllHotelAsync.rejected, (states) => {
-            states.isError = true,
-                states.isLoading = false
+        builder.addCase(fetchAllHotelAsync.rejected, (states, action) => {
+            states.isError = true;
+            states.isLoading = false;
+            states.errorMessage = action.error.message;
         })
         builder.addCase(fetchAllHotelAsync.pending, (states) => {
-            states.isLoading = true
+            states.isLoading = true;
+            states.isError = false;
+            states.errorMessage = null;
         })
         // Fetch Category Hotels
         builder.addCase(FetchCategoryHotelsAsync.fulfilled, (states, action) => {
             states.filteredHotels = action.payload;
             states.isLoading = false
+            states.isError = false;
         })
-        builder.addCase(FetchCategoryHotelsAsync.rejected, (states) => {
-            states.isError = true,
-                states.isLoading = false
+        builder.addCase(FetchCategoryHotelsAsync.rejected, (states, action) => {
+            states.isError = true;
+            states.isLoading = false;
+            states.errorMessage = action.error.message;
         })
         builder.addCase(FetchCategoryHotelsAsync.pending, (states) => {
-            states.isLoading = true
+            states.isLoading = true;
+            states.isError = false;
+            states.errorMessage = null;
+
         })
 
     }

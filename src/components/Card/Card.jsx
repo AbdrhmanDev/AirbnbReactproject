@@ -8,27 +8,31 @@ import CatalogMagic from '../Loader/Loader';
 
 const Card = () => {
 
-    const { items, filteredHotels, isLoading } = useSelector((state) => state.Hotel);
+    const { allHotels, filteredHotels, isLoading, isError, errorMessage } = useSelector((state) => state.Hotel);
     const [hotelData, setHotelData] = useState([])
 
     useEffect(() => {
-
         if (filteredHotels?.length > 0) {
-            setHotelData(filteredHotels); // عرض الفنادق الخاصة بالفئة المحددة
+            setHotelData(filteredHotels);
         } else {
-            setHotelData(items); // عرض جميع الفنادق إذا لم يتم تحديد فئة
+            setHotelData(allHotels);
         }
-    }, [filteredHotels, items]);
-    console.log(hotelData);
+    }, [filteredHotels, allHotels]);
     return (
         <div className="container mt-4">
             {isLoading ? (
-                <CatalogMagic />
+                <p>Loading...</p>
+            ) : isError ? (
+                <p className="text-center text-danger">{errorMessage}</p>
             ) : (
                 <div className="d-flex flex-wrap justify-content-start gap-3">
-                    {hotelData?.map((hotel, index) => (
-                        <ImageCard key={index} hotel={hotel} />
-                    ))}
+                    {hotelData?.length > 0 ? (
+                        hotelData?.map((hotel, index) => (
+                            <ImageCard key={index} hotel={hotel} />
+                        ))
+                    ) : (
+                        <p className="text-center text-muted">No hotels available in this category</p>
+                    )}
                 </div>
             )}
         </div>
