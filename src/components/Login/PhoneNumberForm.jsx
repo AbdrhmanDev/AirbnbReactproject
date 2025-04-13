@@ -17,14 +17,14 @@ const PhoneOtpComponent = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
 
   useEffect(() => {
-    const storedCredential = localStorage.getItem("googleToken");
+    const storedCredential = localStorage.getItem("authToken");
     if (storedCredential) {
       setGoogleCredential(storedCredential);
       setIsLoggedIn(true);
     }
 // حفظ التوكن في اللوكال سنتوريج
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user || localStorage.getItem("googleToken")) {
+      if (user || localStorage.getItem("authToken")) {
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
@@ -109,16 +109,7 @@ const PhoneOtpComponent = () => {
   const handleOtpKeyDown = (e, index) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) otpRefs.current[index - 1].focus();
   };
-//تسجيل الدخول باستخدام حساب جوجل
-  // const handleGoogleLoginSuccess = (response) => {
-  //   console.log("Google login successful:", response);
-  //   alert("Google login successful!");
-  //   setGoogleCredential(response.credential);
-  //   localStorage.setItem("googleToken", response.credential);
-  //   setIsLoggedIn(true);
-  //   modalRef.current?.classList.remove('show');
-  //   document.body.style.overflow = 'auto';
-  // };
+
   const handleGoogleLoginSuccess = async (response) => {
     console.log("Google login successful:", response);
   
