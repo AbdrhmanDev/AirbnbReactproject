@@ -21,7 +21,7 @@
 }
 .btn-parent{
     width: 18%;
-    padding-top: 16px;
+    /* padding-top: px; */
     margin: auto;
     display: flex;
     justify-content: end;
@@ -63,7 +63,7 @@
     border: 1px solid #ccc;
     position: relative;
     left: 50px;
-    margin-top: 14px;
+    /* margin-top: 14px; */
   }
 
 .active-underline {

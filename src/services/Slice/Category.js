@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+const API_KEY = import.meta.env.VITE_API;
 
 const FetchCategory = async () => {
    let response;
     try {
-     response = await axios.get('http://localhost:3000/category',{
+     response = await axios.get(`${API_KEY}/category`,{
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'

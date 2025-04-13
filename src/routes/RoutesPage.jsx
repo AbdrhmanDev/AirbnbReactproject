@@ -18,7 +18,7 @@ const RoutesPage = () => {
       {
         path: '', element: <Layout/>, children: [
           {index:true,element:<Home/>},
-
+          {path:'/wishlist',element:<Card/>},
         ]
       },
       { path: '*', element: <h1>404</h1> },

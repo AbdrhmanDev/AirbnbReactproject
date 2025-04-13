@@ -9,7 +9,6 @@ import { useState } from 'react';
 const Category = () => {
     const [activeCategoryId, setActiveCategoryId] = useState(null); // حالة لتخزين الفئة النشطة
     const category = useSelector((state) => state.Category.items);
-    console.log(category);
 
     const dispatch = useDispatch();
 
@@ -24,7 +23,7 @@ const Category = () => {
             <div className="all d-flex">
                 <div className="part-parent">
 
-                    <div className="category-part ms-5 hide-scrollbar container overflow-auto mt-4 d-flex gap-2 flex-nowrap justify-content-center">
+                    <div className="category-part ms-5 hide-scrollbar container overflow-auto d-flex gap-2 flex-nowrap justify-content-center">
                         {
                             category?.map((item, index) => (
                                 <div

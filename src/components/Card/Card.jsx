@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Card.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BlogItem from '../Loader/Loader';
 import CatalogMagic from '../Loader/Loader';
+import { addwishlistPost } from '../../services/Slice/Wishlist/AddWishlist';
 
 const Card = () => {
 
@@ -19,13 +20,13 @@ const Card = () => {
         }
     }, [filteredHotels, allHotels]);
     return (
-        <div className="container mt-4">
+        <div className="container mt-2 p-1">
             {isLoading ? (
                 <CatalogMagic />
             ) : isError ? (
                 <p className="text-center text-danger">{errorMessage}</p>
             ) : (
-                <div className="d-flex flex-wrap justify-content-start gap-3">
+                <div className="d-flex flex-wrap justify-content-start gap-3 ">
                     {hotelData?.length > 0 ? (
                         hotelData?.map((hotel, index) => (
                             <ImageCard key={index} hotel={hotel} />
@@ -38,29 +39,33 @@ const Card = () => {
         </div>
     );
 };
-
 const ImageCard = ({ hotel }) => {
     const [current, setCurrent] = useState(0);
+    const dispatch = useDispatch();
+
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
-    const { images, title, pricePerNight, rating, address } = hotel;
+    const { images, title, pricePerNight, rating, address, _id } = hotel;
 
     const handleNext = () => {
         setCurrent((prev) => (prev + 1) % images.length);
     };
 
     const handlePrev = () => {
-        console.log("Prev");
         setCurrent((prev) => (prev - 1 + images.length) % images.length);
     };
 
+    const addwishlist = (id) => {
+        console.log("Adding to wishlist: ", id);
+        dispatch(addwishlistPost(id));
+    };
+
     return (
-        <div className="card-container" style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}>
+        <div className="card-container " style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}>
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <div className="position-relative">
                     <img src={images[current]} alt="Slide" className="carousel-img" />
 
-                    {/* Controls */}
                     <div className="cursor-icons-all">
                         <button className="carousel-control-prev" onClick={handlePrev}>
                             <FaAngleLeft className="cursor-icons2" />
@@ -70,7 +75,6 @@ const ImageCard = ({ hotel }) => {
                         </button>
                     </div>
 
-                    {/* Dots */}
                     <div className="dots-container">
                         {images.map((_, index) => (
                             <span
@@ -81,14 +85,16 @@ const ImageCard = ({ hotel }) => {
                         ))}
                     </div>
 
-                    {/* Badges */}
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
-                        <CiHeart style={{ color: "wheat" }} size={"24px"} />
+                        <CiHeart
+                            style={{ color: "wheat", cursor: "pointer" }}
+                            size={"24px"}
+                            onClick={() => addwishlist(_id)}
+                        />
                     </span>
                 </div>
 
-                {/* Card Content */}
                 <div className="d-flex mt-1">
                     <div className="card-body text-start">
                         <h6 className="card-title pt-1">{title}</h6>
@@ -104,6 +110,7 @@ const ImageCard = ({ hotel }) => {
         </div>
     );
 };
+
 
 
 export default Card;
