@@ -1,27 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Card.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { useSelector } from 'react-redux';
 import BlogItem from '../Loader/Loader';
 import CatalogMagic from '../Loader/Loader';
+
 const Card = () => {
 
-    const Hotel = useSelector((state) => state.Hotel.items);
-    const isLoading = useSelector((state) => state.Hotel.isLoading);
+    const { items, filteredHotels, isLoading } = useSelector((state) => state.Hotel);
+    const [hotelData, setHotelData] = useState([])
 
+    useEffect(() => {
+
+        if (filteredHotels?.length > 0) {
+            setHotelData(filteredHotels); // عرض الفنادق الخاصة بالفئة المحددة
+        } else {
+            setHotelData(items); // عرض جميع الفنادق إذا لم يتم تحديد فئة
+        }
+    }, [filteredHotels, items]);
+    console.log(hotelData);
     return (
         <div className="container mt-4">
-        {isLoading ? (
-          <CatalogMagic />
-        ) : (
-          <div className="d-flex flex-wrap justify-content-start gap-3">
-            {Hotel.map((hotel, index) => (
-              <ImageCard key={index} hotel={hotel} />
-            ))}
-          </div>
-        )}
-      </div>
+            {isLoading ? (
+                <CatalogMagic />
+            ) : (
+                <div className="d-flex flex-wrap justify-content-start gap-3">
+                    {hotelData?.map((hotel, index) => (
+                        <ImageCard key={index} hotel={hotel} />
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 
@@ -29,7 +39,7 @@ const ImageCard = ({ hotel }) => {
     const [current, setCurrent] = useState(0);
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
-    const { images, title ,pricePerNight, rating, address } = hotel;
+    const { images, title, pricePerNight, rating, address } = hotel;
 
     const handleNext = () => {
         setCurrent((prev) => (prev + 1) % images.length);

@@ -7,33 +7,39 @@ import { RiListSettingsLine } from "react-icons/ri";
 import { BiToggleLeft } from "react-icons/bi";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Link } from 'react-router-dom';
+import { FetchCategoryHotelsAsync } from '../../services/Slice/Hotel';
 const Category = () => {
 
-    const category= useSelector((state) => state.Category.items);
+    const category = useSelector((state) => state.Category.items);
     console.log(category);
 
-  
-    useDispatch();
+
+    const dispatch = useDispatch();
+    const getCatogeryHotel = (id) => {
+        console.log(id);
+        
+        dispatch(FetchCategoryHotelsAsync(id));
+    }
     return (
         <>
             <div className="all d-flex">
                 <div className="part-parent">
 
-                    <div className="category-part ms-5 hide-scrollbar container overflow-auto mt-4 d-flex gap-2 flex-nowrap justify-content-center">
+                    <div className="category-part ms-5 hide-scrollbar container overflow-auto mt-4 d-flex gap-2 flex-nowrap justify-content-center" >
                         {
-                            category?.map((item,index) => (
-                               <Link  className="text-decoration-none" key={index}>
-                                <div className="category-box text-center" key={index} >
+                            category?.map((item, index) => (
+                                <div className="category-box text-center" role='button' onClick={() => {
+                                    getCatogeryHotel(item._id)
+                                }} key={index} >
                                     {/* <div className="icon">{item.icon}</div> */}
                                     <img className="icon" width={"20px"} src={item.icon} alt={item.name} />
                                     <p className="label">{item.name}</p>
                                 </div>
-                               </Link>
                             ))
                         }
                     </div>
                 </div>
-                        <MdKeyboardArrowRight className='toggle-icons-cat' />
+                <MdKeyboardArrowRight className='toggle-icons-cat' />
                 <div className="btn-parent me-2">
                     <button className='btn m-0 btn-outline-light '>
                         <RiListSettingsLine size={"22px"} style={{ paddingRight: "4px" }} />
