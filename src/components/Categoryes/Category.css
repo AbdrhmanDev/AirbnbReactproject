@@ -65,3 +65,12 @@
     left: 50px;
     margin-top: 14px;
   }
+
+.active-underline {
+  width: 140%;
+  height: 3px;
+  background-color: #7f7f7f;
+  margin-top: 2px;
+  border-radius: 2px;
+  
+}

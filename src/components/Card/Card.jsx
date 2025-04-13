@@ -21,7 +21,7 @@ const Card = () => {
     return (
         <div className="container mt-4">
             {isLoading ? (
-                <p>Loading...</p>
+                <CatalogMagic />
             ) : isError ? (
                 <p className="text-center text-danger">{errorMessage}</p>
             ) : (
