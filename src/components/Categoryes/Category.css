@@ -1,0 +1,67 @@
+.part-parent{
+    width: 75%;
+}
+.category-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    width: 65px;
+    height: 80px;
+    justify-content: center;
+  }
+  .category-part Link{
+    text-decoration: none;
+    list-style: none;
+  }
+.all {
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+}
+.btn-parent{
+    width: 18%;
+    padding-top: 16px;
+    margin: auto;
+    display: flex;
+    justify-content: end;
+    margin-left: 50px;
+
+}
+.btn-parent button{
+    font-size: 9px;
+    color: #000;
+
+    border: 1px solid #ccc;
+}
+.hide-scrollbar {   
+  overflow-x: auto;
+  -ms-overflow-style: none;     
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;     
+}
+  
+  .icon {
+    color: rgb(47, 47, 47);
+    margin-bottom: 6px;
+  }
+  
+  .label {
+    font-size: 11px;
+    color: rgb(110, 110, 110);
+    margin: 0;
+    width: 90px;
+  }
+  .toggle-icons-cat{
+    font-size: 25px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: 1px solid #ccc;
+    position: relative;
+    left: 50px;
+    margin-top: 14px;
+  }

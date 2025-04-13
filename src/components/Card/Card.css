@@ -75,7 +75,10 @@
     overflow: hidden;
     background-color: white;
 }
-
+.review{
+    width: 32%;
+    text-align: end;
+}
 @media (max-width: 768px) {
     .container {
         padding: 0 10px;
