@@ -8,6 +8,7 @@ import Layout from '../layout/Layout'
 import Store from '../services/Store'
 import Card from '../components/Card/Card'
 import Home from '../pages/Home/Home'
+import Wishlist from '../pages/Wishlist/Wishlist'
 
 
 const RoutesPage = () => {
@@ -18,7 +19,7 @@ const RoutesPage = () => {
       {
         path: '', element: <Layout/>, children: [
           {index:true,element:<Home/>},
-          {path:'/wishlist',element:<Card/>},
+          {path:'/wishlist',element:<Wishlist/>},
         ]
       },
       { path: '*', element: <h1>404</h1> },

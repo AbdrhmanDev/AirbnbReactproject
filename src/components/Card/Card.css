@@ -182,3 +182,24 @@
         background-color: #007bff;
     }
 }
+.custom-toast {
+
+    color: #272343 !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    border-radius: 12px !important;
+    display: flex;
+    align-items: center;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-img {
+    width: 24px;
+    height: 24px;
+    border-radius: 5%;
+}

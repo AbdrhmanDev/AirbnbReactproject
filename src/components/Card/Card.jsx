@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './Card.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
-import { useDispatch, useSelector } from 'react-redux';
-import BlogItem from '../Loader/Loader';
+import { useDispatch } from 'react-redux';
 import CatalogMagic from '../Loader/Loader';
 import { addwishlistPost } from '../../services/Slice/Wishlist/AddWishlist';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Card = () => {
+const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
 
-    const { allHotels, filteredHotels, isLoading, isError, errorMessage } = useSelector((state) => state.Hotel);
-    const [hotelData, setHotelData] = useState([])
+    console.log(hotelData, isLoading, isError, errorMessage);
+    
 
-    useEffect(() => {
-        if (filteredHotels?.length > 0) {
-            setHotelData(filteredHotels);
-        } else {
-            setHotelData(allHotels);
-        }
-    }, [filteredHotels, allHotels]);
     return (
         <div className="container mt-2 p-1">
+            <ToastContainer position="top-center" autoClose={2000} />
             {isLoading ? (
                 <CatalogMagic />
             ) : isError ? (
@@ -37,10 +32,15 @@ const Card = () => {
                 </div>
             )}
         </div>
+
     );
+
 };
 const ImageCard = ({ hotel }) => {
+
     const [current, setCurrent] = useState(0);
+    const [isWished, setIsWished] = useState(false);
+
     const dispatch = useDispatch();
 
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
@@ -56,9 +56,22 @@ const ImageCard = ({ hotel }) => {
     };
 
     const addwishlist = (id) => {
-        console.log("Adding to wishlist: ", id);
         dispatch(addwishlistPost(id));
+        setIsWished(true);
+        toast.success(
+            <div className="toast-content">
+                <img src={images[0]} alt="wishlist" className="toast-img" />
+                <span>Saved to wishlist: <strong>{title}</strong></span>
+            </div>,
+            {
+                position: "bottom-left",
+                autoClose: 2500,
+                theme: "light",
+                className: "custom-toast",
+            }
+        );
     };
+
 
     return (
         <div className="card-container " style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}>
@@ -88,7 +101,7 @@ const ImageCard = ({ hotel }) => {
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
                         <CiHeart
-                            style={{ color: "wheat", cursor: "pointer" }}
+                            style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
                             size={"24px"}
                             onClick={() => addwishlist(_id)}
                         />
@@ -110,6 +123,7 @@ const ImageCard = ({ hotel }) => {
         </div>
     );
 };
+
 
 
 
