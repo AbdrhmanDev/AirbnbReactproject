@@ -7,6 +7,7 @@ import { fetchCategoryAsync } from './services/Slice/Category';
 import { fetchAllHotelAsync } from './services/Slice/Hotel';
 import { ToastContainer } from 'react-toastify';
 import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
+import { DeleteWishlistThunk } from './services/Slice/Wishlist/DeleteWishlist';
 function App() {
   const dispatch=  useDispatch()
   // const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ function App() {
     dispatch(fetchCategoryAsync())
     dispatch(fetchAllHotelAsync())
     dispatch(getwishlistThunk())
+    
     dispatch
   }, [dispatch])
   return (

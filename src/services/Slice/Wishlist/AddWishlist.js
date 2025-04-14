@@ -3,11 +3,12 @@ import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_KEY = import.meta.env.VITE_API;
+const API_TOKEN = import.meta.env.VITE_TOKEN;
 
 const AddWishlist = async (id) => {
+    console.log("API_KEY", API_KEY);
 
     if (!id) throw new Error("hotelId is required");
-console.log("API_KEY", API_KEY);
 
     try {
         const response = await axios.post(
@@ -17,10 +18,11 @@ console.log("API_KEY", API_KEY);
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Y2Y3NzgxYmFiZjRjN2YyMWEyOTk3YSIsImlhdCI6MTc0NDYyMDc4MywiZXhwIjoxNzQ0NjI0MzgzfQ.PEMF5bVoLRn11RG__YB32mSYcXvFv-z049pjdEiczb4`
+                    'Authorization': `Bearer ${API_TOKEN}`
                 }
             }
         );
+        console.log("✅ Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error adding to wishlist:", error.response?.data || error.message);

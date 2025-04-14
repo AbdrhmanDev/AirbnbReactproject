@@ -9,6 +9,7 @@ import Store from '../services/Store'
 import Card from '../components/Card/Card'
 import Home from '../pages/Home/Home'
 import Wishlist from '../pages/Wishlist/Wishlist'
+import Details from '../pages/Details/Details'
 
 
 const RoutesPage = () => {
@@ -20,6 +21,7 @@ const RoutesPage = () => {
         path: '', element: <Layout/>, children: [
           {index:true,element:<Home/>},
           {path:'/wishlist',element:<Wishlist/>},
+          {path:'/details',element:<Details/>},
         ]
       },
       { path: '*', element: <h1>404</h1> },

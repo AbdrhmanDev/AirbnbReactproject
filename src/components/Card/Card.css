@@ -1,6 +1,5 @@
 .cursor-icons-all {
-    /* opacity: 0; */
-    transition: opacity 0.3s ease;
+    /* transition: opacity 0.3s ease; */
     position: absolute;
     top: 50%;
     width: 100%;
@@ -8,9 +7,10 @@
     justify-content: space-between;
     padding: 0 10px;
     transform: translateY(-50%);
+    opacity: 0;
 }
 
-.carousel:hover .cursor-icons-all {
+.cursor-icons-all:hover {
     opacity: 1;
 }
 
@@ -102,21 +102,7 @@
         border-radius: 12px;
     }
 
-    .cursor-icons-all {
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        position: absolute;
-        top: 50%;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 10px;
-        transform: translateY(-50%);
-    }
-
-    .card-container:hover .cursor-icons-all {
-        opacity: 1;
-    }
+    
 
     .cursor-icons {
         border-radius: 20px;
