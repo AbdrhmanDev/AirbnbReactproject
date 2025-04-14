@@ -9,9 +9,9 @@ const Layout = () => {
     <>
       <div className=" navbar-fixed">
         <Navbar/>
-        <Category/>
+        {/* <Category/> */}
       </div>
-      <div className="content-outltet">
+      <div className="content-outltet ">
         <Outlet />
       </div>
       <div className="footer-fixed">

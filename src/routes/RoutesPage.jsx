@@ -8,17 +8,19 @@ import Layout from '../layout/Layout'
 import Store from '../services/Store'
 import Card from '../components/Card/Card'
 import Home from '../pages/Home/Home'
+import Trip from '../components/Trip/Trip'
 
 
 const RoutesPage = () => {
 
-  
+
   const router = createBrowserRouter(
     [
       {
-        path: '', element: <Layout/>, children: [
-          {index:true,element:<Home/>},
-          {path:'/wishlist',element:<Card/>},
+        path: '', element: <Layout />, children: [
+          { index: true, element: <Home /> },
+          { path: '/wishlist', element: <Card /> },
+          { path: '/trip', element: <Trip /> },
         ]
       },
       { path: '*', element: <h1>404</h1> },
