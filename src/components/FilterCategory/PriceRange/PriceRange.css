@@ -1,0 +1,17 @@
+.price-range-container {
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  .slider-wrapper {
+    margin-top: 20px;
+  }
+  
+  .price-box {
+    border: 1px solid #999;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  

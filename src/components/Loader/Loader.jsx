@@ -55,10 +55,7 @@ const CatalogMagic = ({
             height={height3}
           />
         </React.Fragment>
-      );
-      
-      
-
+      );   
       if (i === row) {
         height = y3 + height3
       }
