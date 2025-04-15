@@ -7,11 +7,10 @@ function App() {
   return (
 
     <>
-    
+   {/* // login component  */}
  <PhoneOtpComponent></PhoneOtpComponent>
 
     {/* <Card/> */}
-    <div id="recaptcha-container"></div>
     </>
   )
 }
