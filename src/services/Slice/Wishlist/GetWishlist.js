@@ -5,9 +5,8 @@ import axios from "axios";
 
 const GetWishlist = async () => {
     
-    let response;
     try {
-         response = await axios.get(
+       const response = await axios.get(
             `${API_KEY}/users/wishlist`,
             {
                 headers: {
@@ -17,7 +16,7 @@ const GetWishlist = async () => {
                 }
             }
         );
-        // console.log(response.data);
+        console.log("response",response.data);
         
         return response.data.wishlist;
     } catch (error) {
@@ -34,6 +33,7 @@ const GetWishlistSlice = createSlice({
         get: [],
         isLoading: false,
         isError: false,
+        errorMessage:''
     },
     extraReducers: (builder) => {
         builder
@@ -44,9 +44,10 @@ const GetWishlistSlice = createSlice({
                 state.get = action.payload;
                 state.isLoading = false;
             })
-            .addCase(getwishlistThunk.rejected, (state) => {
+            .addCase(getwishlistThunk.rejected, (state,action) => {
                 state.isError = true;
                 state.isLoading = false;
+                state.errorMessage = action.error?.message || 'حدث خطأ ما';
             });
     },
 });

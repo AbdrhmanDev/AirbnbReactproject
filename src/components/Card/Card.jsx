@@ -54,7 +54,8 @@ const ImageCard = ({ hotel }) => {
     };
 
     // ✅ Toggle wishlist on click
-    const toggleWishlist = (id) => {
+    const toggleWishlist = (e,id) => {
+        e.stopPropagation();
         if (isWished) {
             dispatch(DeleteWishlistThunk(id));
             setIsWished(false);
@@ -132,7 +133,7 @@ const ImageCard = ({ hotel }) => {
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
                         <FiHeart 
                             style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
-                            onClick={() => toggleWishlist(_id)}
+                            onClick={(e) => toggleWishlist(e,_id)}
                         />
                     </span>
                 </div>

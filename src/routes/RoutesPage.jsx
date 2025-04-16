@@ -21,8 +21,8 @@ const RoutesPage = () => {
       {
         path: '', element: <Layout/>, children: [
           {index:true,element:<Home/>},
-          {path:'/wishlist',element:<Wishlist/>},
-          {path:'/details',element:<Details/>},
+          {path:'wishlist',element:<Wishlist/>},
+          {path:'/details/:id',element:<Details/>},
           {path:'/Filter',element:<Filltration/>}
         ]
       },

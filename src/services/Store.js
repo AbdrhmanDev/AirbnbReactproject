@@ -6,6 +6,7 @@ import GetWishlistSlice from "./Slice/Wishlist/GetWishlist";
 import DeleteWishlistSlice from "./Slice/Wishlist/DeleteWishlist";
 import FilterSlice from "./Slice/Filter/FilterPrice";
 import FilterAddressSlice from "./Slice/Filter/FilterByAddress";
+import GetHotelByIdSlice from "./Slice/HotelById";
 
 const Store = configureStore({
     reducer: {
@@ -15,7 +16,8 @@ const Store = configureStore({
         WishlistGet: GetWishlistSlice.reducer,
         WishlistDelete:DeleteWishlistSlice.reducer,
         FilterByPrice:FilterSlice,
-        FilterAddress:FilterAddressSlice.reducer
+        FilterAddress:FilterAddressSlice.reducer,
+        HotelByID:GetHotelByIdSlice.reducer
     }
 });
 
