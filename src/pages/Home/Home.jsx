@@ -20,6 +20,7 @@ const Home = () => {
   return (
     <>
       <Category />
+
       <Card
         hotelData={hotelData}
         isLoading={isLoading}

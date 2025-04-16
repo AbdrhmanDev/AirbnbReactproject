@@ -6,7 +6,6 @@ const API_KEY = import.meta.env.VITE_API;
 const API_TOKEN = import.meta.env.VITE_TOKEN;
 
 const AddWishlist = async (id) => {
-    console.log("API_KEY", API_KEY);
 
     if (!id) throw new Error("hotelId is required");
 

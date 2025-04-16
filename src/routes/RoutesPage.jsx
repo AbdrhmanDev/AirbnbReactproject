@@ -10,6 +10,7 @@ import Card from '../components/Card/Card'
 import Home from '../pages/Home/Home'
 import Wishlist from '../pages/Wishlist/Wishlist'
 import Details from '../pages/Details/Details'
+import Filltration from '../pages/Filltration/Filltration'
 
 
 const RoutesPage = () => {
@@ -22,6 +23,7 @@ const RoutesPage = () => {
           {index:true,element:<Home/>},
           {path:'/wishlist',element:<Wishlist/>},
           {path:'/details',element:<Details/>},
+          {path:'/Filter',element:<Filltration/>}
         ]
       },
       { path: '*', element: <h1>404</h1> },

@@ -1,51 +1,57 @@
 import React, { useState } from 'react';
-import { BarChart, Bar, XAxis, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './PriceRange.css';
-
-const mockData = [
-  { price: 10, count: 5 },
-  { price: 20, count: 12 },
-  { price: 30, count: 18 },
-  { price: 40, count: 22 },
-  { price: 50, count: 19 },
-  { price: 60, count: 10 },
-  { price: 70, count: 8 },
-  { price: 80, count: 4 },
-  { price: 90, count: 2 },
-  { price: 100, count: 1 },
-  { price: 110, count: 0 },
-  { price: 120, count: 0 },
-  { price: 130, count: 1 },
-  { price: 140, count: 0 },
-  { price: 150, count: 1 },
-  { price: 160, count: 0 },
-  { price: 170, count: 0 },
-  { price: 180, count: 1 },
-  { price: 190, count: 1 },
-  { price: 200, count: 1 },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { FilterThank } from '../../../services/Slice/Filter/FilterPrice';
+import debounce from 'lodash.debounce';
 
 const PriceRange = () => {
+  const dispatch = useDispatch();
+  const Filter = useSelector((state) => state.FilterByPrice.Filter);
   const [range, setRange] = useState([10, 530]);
 
+  // Debounced دي عامله زي settimeout بتاخر ريسبونس بتاع الداتا علشان مش كله ما يغير في الشارت يطلب ريسبونس جديد علشان ما يحملش علي البااكاند كل ش،يه طلب
+
+
+  const updateFilter = debounce((value) => {
+    dispatch(FilterThank({ min: value[0], max: value[1] }));
+    dispatch(FilterThank({ min: range[0], max: range[1] }));
+  }, 500); 
   const handleSliderChange = (value) => {
+    
     setRange(value);
+    updateFilter(value);
   };
 
-  // 🔍 فلترة البيانات بناءً على الرينج الحالي
-  const filteredData = mockData.filter(
-    (item) => item.price >= range[0] && item.price <= range[1]
-  );
+
+  const priceCounts = {};
+  if (Array.isArray(Filter)) {
+    Filter.forEach(hotel => {
+      const price = Math.floor(hotel.pricePerNight / 10) * 10;
+      priceCounts[price] = (priceCounts[price] || 0) + 1;
+    });
+  }
+
+  const chartData = Object.keys(priceCounts).map(price => ({
+    price: Number(price),
+    count: priceCounts[price],
+  }));
 
   return (
     <div className="price-range-container">
-      <BarChart width={400} height={60} data={filteredData}>
-        <XAxis dataKey="price" hide />
-        <Tooltip />
-        <Bar dataKey="count" fill="#e91e63" />
-      </BarChart>
+      <div className="chart-wrapper" style={{ height: 100 }}>
+        {chartData.length > 0 && (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={chartData}>
+              <XAxis dataKey="price" />
+              <Tooltip />
+              <Bar dataKey="count" fill="#e91e63" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
 
       <div className="slider-wrapper">
         <Slider
@@ -62,7 +68,7 @@ const PriceRange = () => {
         />
       </div>
 
-      <div className="d-flex justify-content-between mt-2 px-1">
+      <div className="d-flex justify-content-between mt-2 px-1 price-labels">
         <div className="price-box">${range[0]}</div>
         <div className="price-box">${range[1]}+</div>
       </div>

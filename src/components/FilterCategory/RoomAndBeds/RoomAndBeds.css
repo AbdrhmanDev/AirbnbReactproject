@@ -1,49 +1,76 @@
 .room-and-beds {
-    width: 400px;
-    padding: 15px 0;
-    font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.counter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+  min-width: 100px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #aaa;
+  background-color: white;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-circle:disabled {
+  color: #ccc;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+.value-text {
+  min-width: 30px;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+@media (max-width: 576px) {
+  .room-and-beds {
+    padding: 10px;
   }
-  
+
   .counter-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .label {
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
+
   .controls {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    justify-content: space-between;
   }
   
-  .btn-circle {
-    width: 30px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1px solid #aaa;
-    background-color: white;
-    font-size: 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .btn-circle:disabled {
-    color: #ccc;
-    border-color: #ddd;
-    cursor: not-allowed;
-  }
-  
-  .value-text {
-    min-width: 25px;
-    text-align: center;
-    font-size: 14px;
-  }
-  
+}
