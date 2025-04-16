@@ -6,66 +6,65 @@ const API_TOKEN = import.meta.env.VITE_TOKEN;
 
 export const FilterAddressThank = createAsyncThunk(
   'FilterAddress',
-  async ( {country}) => {
-    console.log("Sending to backend:", {
-      address: {
-        country: country,
-      }
-    });
-
-console.log("dd",country);
-
-
-    const response = await axios.post(`http://localhost:3000/Hotel/search/address`,
-      {
-          "address": {
-            "country": country
-          }
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${API_TOKEN}`,
+  async ({ country }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${API_KEY}/Hotel/search/address`,
+        {
+          address: { country }
         },
-      }
-    );
-
-console.log(response.data.hotels);
-
-
-    return response.data.hotels;
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${API_TOKEN}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || { message: "Something went wrong" });
+    }
   }
 );
 
 
-const FilterAddressSlice = createSlice({
-  name: "FilterAddress",
+
+const FilterAddressSlice   = createSlice({
+  name: 'FilterAddress',
   initialState: {
-    FilterAddress: [],
+    FilterAddress: [], // ✅ Use the same name here
     isLoading: false,
     isError: false,
     errorMessage: null
+  },
+  reducers: {
+    clearFilterAddress: (state) => {
+      state.FilterAddress = [];
+      state.isError = false;
+      state.errorMessage = '';
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(FilterAddressThank.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
+        state.errorMessage = '';
       })
       .addCase(FilterAddressThank.fulfilled, (state, action) => {
-        console.log("ss ",action.payload);
-        
-        state.FilterAddress = action.payload;
         state.isLoading = false;
+        state.FilterAddress = action.payload.hotels;
       })
-      .addCase(FilterAddressThank.rejected, (state,action) => {
+      .addCase(FilterAddressThank.rejected, (state, action) => {
+        state.isLoading = false;
         state.isError = true;
-        state.isLoading = false;
-        state.errorMessage = action.error.message
-      })
-      
+        state.errorMessage = action.payload?.message || "Something went wrong";
+
+
+      });
   },
 });
 
-export default FilterAddressSlice; 
+
+export const { clearFilterAddress } = FilterAddressSlice.actions;
+export default FilterAddressSlice;
