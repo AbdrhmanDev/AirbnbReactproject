@@ -3,10 +3,11 @@ import './Navbar.css';
 import Searchbar from '../Searchbar/Searchbar';
 import { IoSearch } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { FilterAddressThank } from '../../services/Slice/Filter/FilterByAddress';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearFilterAddress, FilterAddressThank } from '../../services/Slice/Filter/FilterByAddress';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -115,7 +116,7 @@ const SearchBar = () => {
     const guestRef = useRef();
     const dispatch = useDispatch()
     const [AddressValue,setAddressValue]=useState('')
-    const FilterAddress = useSelector((state) => state.FilterAddress.FilterAddress);
+    const navigate =useNavigate()
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -128,21 +129,14 @@ const SearchBar = () => {
     }, []);
 
     const handleSearch = () => {
-        if (AddressValue.trim() !== "") {
-           
-            dispatch(FilterAddressThank({ country: AddressValue })); 
+        if (AddressValue?.length === 0) {
+            toast.error("Please enter a valid address");
         } else {
-            console.log("Please enter a valid address");
+            navigate('/Filter');
+            dispatch(clearFilterAddress());
+            dispatch(FilterAddressThank({ country: AddressValue }));
         }
     };
-    
-
-        if (FilterAddress && FilterAddress) {
-            console.log("Filtered Hotels by Address:", FilterAddress);
-        } else {
-            console.log("No hotels found for this address.");
-        }
-
     
 
     return (

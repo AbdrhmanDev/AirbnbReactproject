@@ -15,34 +15,29 @@ const Filltration = () => {
   const isErrorAddress = useSelector((state) => state.FilterAddress.isError);
   const errorAddress = useSelector((state) => state.FilterAddress.errorMessage);
 
-  // تحديد بيانات الفنادق بناءً على الأولوية (العنوان أولاً)
   let filteredRooms = [];
 
   if (filterByAddress.length > 0) {
     filteredRooms = filterByAddress;
-    console.log("addr",filterByAddress);
-    
-  } else if (filterByPrice.length > 0) {
-    console.log("price",filterByPrice);
-    
+  } else if (filterByPrice.length > 0) {    
     filteredRooms = filterByPrice;
   }
 
   const isLoading = isLoadingPrice || isLoadingAddress;
   const isError = isErrorPrice || isErrorAddress;
   const errorMessage = errorPrice || errorAddress;
-console.log(filteredRooms);
 
   return (
     <>
       <Category />
-
-      <Card
+      <p className='mt-3 ms-5 w-75 m-auto'>{filterByAddress.length} places</p>
+        <Card
         hotelData={filteredRooms}
         isLoading={isLoading}
         isError={isError}
         errorMessage={errorMessage}
       />
+     
     </>
   );
 };
