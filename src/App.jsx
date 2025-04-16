@@ -5,6 +5,7 @@ import PageDetails from './components/PageDetails/PageDetails.jsx'
 function App() {
   return (
     <>
+    <PageDetails />
       <Card />
     </>
   )

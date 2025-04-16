@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import { styled } from '@mui/material/styles';  
 
 function srcset(image, size, rows = 1, cols = 1) {
     return {
@@ -8,7 +10,7 @@ function srcset(image, size, rows = 1, cols = 1) {
         srcSet: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format&dpr=2 2x`,
     };
 }
-export default function ImagePar() {
+export default function ImageGallery() {
     const images = [
         'https://a0.muscache.com/im/pictures/prohost-api/Hosting-1312735387230913419/original/940e47a3-8a44-4593-96cf-6a44790502f0.jpeg',
         'https://a0.muscache.com/im/pictures/prohost-api/Hosting-1312735387230913419/original/3edc3861-5447-4a63-a968-aa7a39edc390.jpeg',
@@ -27,7 +29,7 @@ export default function ImagePar() {
 
     return (
         <Box p={3}>
-        <ImageList variant="quilted" cols={4} rowHeight={121}>
+        <ImageList variant="quilted" cols={4} rowHeight={150}>
             {itemData.map((item) => (
                 <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
                     <img
