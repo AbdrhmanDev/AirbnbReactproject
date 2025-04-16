@@ -12,6 +12,9 @@
     font-size: 12px;
 
   }
+  .aLLnav{
+    width: 98%;
+  }
   .search-section:last-child {
     border-right: none;
   }

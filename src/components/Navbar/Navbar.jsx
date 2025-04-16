@@ -4,6 +4,8 @@ import Searchbar from '../Searchbar/Searchbar';
 import { IoSearch } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { FilterAddressThank } from '../../services/Slice/Filter/FilterByAddress';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -111,6 +113,9 @@ const Navbar = () => {
 const SearchBar = () => {
     const [showGuestMenu, setShowGuestMenu] = useState(false);
     const guestRef = useRef();
+    const dispatch = useDispatch()
+    const [AddressValue,setAddressValue]=useState('')
+    const FilterAddress = useSelector((state) => state.FilterAddress.FilterAddress);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -122,12 +127,33 @@ const SearchBar = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const handleSearch = () => {
+        if (AddressValue.trim() !== "") {
+           
+            dispatch(FilterAddressThank({ country: AddressValue })); 
+        } else {
+            console.log("Please enter a valid address");
+        }
+    };
+    
+
+        if (FilterAddress && FilterAddress) {
+            console.log("Filtered Hotels by Address:", FilterAddress);
+        } else {
+            console.log("No hotels found for this address.");
+        }
+
+    
+
     return (
         <div className="d-flex shadow-sm pb-2 align-items-center justify-content-center mt-1 hmada">
             <div className="bg-white d-flex align-items-center search-bar position-relative hamad">
                 <div className="search-section">
                     <div className="search-label">Where</div>
-                    <input type="text" className="border-0 search-input search-label" placeholder="Search destinations" />
+                    <input type="text"
+                     value={AddressValue}
+                     onChange={(e) => setAddressValue(e.target.value)}
+                     className="border-0 search-input search-label" placeholder="Search destinations" />
                 </div>
 
                 <div className="search-section">
@@ -182,7 +208,7 @@ const SearchBar = () => {
                     )}
                 </div>
 
-                <button className="search-button">
+                <button className="search-button" onClick={handleSearch}>
                     <IoSearch />
                 </button>
             </div>

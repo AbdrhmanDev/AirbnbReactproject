@@ -13,9 +13,8 @@ const FetchAllHotel = async () => {
             }
         });
     } catch (error) {
-        console.log(error);
+        throw error("Place try again")
     }
-
     return response.data;
 }
 const FetchCategoryHotels = async (CategoryId) => {

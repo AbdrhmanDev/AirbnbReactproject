@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_KEY = import.meta.env.VITE_API;
+const API_TOKEN = import.meta.env.VITE_TOKEN;
 
-// دالة API للإضافة للمفضلة
 const AddWishlist = async (id) => {
+
     if (!id) throw new Error("hotelId is required");
 
     try {
@@ -15,10 +17,11 @@ const AddWishlist = async (id) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Y2Y3NzgxYmFiZjRjN2YyMWEyOTk3YSIsImlhdCI6MTc0NDU3NzAxNCwiZXhwIjoxNzQ0NTgwNjE0fQ.-fO8KaUZPtAyvFMK4xmSsMOO-Fg0o2qK2Z9t4RimQ3k` // حط التوكن الحقيقي هنا
+                    'Authorization': `Bearer ${API_TOKEN}`
                 }
             }
         );
+        console.log("✅ Response:", response.data);
         return response.data;
     } catch (error) {
         console.error("Error adding to wishlist:", error.response?.data || error.message);
@@ -26,10 +29,8 @@ const AddWishlist = async (id) => {
     }
 };
 
-// Thunk
 export const addwishlistPost = createAsyncThunk('wishlist/add', AddWishlist);
 
-// Slice
 const AddWishlistSlice = createSlice({
     name: "WishlistPost",
     initialState: {
@@ -53,4 +54,4 @@ const AddWishlistSlice = createSlice({
     },
 });
 
-export default AddWishlistSlice.reducer;
+export default AddWishlistSlice;
