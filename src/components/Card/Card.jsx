@@ -12,6 +12,8 @@ import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
 import { FiHeart } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
+    console.log("in card", hotelData);
+    
     return (
         <div className="container mt-2 p-1">
             <ToastContainer position="top-center" autoClose={2000} />
@@ -33,7 +35,6 @@ const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
         </div>
     );
 };
-
 const ImageCard = ({ hotel }) => {
     const [current, setCurrent] = useState(0);
     const [isWished, setIsWished] = useState(false);
@@ -98,12 +99,12 @@ const ImageCard = ({ hotel }) => {
         }
     }, [wishlist, _id]);
 
-  
+
 
     return (
-        <div className="card-container" 
-        style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}
-        onClick={()=>{navigate(`/details/${_id}`)}}
+        <div className="card-container"
+            style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}
+            onClick={() => { navigate(`/details/${_id}`) }}
         >
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <div className="position-relative">
@@ -130,7 +131,7 @@ const ImageCard = ({ hotel }) => {
 
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
-                        <FiHeart 
+                        <FiHeart
                             style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
                             onClick={() => toggleWishlist(_id)}
                         />

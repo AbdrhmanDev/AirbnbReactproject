@@ -20,15 +20,13 @@ const RoutesPage = () => {
   const router = createBrowserRouter(
     [
       {
-        path: '', element: <Layout/>, children: [
-          {index:true,element:<Home/>},
-          {path:'/wishlist',element:<Wishlist/>},
-          {path:'/details',element:<Details/>},
-          {path:'/Filter',element:<Filltration/>}
         path: '', element: <Layout />, children: [
           { index: true, element: <Home /> },
-          { path: '/wishlist', element: <Card /> },
+          { path: '/wishlist', element: <Wishlist /> },
+          { path: '/details', element: <Details /> },
+          { path: '/Filter', element: <Filltration /> },
           { path: '/trip', element: <Trip /> },
+
         ]
       },
       { path: '*', element: <h1>404</h1> },
