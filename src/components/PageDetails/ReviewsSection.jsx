@@ -1,23 +1,41 @@
-import React from 'react';
-import { Box, Typography, Chip } from '@mui/material';
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 
-function ReviewsSection() {
-    return (
-      <Box mt={4}>
-        <Typography variant="h6" fontWeight="bold">★ 4.86 · 469 reviews</Typography>
-        <Box display="flex" flexWrap="wrap" gap={2} mt={2}>
-          <Chip label="Cleanliness 4.6" />
-          <Chip label="Accuracy 4.9" />
-          <Chip label="Check-in 4.8" />
-          <Chip label="Communication 4.9" />
-          <Chip label="Location 5.0" />
-          <Chip label="Value 4.8" />
-        </Box>
-        <Box mt={2}>
-          <Typography variant="body2" mt={1}>“Joel and his wife are very welcoming and friendly. In the morning they offered us coffee and tea. The most peaceful and beautiful Airbnb!” - Klara</Typography>
-        </Box>
-      </Box>
-    );
-  }
-  export default ReviewsSection;
-  
+
+const Root = styled('div')(({ theme }) => ({
+  width: '100%',
+  ...theme.typography.body2,
+  color: (theme.vars || theme).palette.text.secondary,
+  '& > :not(style) ~ :not(style)': {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+export default function ReviewsSection() {
+
+  const content = [
+    <p>{`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}</p>,
+    <p>{`“Joel and his wife are very welcoming and friendly. In the morning they offered us coffee and tea. The most peaceful and beautiful Airbnb!”`}</p>,
+    <p>{`Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}</p>,
+    <p>{`Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`}</p>,
+    <p>{`Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`}</p>,
+  ];
+
+  return (
+    <Root>
+      <Divider />
+      <Chip label="469 reviews" size="small" />
+      <Divider textAlign="left">
+        <Chip avatar={<Avatar>S</Avatar>} label="Sama Mhmd" size="small" />
+      </Divider>
+      {content[1]}
+      <Divider textAlign="left">
+        <Chip avatar={<Avatar>N</Avatar>} label="Nada Hamdi" size="small" />
+      </Divider>
+      {content[1]}
+    </Root>
+  );
+}
