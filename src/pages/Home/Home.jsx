@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 const Home = () => {
   const { allHotels, filteredHotels, isLoading, isError, errorMessage } = useSelector((state) => state.Hotel);
   const [hotelData, setHotelData] = useState([])
-  
-  
+
+
   useEffect(() => {
     if (filteredHotels?.length > 0) {
       setHotelData(filteredHotels);

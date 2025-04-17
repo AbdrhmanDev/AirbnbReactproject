@@ -17,7 +17,6 @@ function Trip() {
         navigate('/');
     };
 
-    // حالة الخطأ
     if (isError) {
         return (
             <div className="container-fluid py-5 text-center">
@@ -29,7 +28,6 @@ function Trip() {
         );
     }
 
-    // حالة التحميل
     if (isLoading) {
         return (
             <div className="container-fluid py-5 text-center">
@@ -40,7 +38,6 @@ function Trip() {
         );
     }
 
-    // إذا كانت هناك بيانات للرحلات
     if (tripData && tripData.length > 0) {
         return (
             <>
@@ -53,7 +50,6 @@ function Trip() {
         );
     }
 
-    // إذا لم تكن هناك رحلات
     return (
         <div className="container-fluid py-5">
             <div className="row px-5">

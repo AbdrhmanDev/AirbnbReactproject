@@ -43,12 +43,11 @@ const TripItem = ({ trip }) => {
     const dispatch = useDispatch();
 
     const { properties } = trip;
-    const property = properties[0]?.propertyId; // Get the first property in the trip
+    const property = properties[0]?.propertyId;
     const startDate = new Date(properties[0]?.startDate);
     const endDate = new Date(properties[0]?.endDate);
     const totalPrice = properties[0]?.totalPrice;
 
-    // Check if the trip can be canceled (startDate is in the future)
     const canCancel = startDate > new Date();
 
     if (!property || !property.images || property.images.length === 0) return null;
@@ -74,12 +73,11 @@ const TripItem = ({ trip }) => {
                         <strong>${totalPrice}</strong> total price
                     </p>
 
-                    {/* Cancel button */}
                     {canCancel && (
                         <button
                             className="btn btn-danger btn-sm w-100 mt-2"
                             onClick={(e) => {
-                                e.stopPropagation(); // Prevent card click event
+                                e.stopPropagation();
                                 console.log("Cancel booking for trip ID:", trip._id);
                                 dispatch(deleteUserTripThunk(trip._id));
                                 dispatch(getUserTripThunk());
