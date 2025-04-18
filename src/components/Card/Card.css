@@ -9,7 +9,9 @@
     transform: translateY(-50%);
     opacity: 0;
 }
-
+.setCard{
+    margin-top: 150px;
+}
 .cursor-icons-all:hover {
     opacity: 1;
 }
@@ -70,7 +72,7 @@
 .card-container {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
     background-color: white;

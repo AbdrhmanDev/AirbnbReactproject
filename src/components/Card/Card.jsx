@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Card.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import { CiHeart } from "react-icons/ci";
 import { useDispatch, useSelector } from 'react-redux';
 import CatalogMagic from '../Loader/Loader';
 import { addwishlistPost } from '../../services/Slice/Wishlist/AddWishlist';
@@ -13,14 +12,14 @@ import { FiHeart } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
     return (
-        <div className="container mt-2 p-1">
+        <div className="container  mt-5 p-1">
             <ToastContainer position="top-center" autoClose={2000} />
             {isLoading ? (
                 <CatalogMagic />
             ) : isError ? (
                 <p className="text-center text-danger">{errorMessage}</p>
             ) : (
-                <div className="d-flex flex-wrap justify-content-start gap-3">
+                <div className="d-flex flex-wrap justify-content-start gap-3 setCard">
                     {hotelData?.length > 0 ? (
                         hotelData?.map((hotel, index) => (
                             <ImageCard key={index} hotel={hotel} />

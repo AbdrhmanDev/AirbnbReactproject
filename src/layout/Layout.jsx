@@ -7,10 +7,7 @@ import Footer from "../components/Footer/Footer"
 const Layout = () => {
   return (
     <>
-      <div className=" navbar-fixed">
-        <Navbar/>
-        <Category/>
-      </div>
+    
       <div className="content-outltet">
         <Outlet />
       </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Category from '../../components/Categoryes/Category'
 import Card from '../../components/Card/Card'
 import { useSelector } from 'react-redux';
+import Navbar from '../../components/Navbar/Navbar';
 
 const Home = () => {
   const { allHotels, filteredHotels, isLoading, isError, errorMessage } = useSelector((state) => state.Hotel);
@@ -19,8 +20,11 @@ const Home = () => {
 
   return (
     <>
+     
+      <div className=" navbar-fixed">
+      <Navbar/>
       <Category />
-
+      </div>
       <Card
         hotelData={hotelData}
         isLoading={isLoading}

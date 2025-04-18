@@ -11,14 +11,13 @@ const PriceRange = () => {
   const dispatch = useDispatch();
   const Filter = useSelector((state) => state.FilterByPrice.Filter);
   const [range, setRange] = useState([10, 530]);
-
   // Debounced دي عامله زي settimeout بتاخر ريسبونس بتاع الداتا علشان مش كله ما يغير في الشارت يطلب ريسبونس جديد علشان ما يحملش علي البااكاند كل ش،يه طلب
 
 
   const updateFilter = debounce((value) => {
     dispatch(FilterThank({ min: value[0], max: value[1] }));
     dispatch(FilterThank({ min: range[0], max: range[1] }));
-  }, 500); 
+  }, 3000); 
   const handleSliderChange = (value) => {
     
     setRange(value);

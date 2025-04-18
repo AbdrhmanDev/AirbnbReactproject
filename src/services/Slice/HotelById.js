@@ -7,6 +7,8 @@ const GetHotelById = async (id) => {
        const response = await axios.get(
             `${API_KEY}/Hotel/${id}`,
         );
+        console.log(response.data);
+        
         return response.data;
     } catch (error) {
         console.error("Error fetching Hotel:", error.response?.data || error.message);

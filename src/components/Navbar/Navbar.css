@@ -5,12 +5,11 @@
   }
   .search-section {
     border-right: 1px solid #ddd;
-    padding: 0 20px;
+    padding: 0 10px;
   }
   .search-section2{
     padding: 0 10px;
     font-size: 12px;
-
   }
   .aLLnav{
     width: 98%;
@@ -42,7 +41,7 @@
   }
   .search-bar-fixed {
     position: fixed;
-    top: 65px; /* حسب ارتفاع النافبار */
+    top: 65px; 
     left: 0;
     width: 100%;
     background-color: white;

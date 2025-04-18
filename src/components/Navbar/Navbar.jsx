@@ -140,7 +140,7 @@ const SearchBar = () => {
     
 
     return (
-        <div className="d-flex shadow-sm pb-2 align-items-center justify-content-center mt-1 hmada">
+        <div className="d-flex shadow-sm pb-2 align-items-center justify-content-center  hmada">
             <div className="bg-white d-flex align-items-center search-bar position-relative hamad">
                 <div className="search-section">
                     <div className="search-label">Where</div>
