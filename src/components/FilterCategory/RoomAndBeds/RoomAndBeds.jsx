@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './RoomAndBeds.css'; 
+import { GetAllFilterThunk } from '../../../services/Slice/Filter/AllFillter';
 
 const Counter = ({ label, value, setValue }) => {
   const handleDecrement = () => {
@@ -26,7 +28,16 @@ const RoomAndBeds = () => {
   const [bedrooms, setBedrooms] = useState(0);
   const [beds, setBeds] = useState(0);
   const [bathrooms, setBathrooms] = useState(0);
-
+  const filter=useSelector((state)=>state.AllFilter.AllFilter);
+  const dispatch= useDispatch();
+  console.log(filter);
+  
+  useEffect(() => {
+    if (bedrooms > 0 || beds > 0 || bathrooms > 0) {
+      console.log('Dispatching filter:', { rooms: bedrooms, path: bathrooms, pets: beds });
+      dispatch(GetAllFilterThunk({ rooms: bedrooms, path: bathrooms, pets: beds }));
+    }
+  }, [bedrooms, beds, bathrooms, dispatch]);
   return (
     <div className="room-and-beds">
       <h5>Rooms and beds</h5>

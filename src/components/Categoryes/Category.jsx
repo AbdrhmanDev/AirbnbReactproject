@@ -14,12 +14,12 @@ const Category = () => {
     const isLoading = useSelector((state) => state.Category.isLoading)
     const [modalShow, setModalShow] = useState(false);
     const dispatch = useDispatch();
-
+    
     const getCatogeryHotel = (id) => {
         setActiveCategoryId(id);
         dispatch(FetchCategoryHotelsAsync(id));
     }
-
+    
     return (
         <>
             <div className="all d-flex">
@@ -47,7 +47,10 @@ const Category = () => {
                         <RiListSettingsLine size={"22px"} style={{ paddingRight: "4px" }} />
                         Filter
                     </button>
-                    <FilterCategory show={modalShow} onHide={() => setModalShow(false)} />
+                    <FilterCategory 
+                        show={modalShow} 
+                        onHide={() => setModalShow(false)} 
+                    />
                     <button className='btn m-0 btn-outline-light ms-1'>
                         Display total before taxes
                         <BiToggleLeft size={"28px"} style={{ paddingLeft: "4px" }} />

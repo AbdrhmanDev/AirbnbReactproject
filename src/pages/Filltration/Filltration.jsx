@@ -4,38 +4,22 @@ import Category from '../../components/Categoryes/Category';
 import Card from '../../components/Card/Card';
 
 const Filltration = () => {
-  const filterByPrice = useSelector((state) => state.FilterByPrice.Filter);
-  const filterByAddress = useSelector((state) => state.FilterAddress.FilterAddress);
+  const filterByPrice = useSelector((state) => state.AllFilter.AllFilter);
 
-  const isLoadingPrice = useSelector((state) => state.FilterByPrice.isLoading);
-  const isErrorPrice = useSelector((state) => state.FilterByPrice.isError);
-  const errorPrice = useSelector((state) => state.FilterByPrice.errorMessage);
-
-  const isLoadingAddress = useSelector((state) => state.FilterAddress.isLoading);
-  const isErrorAddress = useSelector((state) => state.FilterAddress.isError);
-  const errorAddress = useSelector((state) => state.FilterAddress.errorMessage);
-
-  let filteredRooms = [];
-
-  if (filterByAddress.length > 0) {
-    filteredRooms = filterByAddress;
-  } else if (filterByPrice.length > 0) {    
-    filteredRooms = filterByPrice;
-  }
-
-  const isLoading = isLoadingPrice || isLoadingAddress;
-  const isError = isErrorPrice || isErrorAddress;
-  const errorMessage = errorPrice || errorAddress;
+  const isLoadingPrice = useSelector((state) => state.AllFilter.isLoading);
+  const isErrorPrice = useSelector((state) => state.AllFilter.isError);
+  const errorPrice = useSelector((state) => state.AllFilter.errorMessage);
+ 
 
   return (
     <>
       <Category />
-      <p className='mt-3 ms-5 w-75 m-auto'>{filterByAddress.length} places</p>
+      <p className=' ms-5 w-75 m-auto'>{filterByPrice?.length || 0} places</p>
         <Card
-        hotelData={filteredRooms}
-        isLoading={isLoading}
-        isError={isError}
-        errorMessage={errorMessage}
+        hotelData={filterByPrice}
+        isLoading={isLoadingPrice}
+        isError={isErrorPrice}
+        errorMessage={errorPrice}
       />
      
     </>

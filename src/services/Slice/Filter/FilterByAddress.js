@@ -32,7 +32,7 @@ export const FilterAddressThank = createAsyncThunk(
 const FilterAddressSlice   = createSlice({
   name: 'FilterAddress',
   initialState: {
-    FilterAddress: [], // ✅ Use the same name here
+    FilterAddress: [],
     isLoading: false,
     isError: false,
     errorMessage: null

@@ -30,7 +30,7 @@ const Details = () => {
     status
   } = HotelById;
 
-  console.log(HotelById);
+  // console.log(HotelById);
   useEffect(() => {
     if (id) {
       dispatch(GetHotelByIdThunk(id));
