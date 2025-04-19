@@ -1,43 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './PriceRange.css';
 
-import debounce from 'lodash.debounce';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { GetAllFilterThunk } from '../../../services/Slice/Filter/AllFillter';
-
-
-
-const PriceRange = () => {
-
-  const [range, setRange] = useState([10, 530]);
-
-  const dispatch= useDispatch()
-  const filter=useSelector((state)=>state.AllFilter.AllFilter);
-
-
-  const updateFilter = debounce((value) => {
-      dispatch(GetAllFilterThunk({ minPrice: value[0], maxPrice: value[1] }));
-  }, 3500); 
+const PriceRange = ({ priceRange, setPriceRange }) => {
+  const filter = useSelector((state) => state.GetAllFilter.AllFilter);
 
   const handleSliderChange = (value) => {
-    setRange(value);
-    updateFilter(value);
+    setPriceRange({ minPrice: value[0], maxPrice: value[1] });
   };
-
 
   const priceCounts = {};
   if (Array.isArray(filter)) {
-    filter.forEach(hotel => {
+    filter.forEach((hotel) => {
       const price = Math.floor(hotel.pricePerNight / 10) * 10;
       priceCounts[price] = (priceCounts[price] || 0) + 1;
     });
   }
 
-  const chartData = Object.keys(priceCounts).map(price => ({
+  const chartData = Object.keys(priceCounts).map((price) => ({
     price: Number(price),
     count: priceCounts[price],
   }));
@@ -61,7 +45,7 @@ const PriceRange = () => {
           range
           min={10}
           max={530}
-          value={range}
+          value={[priceRange.minPrice || 10, priceRange.maxPrice || 530]}
           onChange={handleSliderChange}
           trackStyle={[{ backgroundColor: '#e91e63' }]}
           handleStyle={[
@@ -72,8 +56,8 @@ const PriceRange = () => {
       </div>
 
       <div className="d-flex justify-content-between mt-2 px-1 price-labels">
-        <div className="price-box">${range[0]}</div>
-        <div className="price-box">${range[1]}+</div>
+        <div className="price-box">${priceRange.minPrice}</div>
+        <div className="price-box">${priceRange.maxPrice}+</div>
       </div>
     </div>
   );

@@ -14,17 +14,17 @@ const Category = () => {
     const isLoading = useSelector((state) => state.Category.isLoading)
     const [modalShow, setModalShow] = useState(false);
     const dispatch = useDispatch();
-    
+
     const getCatogeryHotel = (id) => {
         setActiveCategoryId(id);
         dispatch(FetchCategoryHotelsAsync(id));
     }
-    
+
     return (
         <>
             <div className="all d-flex">
                 <div className="part-parent">
-                    <div className="category-part ms-5 hide-scrollbar container overflow-auto d-flex gap-2 flex-nowrap justify-content-center">
+                    <div className="category-part ms-5 hide-scrollbar container overflow-auto d-flex gap-2 flex-nowrap ">
                         {
                             isLoading ? <HistoriesLoader /> :
                                 category?.map((item, index) => (
@@ -33,8 +33,8 @@ const Category = () => {
                                         role='button'
                                         onClick={() => getCatogeryHotel(item._id)}
                                         key={index}>
-                                        <img className="icon" width={"20px"} src={item.icon} alt={item.name} />
-                                        <p className={`label`}>{item.name}</p>
+                                        <img className="icon" width={"17px"} src={item.icon} alt={item.name} />
+                                        <p className={`label2`}>{item.name}</p>
                                         {activeCategoryId === item._id && <div className="active-underline "></div>}
                                     </div>
                                 ))
@@ -47,9 +47,9 @@ const Category = () => {
                         <RiListSettingsLine size={"22px"} style={{ paddingRight: "4px" }} />
                         Filter
                     </button>
-                    <FilterCategory 
-                        show={modalShow} 
-                        onHide={() => setModalShow(false)} 
+                    <FilterCategory
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
                     />
                     <button className='btn m-0 btn-outline-light ms-1'>
                         Display total before taxes

@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import PriceRange from './PriceRange/PriceRange';
 import RoomAndBeds from './RoomAndBeds/RoomAndBeds';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
 
 const FilterCategory = (props) => {
   const navigate = useNavigate();
-  // const isLoadingHotels = useSelector((state) => state.AllFilter.isLoading);
-  const Hotels = useSelector((state) => state.AllFilter.AllFilter);
-
+  const Hotels = useSelector((state) => state.GetAllFilter.AllFilter);
+  const dispatch=useDispatch()
+  const [priceRange, setPriceRange] = useState({ minPrice: 10, maxPrice:570 });
+  const [roomAndBed, setRoomAndBed] = useState({
+    rooms: '',
+    beds: '',
+    bathrooms: '',
+  });
   const handelFilter = () => {
+    const allFilters = {
+      minPrice: priceRange.minPrice,
+      maxPrice: priceRange.maxPrice,
+      rooms: roomAndBed.rooms,
+      pets: roomAndBed.beds,
+      path: roomAndBed.bathrooms,
+      // ممكن تضيف فلاتر تانية هنا
+    };
+    console.log("جاري إرسال الفلاتر:", allFilters);
+    dispatch(GetAllFilterThunk(allFilters));
+
     navigate('/Filter');
   };
 
@@ -61,11 +78,11 @@ const FilterCategory = (props) => {
                 <p className="text-muted mb-2" style={{ fontSize: '13px' }}>
                   Nightly prices before fees and taxes
                 </p>
-                <PriceRange />
+                <PriceRange priceRange={priceRange} setPriceRange={setPriceRange} />
               </Col>
 
               <Col xs={12} className="mb-3 border-top">
-                <RoomAndBeds />
+                <RoomAndBeds roomAndBed={roomAndBed} setRoomAndBed={setRoomAndBed} />
               </Col>
             </Row>
           </Container>
@@ -84,7 +101,7 @@ const FilterCategory = (props) => {
               className="bg-dark border-0 flex-fill fs-6"
               onClick={handelFilter}
             >
-               Show Rooms {Hotels?.length || 0}
+               Show Rooms 
             </Button>
           </div>
         </Modal.Footer>

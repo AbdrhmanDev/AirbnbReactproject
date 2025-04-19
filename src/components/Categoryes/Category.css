@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
     padding: 12px;
-    width: 65px;
+    width: 6.5%;
     height: 80px;
     justify-content: center;
   }
@@ -48,7 +48,7 @@
     margin-bottom: 6px;
   }
   
-  .label {
+  .label2 {
     font-size: 11px;
     color: rgb(110, 110, 110);
     margin: 0;

@@ -4,10 +4,18 @@ import Searchbar from '../Searchbar/Searchbar';
 import { IoSearch } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { clearFilterAddress, FilterAddressThank } from '../../services/Slice/Filter/FilterByAddress';
+import { useDispatch, useSelector } from 'react-redux';
+import { PiSwimmingPoolBold } from "react-icons/pi";
+import { BsWater } from "react-icons/bs";
+import { PiBuildingApartmentFill } from "react-icons/pi";
+import { FaSwimmer } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
+// import { format } from 'date-fns';
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -113,31 +121,111 @@ const Navbar = () => {
 };
 const SearchBar = () => {
     const [showGuestMenu, setShowGuestMenu] = useState(false);
+    const [showAddress, setShowAddressMenu] = useState(false);
+    const [selectWhare, setselectWhare] = useState();
     const guestRef = useRef();
+    const addressRef = useRef();
     const dispatch = useDispatch()
-    const [AddressValue,setAddressValue]=useState('')
-    const navigate =useNavigate()
+    const [AddressValue, setAddressValue] = useState('')
+    const navigate = useNavigate()
+    const [StartDate, setStartDate] = useState();
+    const [EndDate, setEndDate] = useState();
+
+    const [adults, setAdults] = useState(null);
+    const [children, setChildren] = useState(null);
+    const [infants, setInfants] = useState(null);
+    const [pets, setPets] = useState(null);
+    const Hotels = useSelector((state) => state.GetAllFilter.AllFilter);
+    
+    const destinations = [
+        { name: 'Hurghada, Egypt', reason: 'Because your wishlist has stays in Tenerife', icon: <PiSwimmingPoolBold /> },
+        { name: 'Aspen, USA', reason: 'For sights like Plaza de España', icon: <BsWater color='#81AFF1' /> },
+        { name: 'London, United Kingdom', reason: 'Guests interested in Amsterdam also looked here', icon: <PiBuildingApartmentFill /> },
+        { name: 'Miami, USA', reason: 'For its bustling nightlife', icon: <FaSwimmer color='#81AFF1' /> },
+    ];
 
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (guestRef.current && !guestRef.current.contains(event.target)) {
                 setShowGuestMenu(false);
             }
+            if (addressRef.current && !addressRef.current.contains(event.target)) {
+                setShowAddressMenu(false);
+            }
+
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+    useEffect(() => {
 
+    }, [selectWhare]);
+
+
+    const getSelect = (selected) => {
+        setselectWhare(selected);
+        setAddressValue(selected);
+        setShowAddressMenu(false);
+    };
+    console.log(Hotels);
+    
     const handleSearch = () => {
-        if (AddressValue?.length === 0) {
-            toast.error("Please enter a valid address");
-        } else {
-            navigate('/Filter');
-            dispatch(clearFilterAddress());
-            dispatch(FilterAddressThank({ country: AddressValue }));
+        // فقط لو فيه تواريخ، نعمل format
+        const valuestart = StartDate ? StartDate.toLocaleDateString('en-GB') : "";
+        const valueend = EndDate ? EndDate.toLocaleDateString('en-GB') : "";
+        
+        const allFilters = {
+            city: AddressValue.trim(),
+            startDate: valuestart,
+            endDate: valueend,
+            capacity: {
+                adults: adults,
+                children: children,
+                infants: infants
+            },
+            pets: pets
+        };
+        
+    
+        if (!AddressValue || AddressValue.trim().length === 0) {
+            // toast.error("Please enter a valid address");
+            toast.error('Please enter a valid address', {
+                hideProgressBar: true, 
+                className:"toastfay",
+                closeButton: false
+              });
+            return;
         }
+    
+        console.log("جاري إرسال الفلاتر:", allFilters);
+        dispatch(GetAllFilterThunk(allFilters));
+        navigate('/Filter');
     };
     
+    const renderCounter = (label, subLabel, count, setCount) => (
+        <div className="mb-4 d-flex justify-content-between align-items-center">
+            <div>
+                <div>{label}</div>
+                <div className="text-muted" style={{ fontSize: '9px' }}>{subLabel}</div>
+            </div>
+            <div className="d-flex align-items-center">
+                <button
+                    className="btn btn-light border rounded-circle px-2 py-0 m-1"
+                    onClick={() => setCount(Math.max(count - 1, 0))}
+                    disabled={count === 0}
+                >
+                    −
+                </button>
+                <span className="mx-3">{count==null ? 0 :count}</span>
+                <button
+                    className="btn btn-light border rounded-circle px-2 py-0"
+                    onClick={() => setCount(count + 1)}
+                >
+                    +
+                </button>
+            </div>
+        </div>
+    );
 
     return (
         <div className="d-flex shadow-sm pb-2 align-items-center justify-content-center  hmada">
@@ -145,59 +233,98 @@ const SearchBar = () => {
                 <div className="search-section">
                     <div className="search-label">Where</div>
                     <input type="text"
-                     value={AddressValue}
-                     onChange={(e) => setAddressValue(e.target.value)}
-                     className="border-0 search-input search-label" placeholder="Search destinations" />
+                        value={AddressValue}
+                        onClick={() => {
+                            setShowAddressMenu(true);
+                            setShowGuestMenu(false);
+                        }}
+                        onChange={(e) => setAddressValue(e.target.value)}
+                        className="border-0 search-input search-label " placeholder="Search destinations" />
                 </div>
+
+                {showAddress && (
+                    <>
+                        <div
+                            ref={addressRef}
+                            className="position-absolute bg-white border rounded shadow-sm p-3"
+                            style={{
+                                top: '120%',
+                                left: 0,
+                                zIndex: 1000,
+                                width: '300px',
+                            }}
+                        >
+                            <label className='m-2' style={{ fontSize: '10px' }} >Recent searches</label>
+                            {destinations.map((destination, index) => {
+                                return (
+                                    <div key={index} className="mb-2" >
+                                        <button className="fw-bold text-start border-0 selectElement"
+                                            onMouseDown={() => getSelect(destination.name)}
+                                            value={destination.name}>
+                                            <span className='fs-4 m-2'> {destination.icon}</span>
+                                            {destination.name}
+                                            <div className="text-muted ms-5" style={{ fontSize: '10px' }}>
+                                                {destination.reason}
+                                            </div>
+                                        </button>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </>
+                )}
 
                 <div className="search-section">
                     <div className="search-label">Check in</div>
-                    <input type="text" className="border-0 search-input search-label" placeholder="Add dates" />
+                    {/* <input type="calender" className="border-0 search-input search-label" placeholder="Add dates" /> */}
+                    <DatePicker
+                        selected={StartDate}
+                        onChange={(date) => setStartDate(date)}
+                        dateFormat="MMMM d"
+                        dropdownMode="select"
+                        className='border-0 calenderNew'
+                        placeholderText="Add Dates"
+                    />
                 </div>
 
                 <div className="search-section">
                     <div className="search-label">Check out</div>
-                    <input type="text" className="border-0 search-input search-label" placeholder="Add dates" />
+                    {/* <input type="text" className="border-0 search-input search-label" placeholder="Add dates" /> */}
+                    <DatePicker
+                        selected={EndDate}
+                        onChange={(date) => setEndDate(date)}
+                        dateFormat="MMMM d"
+                        dropdownMode="select"
+                        className='border-0 calenderNew'
+                        placeholderText="Add Dates"
+                    />
                 </div>
 
-                <div className="search-section2 me-2 position-relative" onClick={() => setShowGuestMenu(!showGuestMenu)} ref={guestRef}>
-                    <div className="search-label"  style={{ cursor: 'pointer' }}>
+                <div className="search-section2 me-2 position-relative" onClick={() => {
+                    setShowGuestMenu(true);
+                    setShowAddressMenu(false);
+                }} ref={guestRef}>
+                    <div className="search-label" style={{ cursor: 'pointer' }}>
                         Who
                     </div>
                     <div className="search-label">Add guests</div>
 
                     {showGuestMenu && (
                         <>
-                        <div
-                            className="position-absolute bg-white border rounded shadow-sm p-3"
-                            style={{
-                                top: '150%',
-                                right: 0,
-                                zIndex: 1000,
-                                width: '300px',
-                            }}
-                        >
-                            <div className="mb-3">
-                                <div className="" >Adults</div>
-                                <div className="text-muted" style={{ fontSize: '9px' }}>Ages 13 or above</div>
+                            <div
+                                className="position-absolute bg-white border rounded shadow-sm p-3"
+                                style={{
+                                    top: '150%',
+                                    right: 0,
+                                    zIndex: 1000,
+                                    width: '300px',
+                                }}
+                            >
+                                {renderCounter("Adults", "Ages 13 or above", adults, setAdults)}
+                                {renderCounter("Children", "Ages 2 – 12", children, setChildren)}
+                                {renderCounter("Infants", "Under 2", infants, setInfants)}
+                                {renderCounter("Pets", "Bringing a service animal?", pets, setPets)}
                             </div>
-
-                            <div className="mb-3">
-                                <div className="">Children</div>
-                                <div className="text-muted" style={{ fontSize: '9px' }}>Ages 2 – 12</div>
-                            </div>
-
-                            <div className="mb-3">
-                                <div className="">Infants</div>
-                                <div className="text-muted" style={{ fontSize: '9px' }}>Under 2</div>
-                            </div>
-
-                            <div>
-                                <div className="">Pets</div>
-                                <div className="text-muted" style={{ fontSize: '12px' }}>Bringing a service animal?</div>
-
-                            </div>
-                        </div>
                         </>
                     )}
                 </div>

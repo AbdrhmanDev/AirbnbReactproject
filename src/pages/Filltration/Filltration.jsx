@@ -4,11 +4,13 @@ import Category from '../../components/Categoryes/Category';
 import Card from '../../components/Card/Card';
 
 const Filltration = () => {
-  const filterByPrice = useSelector((state) => state.AllFilter.AllFilter);
+  const filterByPrice = useSelector((state) => state.GetAllFilter.AllFilter);
 
-  const isLoadingPrice = useSelector((state) => state.AllFilter.isLoading);
-  const isErrorPrice = useSelector((state) => state.AllFilter.isError);
-  const errorPrice = useSelector((state) => state.AllFilter.errorMessage);
+  const isLoadingPrice = useSelector((state) => state.GetAllFilter.isLoading);
+  const isErrorPrice = useSelector((state) => state.GetAllFilter.isError);
+  const errorPrice = useSelector((state) => state.GetAllFilter.errorMessage);
+
+  
  
 
   return (

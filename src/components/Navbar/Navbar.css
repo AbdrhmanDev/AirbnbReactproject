@@ -17,7 +17,9 @@
   .search-section:last-child {
     border-right: none;
   }
-  
+  .calenderNew{
+    font-size: 13px;
+  }
   .search-input {
     font-size: 10px;
     color: #666565;
@@ -72,4 +74,27 @@
 }
 .hamad{
     height: 53px;
+}
+.selectElement{
+  background-color: #ffffff;
+  font-size: 12px;
+}
+.selectElement:hover{
+  background-color: rgb(234, 234, 234);
+  border-radius: 5px;
+}
+input:focus {
+  outline: none;
+
+}
+.Toastify__toast {
+  background-color: transparent !important;  
+  box-shadow: none !important;     
+  color: #E03150 !important;  
+}
+
+/* تخصيص الرسالة داخل الـ toast */
+.Toastify__toast-body {
+  background-color: rgba(195, 11, 11, 0.1);  
+  border-radius: 5px; 
 }
