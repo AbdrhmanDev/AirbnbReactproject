@@ -19,7 +19,7 @@ const Details = () => {
   const isError = useSelector((state) => state.HotelByID.isError);
   const errorMessage = useSelector((state) => state.HotelByID.errorMessage);
   console.log(HotelById);
-  console.log(HotelById);
+
   
 
   const {
@@ -34,11 +34,14 @@ const Details = () => {
     hostId,
     amenities,
     propertyType,
-    reviews
+    reviews,
+    _id,
+    houseRules,
+    advantages
 
   } = HotelById;
 
-  // console.log(HotelById);
+
   useEffect(() => {
     if (id) {
       dispatch(GetHotelByIdThunk(id));
@@ -69,7 +72,7 @@ const Details = () => {
   }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <NavImage  title={title} images={images}/>
+      <NavImage  title={title} images={images}  _id={_id}/>
 
       <DetailsContent
       address={address} 
@@ -83,6 +86,7 @@ const Details = () => {
       amenities={amenities}
       propertyType={propertyType}
       images={images}
+      advantages={advantages}
       />
 
       <MetaInformation 
@@ -94,6 +98,7 @@ const Details = () => {
       rating={rating}
       hostId={hostId}
       reviews={reviews}
+      houseRules={houseRules}
       />
       <Information />
     </div>

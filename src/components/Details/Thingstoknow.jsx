@@ -1,14 +1,14 @@
 import React from 'react';
 import './Details.css';
 
-const Thingstoknow = ({ hostId, rating, reviews }) => {
+const Thingstoknow = ({ hostId, rating, reviews ,houseRules}) => {
   if (!hostId) return null;
 
   const { lastName, firstName, profileImage, role, createdAt } = hostId;
   const createDate = new Date(createdAt);
-//   const formattedDate = createDate.toLocaleDateString("en-GB");
   const diffInMonths = Math.floor((new Date() - createDate) / (1000 * 60 * 60 * 24 * 30));
-
+  console.log(reviews.length);
+  
   return (
     <>
       <div className="row mt-4">
@@ -49,7 +49,7 @@ const Thingstoknow = ({ hostId, rating, reviews }) => {
 
        {
         reviews.length > 4 ? <div className=" row coustem-button">
-        <button className="btn col-2 btn-outline-dark">Show all {reviews?.length>4 } reviews</button>
+        <button className="btn col-2 btn-outline-dark">Show all {reviews.length > 4 } reviews</button>
         <a href="#" className="d-block mt-2 text-secondary col">Learn how reviews work</a>
       </div>:""
        }
@@ -64,17 +64,16 @@ const Thingstoknow = ({ hostId, rating, reviews }) => {
               <h6 className='mt-2'>{firstName} {lastName}</h6>
               <p>{role}</p>
             </div>
+
             <div className="col-6">
               {(!reviews || reviews.length === 0) ? (
                 <p className='ms-4'>No reviews</p>
               ) : (
                 <>
-                  {reviews.map((rev, index) => (
-                    <div key={index}>
-                      <h3 className="ms-4">{rev.reviewId.rating}</h3>
+                    <div >
+                      <h3 className="ms-4">{reviews.length}</h3>
                       <p className="border-bottom py-0 pb-2 ms-4">Reviews</p>
                     </div>
-                  ))}
                 </>
               )}
               <h3 className="ms-4">{rating} <i className="fa-solid fa-star fs-6"></i></h3>
@@ -85,12 +84,15 @@ const Thingstoknow = ({ hostId, rating, reviews }) => {
           </div>
 
           {/* باقي معلومات الهوست مع الأيقونات */}
-          <div className="mt-4">
-            <p><i className="bi bi-geo-alt-fill"></i> <span>asdasd</span></p>
-            <p><i className="bi bi-briefcase-fill"></i> <span>My work: Teacher</span></p>
-            <p><i className="bi bi-clock-fill"></i> <span>I spend too much time: The lecture</span></p>
-            <p><i className="bi bi-heart-fill"></i> <span>Pets: None</span></p>
-            <p><i className="bi bi-chat-dots-fill"></i> <span>I’m happy to spend time with my guests or give them space</span></p>
+          <div className="mt-5">
+            {
+              houseRules.map((ind,index)=>{
+                return(
+                  <p key={index}><i className="bi bi-geo-alt-fill"></i> <span>{ind}</span></p>
+                )
+              })
+            }
+    
             <p>Hello, I appreciate exchanges and discoveries</p>
             <button type="button" className="btn-dark border-0 bg-body ms-2 p-0 text-decoration-underline">Show more</button>
           </div>
@@ -102,8 +104,8 @@ const Thingstoknow = ({ hostId, rating, reviews }) => {
           <h5>Host details</h5>
           <p>Response rate: 100%</p>
           <p>Responds within an hour</p>
-          <button className="btn btn-dark mt-4">Message host</button>
-          <p className="border-bottom pb-4 mt-3">You can message the host in Chinese, and Airbnb provides a translation function</p>
+          <button className="btn btn-dark mt-1">Message host</button>
+          <p className="border-bottom pb-4 mt-2">You can message the host in Chinese, and Airbnb provides a translation function</p>
         </div>
       </div>
     </>

@@ -10,7 +10,6 @@ const Wishlist = () => {
     useEffect(() => {
         setHotelData(get);
     }, [get]);
-    console.log(hotelData);
     
     return (
         <>

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Card.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import { useDispatch, useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import CatalogMagic from '../Loader/Loader';
-import { addwishlistPost } from '../../services/Slice/Wishlist/AddWishlist';
-import { toast, ToastContainer } from 'react-toastify';
+
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { DeleteWishlistThunk } from '../../services/Slice/Wishlist/DeleteWishlist';
-import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
+
 import { FiHeart } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
+import { toggleWishlist } from '../wishlistHelpers/wishlistHelpers';
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
     return (
         <div className="container  mt-5 p-1">
@@ -36,9 +36,10 @@ const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
 const ImageCard = ({ hotel }) => {
     const [current, setCurrent] = useState(0);
     const [isWished, setIsWished] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch=useDispatch()
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
+ 
 
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
@@ -47,50 +48,6 @@ const ImageCard = ({ hotel }) => {
     const handleNext = () => {
         setCurrent((prev) => (prev + 1) % images.length);
     };
-
-    const handlePrev = () => {
-        setCurrent((prev) => (prev - 1 + images.length) % images.length);
-    };
-
-    // ✅ Toggle wishlist on click
-    const toggleWishlist = (e,id) => {
-        e.stopPropagation();
-        if (isWished) {
-            dispatch(DeleteWishlistThunk(id));
-            setIsWished(false);
-            toast.info(
-                <div className="toast-content">
-                    <img src={images[0]} alt="wishlist" className="toast-img" />
-                    <span>Removed from wishlist: <strong>{title}</strong></span>
-                </div>,
-                {
-                    position: "bottom-left",
-                    autoClose: 2500,
-                    theme: "light",
-                    className: "custom-toast",
-                }
-            );
-            dispatch(getwishlistThunk())
-        } else {
-            dispatch(addwishlistPost(id));
-            setIsWished(true);
-            toast.success(
-                <div className="toast-content">
-                    <img src={images[0]} alt="wishlist" className="toast-img" />
-                    <span>Saved to wishlist: <strong>{title}</strong></span>
-                </div>,
-                {
-                    position: "bottom-left",
-                    autoClose: 2500,
-                    theme: "light",
-                    className: "custom-toast",
-                }
-            );
-            dispatch(getwishlistThunk())
-        }
-    };
-
-    // ✅ Check if hotel already in wishlist
     useEffect(() => {
         if (wishlist && Array.isArray(wishlist)) {
             const isAlreadyWished = wishlist.some((item) => item._id === _id);
@@ -98,6 +55,11 @@ const ImageCard = ({ hotel }) => {
         }
     }, [wishlist, _id]);
 
+    const handlePrev = () => {
+        setCurrent((prev) => (prev - 1 + images.length) % images.length);
+    };
+
+    
   
 
     return (
@@ -132,7 +94,17 @@ const ImageCard = ({ hotel }) => {
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
                         <FiHeart 
                             style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
-                            onClick={(e) => toggleWishlist(e,_id)}
+                            onClick={(e) =>
+                                toggleWishlist({
+                                  e,
+                                  isWished,
+                                  dispatch,
+                                  hotelId: _id,
+                                  hotelTitle: title,
+                                  hotelImages: images,
+                                  setIsWished,
+                                })
+                              }
                         />
                     </span>
                 </div>

@@ -8,7 +8,8 @@ import DatePicker from 'react-datepicker';
 const DetailsContent = ({
     aboutThisSpace, spaceDetails,
     title, rating, address, hostId,
-    amenities, propertyType, images
+    amenities, propertyType, images,
+    advantages
 
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -118,16 +119,11 @@ const DetailsContent = ({
                         <div className="flex-column">
                             {/* معلومات إضافية */}
                             {
-                                amenities.map((ind,index) => {
+                                advantages.map((ind,index) => {
                                     return (
                                         <div className="row mt-4" key={index}>
-                                            <div className="col-1">
-                                                <i className={ind.icon} style={{ fontSize: '25px' }}></i>
-
-                                            </div>
                                             <div className="col flex-column">
-                                                <h5 style={{ fontSize: "15px" }}> {ind.name} </h5>
-                                                <div style={{ fontSize: "12px" }}>This home is highly ranked based on ratings, reviews, and reliability.</div>
+                                                <h5 style={{ fontSize: "15px" }}> {ind} </h5>
                                             </div>
                                         </div>
                                     )
@@ -159,7 +155,7 @@ const DetailsContent = ({
                         </div>
 
 
-
+{/* -------====================================--------١٢٣٤٥٦٧٨٩يبلاتنمك٨٩٠----- */}
                         <div className="row border-bottom pb-4">
                             <div className="mt-4">
                                 <h4 className="">What this place offers

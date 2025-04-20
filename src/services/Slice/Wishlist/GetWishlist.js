@@ -16,7 +16,7 @@ const GetWishlist = async () => {
                 }
             }
         );
-        console.log("response",response.data);
+        // console.log("response",response.data);
         
         return response.data.wishlist;
     } catch (error) {

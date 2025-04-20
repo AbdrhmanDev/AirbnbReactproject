@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Details.css'
 import { CiHeart } from "react-icons/ci";
 import { IoShareOutline } from "react-icons/io5";
@@ -6,17 +6,29 @@ import ShowAllImage from './ShowAllImage/ShowAllImage';
 import Slider from "react-slick";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
-const NavImage = ({ title, images }) => {
+import { toggleWishlist } from '../wishlistHelpers/wishlistHelpers';
+import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+const NavImage = ({ title, images, _id }) => {
     const [showImages, setShowImages] = useState(false);
-
-    const navigate= useNavigate();
+    const [isWished, setIsWished] = useState(false);
+    const wishlist = useSelector((state) => state.WishlistGet.get);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (wishlist && Array.isArray(wishlist)) {
+            const isAlreadyWished = wishlist.some((item) => item._id === _id);
+            setIsWished(isAlreadyWished);
+        }
+    }, [wishlist, _id]);
     const ShowAllImages = () => {
         setShowImages(true);
     };
-
+    
     return (
         <>
             <div className="container-fluid">
+                <ToastContainer position="top-center" autoClose={2000} />
                 <div className='row'>
                     <div className="flex-column col-12 position-relative se1">
 
@@ -29,8 +41,21 @@ const NavImage = ({ title, images }) => {
                                     <IoShareOutline size={"18px"} className='mb-1 ms-5' />
                                     <span className="ms-1 text-decoration-underline d-none d-sm-inline">Share</span>
                                 </button>
-                                <button type="button" className="btn btn-hover px-3 py-2 d-flex align-items-center">
-                                    <CiHeart size={"22px"} />
+                                <button type="button" className="btn btn-hover px-3 py-2 d-flex align-items-center" onClick={(e) => {
+                                            toggleWishlist({
+                                                e,
+                                                isWished,
+                                                dispatch,
+                                                hotelId: _id,
+                                                hotelTitle: title,
+                                                hotelImages: images,
+                                                setIsWished,
+                                            });
+                                        }}>
+                                            {
+                                                isWished==true ? <CiHeart color='red' size={"22px"}/> :  <CiHeart  size={"22px"}/>
+                                            }
+
                                     <span className="ms-1 text-decoration-underline d-none d-sm-inline">Save</span>
                                 </button>
                             </div>
@@ -40,9 +65,9 @@ const NavImage = ({ title, images }) => {
                         <div className="d-md-none position-relative ">
 
                             <button className=" btn-light3 homessilder position-absolute  top-0 start-0 m-2 px-2 py-1 fw-bold rounded-pill"
-                            onClick={()=>navigate('/')}
+                                onClick={() => navigate('/')}
                             >
-                            <IoIosArrowBack />
+                                <IoIosArrowBack />
                             </button>
 
 
@@ -51,7 +76,17 @@ const NavImage = ({ title, images }) => {
                                     <IoShareOutline size={20} />
                                 </button>
                                 <button className="homessilder btn-light3 px-2 py-1 rounded-circle">
-                                    <CiHeart size={22} />
+                                    <CiHeart size={22} onClick={(e) =>
+                                        toggleWishlist({
+                                            e,
+                                            isWished,
+                                            dispatch,
+                                            hotelId: _id,
+                                            hotelTitle: title,
+                                            hotelImages: images,
+                                            setIsWished,
+                                        })
+                                    } />
                                 </button>
                             </div>
                         </div>
@@ -105,7 +140,7 @@ const NavImage = ({ title, images }) => {
                                             className="w-100"
                                             style={{
                                                 height: "100vh",
-                                                borderRadius: "10px" 
+                                                borderRadius: "10px"
                                             }}
                                             alt={`img-${i}`}
                                         />

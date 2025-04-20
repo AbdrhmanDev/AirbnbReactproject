@@ -8,7 +8,7 @@ const MetaInformation = ({ address,images }) => {
     const position = address?.coordinates
         ? [address.coordinates[1], address.coordinates[0]]
         : [30.033333, 31.233334];
-    console.log(address.coordinates);
+
     const customIcon = new L.Icon({
         iconUrl: images?.[0], 
         iconSize: [50, 50],       
