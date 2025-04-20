@@ -98,8 +98,13 @@ const Navbar = () => {
                                     }}
                                 >
                                     <ul className="list-unstyled mb-0 m-2">
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
+
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
                                         <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
+                                        <div className='border'></div>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}> Manage listings</Link></li>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
                                         <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Bookings</Link></li>
                                         <div className='border'></div>
                                         <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
@@ -135,7 +140,7 @@ const SearchBar = () => {
     const [infants, setInfants] = useState(null);
     const [pets, setPets] = useState(null);
     const Hotels = useSelector((state) => state.GetAllFilter.AllFilter);
-    
+
     const destinations = [
         { name: 'Hurghada, Egypt', reason: 'Because your wishlist has stays in Tenerife', icon: <PiSwimmingPoolBold /> },
         { name: 'Aspen, USA', reason: 'For sights like Plaza de España', icon: <BsWater color='#81AFF1' /> },
@@ -160,19 +165,18 @@ const SearchBar = () => {
 
     }, [selectWhare]);
 
-
     const getSelect = (selected) => {
         setselectWhare(selected);
         setAddressValue(selected);
         setShowAddressMenu(false);
     };
     console.log(Hotels);
-    
+
     const handleSearch = () => {
         // فقط لو فيه تواريخ، نعمل format
         const valuestart = StartDate ? StartDate.toLocaleDateString('en-GB') : "";
         const valueend = EndDate ? EndDate.toLocaleDateString('en-GB') : "";
-        
+
         const allFilters = {
             city: AddressValue.trim(),
             startDate: valuestart,
@@ -184,23 +188,23 @@ const SearchBar = () => {
             },
             pets: pets
         };
-        
-    
+
+
         if (!AddressValue || AddressValue.trim().length === 0) {
             // toast.error("Please enter a valid address");
             toast.error('Please enter a valid address', {
-                hideProgressBar: true, 
-                className:"toastfay",
+                hideProgressBar: true,
+                className: "toastfay",
                 closeButton: false
-              });
+            });
             return;
         }
-    
+
         console.log("جاري إرسال الفلاتر:", allFilters);
         dispatch(GetAllFilterThunk(allFilters));
         navigate('/Filter');
     };
-    
+
     const renderCounter = (label, subLabel, count, setCount) => (
         <div className="mb-4 d-flex justify-content-between align-items-center">
             <div>
@@ -215,7 +219,7 @@ const SearchBar = () => {
                 >
                     −
                 </button>
-                <span className="mx-3">{count==null ? 0 :count}</span>
+                <span className="mx-3">{count == null ? 0 : count}</span>
                 <button
                     className="btn btn-light border rounded-circle px-2 py-0"
                     onClick={() => setCount(count + 1)}

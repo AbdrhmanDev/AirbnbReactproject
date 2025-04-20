@@ -37,8 +37,9 @@ const Details = () => {
     reviews,
     _id,
     houseRules,
-    advantages
-
+    advantages,
+    cancellationPolicy,
+    safetyFeatures
   } = HotelById;
 
 
@@ -100,7 +101,11 @@ const Details = () => {
       reviews={reviews}
       houseRules={houseRules}
       />
-      <Information />
+      <Information 
+      houseRules={houseRules}
+      cancellationPolicy={cancellationPolicy}
+      safetyFeatures={safetyFeatures}
+      />
     </div>
   );
 };

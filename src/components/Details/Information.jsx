@@ -1,24 +1,34 @@
 import React from 'react'
-import  './Details.css'
+import './Details.css'
 
-const Information = () => {
-  return (
-    <>
-   <div className="container mt-5 border-top pt-4">
-                <h3 className="mb-4">Things to know</h3>
+const Information = ({ safetyFeatures, cancellationPolicy, houseRules }) => {
+    
+    return (
+        <>
+            <div className="container mt-5 border-top pt-4">
                 <div className="row">
+                    <h3 className="mb-4">Things to know</h3>
 
                     <div className="col-md-4 mb-3">
                         <h5>House rules</h5>
-                        <ul className="list-unstyled">
-                            <li>Flexible check-in</li>
-                            <li>Checkout before 12:00PM</li>
-                            <li>2 guests maximum</li>
-                        </ul>
-                        <span>
-                            <button type="button" className="btn-dark border-0 bg-body ms-2 p-0  text-decoration-underline">
-                                Show more</button> <span></span>
-                        </span>
+                        {
+                            houseRules.length == 0 ? <p>No houseRules Fetchers</p> : 
+                             houseRules.map((item,index)=>{
+                                return(
+                                    <ul className="list-unstyled" key={index}>
+                                        <li>{item}</li>
+                                    </ul> 
+                                )
+                             })
+                        }
+                        
+                             <span>
+                            <button type="button" className="btn-dark border-0 bg-body ms-2 p-0  text-decoration-underline" >
+                                Show more</button> 
+                        </span> 
+
+                                    
+                        
                     </div>
 
 
@@ -51,8 +61,8 @@ const Information = () => {
                 </div>
 
             </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default Information

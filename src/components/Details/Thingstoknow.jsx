@@ -99,8 +99,6 @@ const Thingstoknow = ({ hostId, rating, reviews ,houseRules}) => {
         </div>
 
         <div className="col-md-8 col-12 ps-5">
-          <h5>Stephane is a Superhost</h5>
-          <p>Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</p>
           <h5>Host details</h5>
           <p>Response rate: 100%</p>
           <p>Responds within an hour</p>
