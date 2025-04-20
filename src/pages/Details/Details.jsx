@@ -4,10 +4,11 @@ import { GetHotelByIdThunk } from '../../services/Slice/HotelById';
 import { useParams } from 'react-router-dom';
 import NavImage from '../../components/Details/NavImage';
 import DetailsContent from '../../components/Details/DetailsContent';
-import Information from '../../components/Details/information';
+
 import MetaInformation from '../../components/Details/MetaInformation';
 import Thingstoknow from '../../components/Details/Thingstoknow';
 import { ClipLoader } from 'react-spinners';
+import Information from '../../components/Details/Information';
 // import './Details.css'
 const Details = () => {
   const dispatch = useDispatch();
@@ -17,17 +18,24 @@ const Details = () => {
   const isLoading = useSelector((state) => state.HotelByID.isLoading);
   const isError = useSelector((state) => state.HotelByID.isError);
   const errorMessage = useSelector((state) => state.HotelByID.errorMessage);
+  console.log(HotelById);
+  console.log(HotelById);
+  
 
   const {
     title,
     images,
     address,
-    createdAt,
-    description,
     pricePerNight,
     rating,
-    rooms,
-    status
+    status,
+    aboutThisSpace,//text
+    spaceDetails,//array
+    hostId,
+    amenities,
+    propertyType,
+    reviews
+
   } = HotelById;
 
   // console.log(HotelById);
@@ -60,23 +68,34 @@ const Details = () => {
     );
   }
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 w-75 m-auto">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <NavImage  title={title} images={images}/>
 
       <DetailsContent
       address={address} 
-      createdAt={createdAt}
-      description={description}
       pricePerNight={pricePerNight}
       rating={rating}
-      rooms={rooms}
       status={status}
       title={title} 
+      aboutThisSpace={aboutThisSpace}
+      spaceDetails={spaceDetails}
+      hostId={hostId}
+      amenities={amenities}
+      propertyType={propertyType}
+      images={images}
       />
 
+      <MetaInformation 
+      address={address} 
+      images={images}
+
+      />
+      <Thingstoknow 
+      rating={rating}
+      hostId={hostId}
+      reviews={reviews}
+      />
       <Information />
-      <MetaInformation />
-      <Thingstoknow />
     </div>
   );
 };

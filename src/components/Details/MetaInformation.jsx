@@ -1,17 +1,37 @@
 import React from 'react'
-import  './Details.css'
+import './Details.css'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+const MetaInformation = ({ address,images }) => {
 
-const MetaInformation = () => {
-  return (
-    <>
-     <div className="row mt-3 border-top pt-4">
+    const position = address?.coordinates
+        ? [address.coordinates[1], address.coordinates[0]]
+        : [30.033333, 31.233334];
+    console.log(address.coordinates);
+    const customIcon = new L.Icon({
+        iconUrl: images?.[0], 
+        iconSize: [50, 50],       
+        iconAnchor: [30, 70],    
+        popupAnchor: [0, -40], 
+        className:"adsads21"    
+    });
+
+    return (
+        <>
+            <div className="row mt-3 border-top pt-4 w-75 m-auto">
                 <h6>Where you’ll be</h6>
                 <span>Saint-Mandé, Île-de-France, France
                 </span>
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11707.839013385668!2d32.75466086315528!3d26.183268106568324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x144eb713cdff7243%3A0xde1579ce56fe6177!2zSVRJINmF2LnZh9ivINiq2YPZhtmI2YTZiNis2YrYpyDYp9mE2YXYudmE2YjZhdin2KogLSDZgdix2Lkg2YLZhtin!5e0!3m2!1sar!2seg!4v1737903829868!5m2!1sar!2seg"
-                    width="300" height="450" style={{border:"0"}} loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"></iframe>
+                <MapContainer center={position} zoom={13} style={{ height: "400px", width: "100%" }}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker position={position} icon={customIcon}>
+                        <Popup>{address.city} {address.country}</Popup>
+                    </Marker>
+                </MapContainer>
                 <div className="mt-3">
                     <span>
                         We verified that this listing’s location is accurate..
@@ -23,7 +43,7 @@ const MetaInformation = () => {
                 </div>
             </div>
 
-            <div className="mt-5 border-top pt-4">
+            <div className="mt-5 border-top pt-4 w-75 m-auto">
                 <h4>Neighborhood highlights</h4>
                 <span>A lot of shops around, restaurants, Vincennes wood
                 </span>
@@ -35,8 +55,8 @@ const MetaInformation = () => {
                     </span>
                 </div>
             </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default MetaInformation

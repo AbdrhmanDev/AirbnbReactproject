@@ -130,7 +130,6 @@ const SearchBar = () => {
     const navigate = useNavigate()
     const [StartDate, setStartDate] = useState();
     const [EndDate, setEndDate] = useState();
-
     const [adults, setAdults] = useState(null);
     const [children, setChildren] = useState(null);
     const [infants, setInfants] = useState(null);

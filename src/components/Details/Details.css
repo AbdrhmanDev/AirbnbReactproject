@@ -4,12 +4,14 @@
   right: 2%;
   position: absolute;
 }
-
+/* display */
 .img-sec2 {
-  width: 30px;
-  height: 70px;
-}
 
+  height: 40px;
+}
+.adsads21{
+  border-radius: 50%;
+}
 .userImg {
   width: 40px;
   height: 40px;
@@ -27,7 +29,26 @@
 .imgOpacity:hover {
   opacity: 0.8;
 }
+.custom1{
+  margin: auto;
+  background-color: #bd83ce;
+ 
+}
+.imagespe{
+ 
+}
+/* =-----=====-----=====------===== */
+.image-box {
+  width: 100%;
+  height: 200px; 
+  object-fit: cover;
+}
 
+.main-left-img {
+  height: 404px; 
+  object-fit: cover;
+}
+/* =-----=====-----=====------===== */
 .sec3 div h1 {
   font-size: 100px;
 }
@@ -216,6 +237,15 @@ button.switch-month:active {
 
 .review-header {
   font-weight: bold;
+}
+.homessilder{
+  color: #000000;
+  border: 0;
+}
+.btn-light3 {
+  background-color: rgba(255, 253, 253, 0.85);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .rating {

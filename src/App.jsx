@@ -7,6 +7,9 @@ import { fetchCategoryAsync } from './services/Slice/Category';
 import { fetchAllHotelAsync } from './services/Slice/Hotel';
 import { ToastContainer } from 'react-toastify';
 import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 function App() {
   const dispatch=  useDispatch()
   useEffect(() => {
