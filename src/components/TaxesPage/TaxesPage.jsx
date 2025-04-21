@@ -1,95 +1,104 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  Container,
+  Typography,
   Breadcrumbs,
   Link,
-  Typography,
+  Box,
   Tabs,
   Tab,
-  Box,
+  Stack,
   Button,
-  Container,
-  Stack
+  Divider
 } from '@mui/material';
 
 const TaxesPage = () => {
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = useState(0);
 
-  const handleTabChange = (event, newValue) => {
-    setTab(newValue);
-  };
+  const handleTabChange = (event, newValue) => setTab(newValue);
+
+  const renderSection = (title, description, buttonLabel, buttonLink = '#') => (
+    <Box sx={{ mb: 4 }}>
+      <Typography fontSize={18} fontWeight={600} gutterBottom>
+        {title}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+        {description}
+      </Typography>
+      {buttonLabel && (
+        <Button
+          variant="contained"
+          href={buttonLink}
+          sx={{
+            bgcolor: 'black',
+            '&:hover': { bgcolor: 'grey.900' },
+            textTransform: 'none'
+          }}
+        >
+          {buttonLabel}
+        </Button>
+      )}
+      <Divider sx={{ mt: 3 }} />
+    </Box>
+  );
 
   return (
-    <Container maxWidth="md" sx={{ py: 4, bgcolor: 'white', color: 'black' }}>
-      <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2, bgcolor: 'white', px: 2, py: 1, borderRadius: 1 }}>
-        <Link color="inherit" href="/account" underline="hover" sx={{ color: 'black' }}>
+    <Container maxWidth="md" sx={{ py: 5 }}>
+      {/* Breadcrumbs */}
+      <Breadcrumbs sx={{ mb: 2 }}>
+        <Link underline="hover" color="inherit" href="/account">
           Account
         </Link>
-        <Typography color="black">Taxes</Typography>
+        <Typography color="text.primary">Taxes</Typography>
       </Breadcrumbs>
 
-      <Typography variant="h4" gutterBottom>
+      {/* Page Title */}
+      <Typography variant="h5" gutterBottom>
         Taxes
       </Typography>
 
+      {/* Tabs */}
       <Tabs
         value={tab}
         onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="inherit"
         variant="fullWidth"
-        sx={{ mb: 3, bgcolor: 'white', color: 'black', borderRadius: 1, '& .MuiTabs-indicator': { backgroundColor: 'black' } }}
+        textColor="inherit"
+        indicatorColor="primary"
+        sx={{
+          mb: 3,
+          bgcolor: 'white',
+          color: 'black',
+          borderRadius: 1,
+          '& .MuiTabs-indicator': { backgroundColor: 'black' }
+        }}
       >
-        <Tab label="Taxpayers" sx={{ color: 'black' }} />
-        <Tab label="Tax documents" sx={{ color: 'black' }} />
+        <Tab label="Taxpayers" />
+        <Tab label="Tax documents" />
       </Tabs>
 
+      {/* Tab content */}
       {tab === 0 && (
         <Stack spacing={4}>
+          {renderSection(
+            'Taxpayer information',
+            'Tax info is required for most countries/regions.',
+            'Add tax info'
+          )}
+          {renderSection(
+            'Value Added Tax (VAT)',
+            'If you are VAT-registered, please add your VAT ID.',
+            'Add VAT ID Number'
+          )}
           <Box>
-            <Typography variant="h6" gutterBottom>
-              Taxpayer information
-            </Typography>
-            <Typography variant="body2" color="textSecondary" gutterBottom>
-              Tax info is required for most countries/regions.{' '}
-              <Link href="#" underline="" color='black'>
-                Learn more
-              </Link>
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ width: { xs: '100%', sm: 'auto' }, bgcolor: 'black', '&:hover': { bgcolor: 'grey.900' } }}
-            >
-              Add tax info
-            </Button>
-          </Box>
-
-          <Box>
-            <Typography variant="h6" gutterBottom>
-              Value Added Tax (VAT)
-            </Typography>
-            <Typography variant="body2" color="textSecondary" gutterBottom>
-              If you are VAT-registered, please add your VAT ID.{' '}
-              <Link href="#" underline="" color='black'>
-                Learn more
-              </Link>
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{ width: { xs: '100%', sm: 'auto' }, bgcolor: 'black', '&:hover': { bgcolor: 'grey.900' } }}
-            >
-              Add VAT ID Number
-            </Button>
-          </Box>
-
-          <Box>
-            <Typography variant="h6" gutterBottom>
-              Need help?
-            </Typography>
+          <Typography fontSize={18} fontWeight={600} gutterBottom>
+    Need help?
+  </Typography>
             <Typography variant="body2">
               Get answers to questions about taxes in our{' '}
-              <Link href="#" underline="" color='black'>
+              <Link href="#" underline="hover">
                 Help Center
-              </Link>.
+              </Link>
+              .
             </Typography>
           </Box>
         </Stack>
@@ -97,7 +106,7 @@ const TaxesPage = () => {
 
       {tab === 1 && (
         <Box>
-          <Typography variant="body1">
+          <Typography variant="body2">
             You have no tax documents at the moment.
           </Typography>
         </Box>
