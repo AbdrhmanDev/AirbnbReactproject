@@ -1,0 +1,35 @@
+.custom_card {
+    border-radius: 5%;
+    min-width: 60%;
+    max-width: 60%;
+}
+
+.changSize {
+    font-size: 10px;
+}
+
+.userImg2 {
+    width: 80px;
+    height: 80px;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background-color: white;
+    min-width: 60%;
+    max-width: 60%;
+}
+
+.checkmark {
+    font-size: 18px;
+    color: black;
+}
+
+.buttonStyle {
+    background-color: #e00751;
+    font-size: 15px;
+}
+.buttonStyle:hover {
+    background-color: #c0064a;
+}

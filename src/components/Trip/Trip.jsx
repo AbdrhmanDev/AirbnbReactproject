@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import TripCard from '../tripCard/TripCard';
@@ -11,8 +11,9 @@ function Trip() {
     const isError = useSelector((state) => state.UserTrip.isError);
     const errorMessage = useSelector((state) => state.UserTrip.errorMessage);
     const dispatch = useDispatch()
-    dispatch(getUserTripThunk());
-
+    useEffect(() => {
+        dispatch(getUserTripThunk())
+    }, [dispatch])
     const navigateToHome = () => {
         navigate('/');
     };

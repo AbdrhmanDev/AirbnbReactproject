@@ -12,6 +12,7 @@ import Wishlist from '../pages/Wishlist/Wishlist'
 import Details from '../pages/Details/Details'
 import Filltration from '../pages/Filltration/Filltration'
 import Trip from '../components/Trip/Trip'
+import ProfileCard from '../pages/user/Profile'
 
 
 const RoutesPage = () => {
@@ -26,6 +27,7 @@ const RoutesPage = () => {
           { path: '/details', element: <Details /> },
           { path: '/Filter', element: <Filltration /> },
           { path: '/trip', element: <Trip /> },
+          { path: '/userProfile', element: <ProfileCard /> },
 
         ]
       },
