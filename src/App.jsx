@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import PhoneOtpComponent from './components/Login/PhoneNumberForm';
 
 function App() {
   const dispatch=  useDispatch()
@@ -22,6 +23,7 @@ function App() {
     <>
     <ToastContainer position="top-right" autoClose={3000} />
     <RoutesPage/>
+    <PhoneOtpComponent/>
     </>
   )
 }

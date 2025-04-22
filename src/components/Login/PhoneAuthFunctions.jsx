@@ -52,7 +52,7 @@ export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowO
     alert("Please enter a valid 6-digit OTP.");
     return;
   }
-
+              
   confirmationResult.confirm(code)
     .then((result) => {
       console.log("Phone number verified!", result.user);

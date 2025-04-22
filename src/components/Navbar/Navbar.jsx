@@ -14,7 +14,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
-import LoginModal from '../Login/LoginModal';
+import PhoneOtpComponent from '../Login/PhoneNumberForm';
+
 
 
 const Navbar = () => {
@@ -22,13 +23,9 @@ const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [storedValue, setStoredValue] = useState(null);
     const menuRef = useRef();
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [setIsLoggedIn] = useState(false);
-    const [ setGoogleCredential] = useState(null);
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-    
+
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -41,8 +38,8 @@ const Navbar = () => {
         // تحقق من القيمة في localStorage
         const value = localStorage.getItem("authToken");
         setStoredValue(value); // تعيين القيمة إذا كانت موجودة
-      }, []);
-      
+    }, []);
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -80,7 +77,7 @@ const Navbar = () => {
                     <div className="d-flex align-items-center gap-3">
                         <span className="fw-semibold">
                             {
-                                storedValue ? <button  className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button> : <button className='border-0 bg-body p-2 hoverFromNav'>Airbnb your home</button>
+                                storedValue ? <button className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button> : <button className='border-0 bg-body p-2 hoverFromNav'>Airbnb your home</button>
                             }
                         </span>
 
@@ -107,44 +104,45 @@ const Navbar = () => {
                             {showMenu && (
                                 <div
                                     className="position-absolute bg-white border rounded shadow p-2"
-                                    style={{top: '120%',right: 0,zIndex: 1000,minWidth: '180px'}}>
-                                        {/* ul Login */}
-                                   {
-                                     storedValue  ?
-                                      <ul className="list-unstyled mb-0 m-2">
-                                     <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
-                                     <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
-                                     <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
-                                     <div className='border'></div>
-                                     <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
-                                     <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
-                                     <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Bookings</Link></li>
-                                     <div className='border'></div>
-                                     <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
-                                     <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help</Link></li>
-                                     <li><Link to="/logout" className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
-                                      </ul> :
-                                        <ul className="list-unstyled mb-0 m-2">
-                                        <li><Link to="/login" className="dropdown-item m-2 " style={{ fontSize: "13px" }}  >Login</Link></li>
-                                        <li>
-                                            <button onClick={() => {
-                                                            openModal();
-                                                            setShowMenu(false);
-                                                        }}>Login</button>
-                                        </li>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
-                                        <div className='border'></div>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
-                                        <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
-                                        <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
-                                    </ul>
-                                   }
+                                    style={{ top: '120%', right: 0, zIndex: 1000, minWidth: '180px' }}>
+                                    {/* ul Login */}
+                                    {
+                                        storedValue ?
+                                            <ul className="list-unstyled mb-0 m-2">
+                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
+                                                <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
+                                                <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
+                                                <div className='border'></div>
+                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
+                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
+                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Bookings</Link></li>
+                                                <div className='border'></div>
+                                                <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
+                                                <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help</Link></li>
+                                                <li><Link to="/logout" className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
+                                            </ul> :
+                                            <ul className="list-unstyled mb-0 m-2">
+                                                <Link
+                                                    to="#"
+                                                    className="nav-link"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#phoneOtpModal"
+                                                >
+                                                    Login
+                                                </Link>
+                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
+                                                <div className='border'></div>
+                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
+                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                                <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
+                                            </ul>
+                                    }
 
-                                    
+
                                 </div>
                             )}
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -152,12 +150,7 @@ const Navbar = () => {
             {!isScrolled && (
                 <SearchBar className="w-50" />
             )}
-            <LoginModal
-                isOpen={isModalOpen}
-                closeModal={closeModal}
-                setIsLoggedIn={setIsLoggedIn}
-                setGoogleCredential={setGoogleCredential}
-            />
+
             {/* <LoginModal/> */}
         </>
     );

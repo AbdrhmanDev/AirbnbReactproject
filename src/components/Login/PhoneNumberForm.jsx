@@ -42,14 +42,14 @@ const PhoneOtpComponent = () => {
     <GoogleOAuthProvider clientId="739388745257-cp69iqth6eeg742jbudiahenlkc1808o.apps.googleusercontent.com">
       <div className={style.container}>
         {!isLoggedIn && (
-          <button className={style.loginBtn} data-bs-toggle="modal" data-bs-target="#phoneOtpModal">
+          <span className={style.loginBtn} data-bs-toggle="modal" data-bs-target="#phoneOtpModal">
             Login
-          </button>
+          </span>
         )}
         {isLoggedIn && (
-          <button onClick={() => handleLogout(googleCredential, setGoogleCredential, setIsLoggedIn)} className={style.logoutBtn}>
+          <span onClick={() => handleLogout(googleCredential, setGoogleCredential, setIsLoggedIn)} className={style.logoutBtn}>
             Logout
-          </button>
+          </span>
         )}
 
         <div ref={modalRef} className="modal fade" id="phoneOtpModal" tabIndex="-1" aria-hidden="true">

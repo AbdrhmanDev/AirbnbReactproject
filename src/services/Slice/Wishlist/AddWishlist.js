@@ -11,7 +11,7 @@ const AddWishlist = async (id) => {
     // if(!isLogin) throw new Error("is proplem");
     console.log(isLogin);
     
-    // if (!id) throw new Error("hotelId is required");
+    if (!id) throw new Error("hotelId is required");
 
     try {
         const response = await axios.post(
