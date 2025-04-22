@@ -1,11 +1,29 @@
 import './App.css'
-import Card from './components/Card/Card.jsx'
+import RoutesPage from './routes/RoutesPage'
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchCategoryAsync } from './services/Slice/Category';
+import { fetchAllHotelAsync } from './services/Slice/Hotel';
+import { ToastContainer } from 'react-toastify';
+import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import PhoneOtpComponent from './components/Login/PhoneNumberForm';
+
 function App() {
-
-
+  const dispatch=  useDispatch()
+  useEffect(() => {
+    dispatch(fetchCategoryAsync())
+    dispatch(fetchAllHotelAsync())
+    dispatch(getwishlistThunk())
+    
+  }, [dispatch])
   return (
     <>
-    <Card/>
+    <ToastContainer position="top-right" autoClose={3000} />
+    <RoutesPage/>
+    <PhoneOtpComponent/>
     </>
   )
 }
