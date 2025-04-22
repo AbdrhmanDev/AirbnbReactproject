@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import './Details.css'
 import { CiHeart } from "react-icons/ci";
 import { IoShareOutline } from "react-icons/io5";
-import ShowAllImage from './ShowAllImage/ShowAllImage';
 import Slider from "react-slick";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import { toggleWishlist } from '../wishlistHelpers/wishlistHelpers';
 import { useDispatch, useSelector } from 'react-redux';
+import { TbGridDots } from "react-icons/tb";
 import { ToastContainer } from 'react-toastify';
 const NavImage = ({ title, images, _id }) => {
-    const [showImages, setShowImages] = useState(false);
+    // const [showImages, setShowImages] = useState(false);
     const [isWished, setIsWished] = useState(false);
     const wishlist = useSelector((state) => state.WishlistGet.get);
     const dispatch = useDispatch();
@@ -22,7 +22,8 @@ const NavImage = ({ title, images, _id }) => {
         }
     }, [wishlist, _id]);
     const ShowAllImages = () => {
-        setShowImages(true);
+        navigate('/images', { state: { images } });
+        // هنا بعتنا data بتاعت الصور في Location اللي هي state وهنستقبلها في الصفحة التانيه ب uselocation
     };
     
     return (
@@ -113,10 +114,10 @@ const NavImage = ({ title, images, _id }) => {
                                         <div className="col-6 position-relative">
                                             <img src={images?.[4]} className="image-box rounded-end" alt="Image 5" />
                                             <button
-                                                className="btn btn-light3 position-absolute bottom-0 end-0 m-2 px-3 py-2 fw-bold rounded-pill"
+                                                className="btn-light3 position-absolute bottom-0 col-md-12  end-0 m-2 px-3 py-2 rounded-2 border-1 text-dark"
                                                 onClick={ShowAllImages}
                                             >
-                                                Show all photos
+                                             <TbGridDots className='mb-1'/>   Show all photos
                                             </button>
                                         </div>
                                     </div>
@@ -125,7 +126,7 @@ const NavImage = ({ title, images, _id }) => {
                         </div>
 
 
-                        <div className="d-block d-md-none w-100" style={{ height: "50vh", overflow: "hidden" }}>
+                        <div className="d-block d-md-none w-100" style={{ height: "50vh", overflow: "hidden" }} onClick={ShowAllImages}>
                             <Slider
                                 dots={true}
                                 infinite={true}
@@ -149,7 +150,7 @@ const NavImage = ({ title, images, _id }) => {
                             </Slider>
                         </div>
 
-                        {showImages && <ShowAllImage />}
+                        {/* {showImages && <ShowAllImage />} */}
                     </div>
                 </div>
             </div>

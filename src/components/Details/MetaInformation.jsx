@@ -19,31 +19,39 @@ const MetaInformation = ({ address,images }) => {
 
     return (
         <>
-            <div className="row mt-3 border-top pt-4 w-75 m-auto">
-                <h6>Where you’ll be</h6>
-                <span>Saint-Mandé, Île-de-France, France
-                </span>
-                <MapContainer center={position} zoom={13} style={{ height: "400px", width: "100%" }}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    <Marker position={position} icon={customIcon}>
-                        <Popup>{address.city} {address.country}</Popup>
-                    </Marker>
-                </MapContainer>
-                <div className="mt-3">
-                    <span>
-                        We verified that this listing’s location is accurate..
-                    </span>
-                    <span>
-                        <button type="button" className="btn-dark border-0 bg-body ms-2 p-0  text-decoration-underline">
-                            Learn more</button>
-                    </span>
-                </div>
-            </div>
+        <div className="row justify-content-center mt-3 m-2 border-top pt-4 w-md-75">
+  <div className="col-12 col-lg-9">
+    <h6>Where you’ll be</h6>
+    <span>Saint-Mandé, Île-de-France, France</span>
 
-            <div className="mt-5 border-top pt-4 w-75 m-auto">
+    <MapContainer
+      center={position}
+      zoom={13}
+      style={{ height: "450px", width: "100%" }}
+      className="rounded-2"
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      />
+      <Marker position={position} icon={customIcon}>
+        <Popup>{address.city} {address.country}</Popup>
+      </Marker>
+    </MapContainer>
+
+    <div className="mt-3 m-3">
+      <span>
+        We verified that this listing’s location is accurate..
+      </span>
+      <span>
+        <button
+          type="button"
+          className="btn-dark border-0 bg-body ms-2 p-0 text-decoration-underline"
+        >
+          Learn more
+        </button>
+      </span>
+      <div className="border-top pt-2 w-100 mt-3 m-auto">
                 <h4>Neighborhood highlights</h4>
                 <span>A lot of shops around, restaurants, Vincennes wood
                 </span>
@@ -55,6 +63,13 @@ const MetaInformation = ({ address,images }) => {
                     </span>
                 </div>
             </div>
+    </div>
+    
+  </div>
+</div>
+
+
+            
         </>
     )
 }

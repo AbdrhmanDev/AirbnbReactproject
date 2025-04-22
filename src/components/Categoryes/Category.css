@@ -13,6 +13,7 @@
   .category-part Link{
     text-decoration: none;
     list-style: none;
+    position: fixed;
   }
 .all {
     width: 98%;

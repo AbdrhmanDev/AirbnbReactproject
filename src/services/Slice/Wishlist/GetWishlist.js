@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const GetWishlist = async () => {
+    const isLogin= localStorage.getItem('authToken')
     
     try {
        const response = await axios.get(
@@ -12,7 +13,7 @@ const GetWishlist = async () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${API_TOKEN}`
+                    'Authorization': `Bearer ${isLogin}`
                 }
             }
         );

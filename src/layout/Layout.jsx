@@ -8,10 +8,10 @@ const Layout = () => {
   return (
     <>
     
-      <div className="content-outltet">
+      <div >
         <Outlet />
       </div>
-      <div className="footer-fixed">
+      <div className="footer-fixed ">
         <Footer/>
       </div>
     </>

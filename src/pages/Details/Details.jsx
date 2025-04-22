@@ -9,6 +9,7 @@ import MetaInformation from '../../components/Details/MetaInformation';
 import Thingstoknow from '../../components/Details/Thingstoknow';
 import { ClipLoader } from 'react-spinners';
 import Information from '../../components/Details/Information';
+import ShowAllImage from '../../components/Details/ShowAllImage/ShowAllImage';
 // import './Details.css'
 const Details = () => {
   const dispatch = useDispatch();
@@ -89,7 +90,7 @@ const Details = () => {
       images={images}
       advantages={advantages}
       />
-
+      
       <MetaInformation 
       address={address} 
       images={images}

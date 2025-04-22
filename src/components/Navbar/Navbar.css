@@ -98,3 +98,7 @@ input:focus {
   background-color: rgba(195, 11, 11, 0.1);  
   border-radius: 5px; 
 }
+.hoverFromNav:hover{
+  background-color: #e4e4e4 !important;
+  border-radius: 13px;
+}

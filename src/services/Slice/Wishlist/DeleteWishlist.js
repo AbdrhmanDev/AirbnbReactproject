@@ -4,20 +4,21 @@ import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
 const API_TOKEN = import.meta.env.VITE_TOKEN;
 const DeleteWishlist = async (id) => {
+    const isLogin= localStorage.getItem('authToken')
     
     try {
         let response = await axios.delete(
             `${API_KEY}/users/wishlist`,
             {
                 headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`
+                    'Authorization': `Bearer ${isLogin}`
                 },
                 data: {
                     hotelId: id
                 }
             }
         );
-        return response;
+        return response.data;
     } catch (error) {
         console.error("Error to remove wishlist:", error.response?.data || error.message);
         throw error;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Details.css';
 import leftImg from '../../assets/left.png';
 import rightImg from '../../assets/right.png';
@@ -10,7 +10,6 @@ const DetailsContent = ({
     title, rating, address, hostId,
     amenities, propertyType, images,
     advantages
-
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -20,22 +19,40 @@ const DetailsContent = ({
 
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
+    const [monthsShown, setMonthsShown] = useState(2);  // Default to 2 months
 
-    const createat = new Date(hostId.createdAt);
-    createat.toLocaleDateString("en-GB");
+    // Update monthsShown based on window size
+    useEffect(() => {
+        const updateMonthsShown = () => {
+            setMonthsShown(window.innerWidth < 576 ? 1 : 2);
+        };
+        
+        // Call initially
+        updateMonthsShown();
+
+        // Add resize event listener
+        window.addEventListener('resize', updateMonthsShown);
+
+        // Clean up the event listener
+        return () => {
+            window.removeEventListener('resize', updateMonthsShown);
+        };
+    }, []);
+
+    const Createt = new Date(hostId.createdAt);
+    Createt.toLocaleDateString("en-GB");
     const now = new Date();
-    const diffInMs = now - createat;
+    const diffInMs = now - Createt;
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
     const diffInMonths = Math.floor(diffInDays / 30);
 
-
     return (
         <>
-            <div className="container mt-2 w-75 ">
+            <div className="container mt-2 w-75">
                 <div className="row justify-content-center">
 
                     {/* اليسار: التفاصيل */}
-                    <div className="col-12 col-lg-8 ">
+                    <div className="col-12 col-lg-8">
 
                         <h4 className='ms-3'>{title}</h4>
                         <h6 className='ms-3' style={{ fontSize: "15px", maxWidth: "90%" }}>{aboutThisSpace}</h6>
@@ -79,7 +96,7 @@ const DetailsContent = ({
                         </div>
 
                         {/* موبايل */}
-                        <div className="border rounded-3 shadow-sm mt-4 mb-4 px-3 py-3  m-auto d-flex d-lg-none justify-content-between align-items-center flex-wrap text-center gap-3" style={{ width: "93%" }}>
+                        <div className="border rounded-3 shadow-sm mt-4 mb-4 px-3 py-3 m-auto d-flex d-lg-none justify-content-between align-items-center flex-wrap text-center gap-3" style={{ width: "93%" }}>
                             <div className="d-flex flex-column align-items-center flex-grow-1">
                                 <h5 className="mb-1" style={{ fontSize: "16px" }}>{rating}</h5>
                                 <div className="text-warning" style={{ fontSize: "14px" }}>
@@ -116,23 +133,21 @@ const DetailsContent = ({
                             </div>
                         </div>
 
-                        <div className="flex-column">
+
+                        <div className="d-flex flex-column m-3 m-sm-0">
                             {/* معلومات إضافية */}
-                            {
-                                advantages.map((ind,index) => {
-                                    return (
-                                        <div className="row mt-4" key={index}>
-                                            <div className="col flex-column">
-                                                <h5 style={{ fontSize: "15px" }}> {ind} </h5>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
+                            {advantages.map((ind, index) => (
+                                <div className=" mt-3" key={index}>
+                                    <div className="col-12">
+                                        <h5 className="fs-6">{ind}</h5>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
 
-                        <div className="flex-column">
-                            <div className="mt-3 p-1 rounded" style={{ backgroundColor: "#F7F7F7" }}>
+                        <div className="d-flex flex-column m-3 m-sm-0">
+
+                            <div className="mt-1 p-1 rounded" style={{ backgroundColor: "#F7F7F7" }}>
                                 <span className="fs-6">Some info has been automatically translated</span>
                                 <button type="button" style={{ fontSize: "14px", backgroundColor: "#F7F7F7" }} className="border-0 ms-1 p-0 text-decoration-underline">Show original</button>
                             </div>
@@ -140,28 +155,26 @@ const DetailsContent = ({
                             <div className="mt-2"><span>{address.fullAddress}</span></div>
                             <div className="mt-2"><span>{aboutThisSpace}</span></div>
                             <div className="mt-2"><div>{propertyType}</div><div>Louvre (25mn)...</div></div>
-                            <div className="mt-2 border-bottom pb-4">
-                                <button type="button" className="btn-dark border-0 bg-body ms-2 p-0 fs-6 text-decoration-underline">Show More</button>
+
+                        </div>
+
+                        <div className="flex-column mt-2 mb-3">
+                            <h3 className='m-3 m-sm-0 pb-2 pt-2'>Where you’ll sleep</h3>
+                            <img src={images?.[4]} className="img-room  m-sm-0 rounded-1" role="button" alt="" />
+                            <div className="border-bottom pb-2 d-flex d-sm-block mt-2" role="button">
+                                <p className="me-2">{spaceDetails.bedrooms} bedrooms</p>
+                                <div>{spaceDetails.beds} beds</div>
                             </div>
                         </div>
 
-                        <div className="flex-column mt-3">
-                            <div ><h3>Where you’ll sleep</h3></div>
-                            <div><img src={images?.[4]} className="img-room " role="button" alt="" /></div>
-                            <div className="mt-2 border-bottom pb-4" role="button">
-                                <p> {spaceDetails.bedrooms} bedrooms</p>
-                                <div>{spaceDetails.beds} beds </div>
-                            </div>
-                        </div>
 
+                        {/* -------====================================--------١٢٣٤٥٦٧٨٩يبلاتنمك٨٩٠----- */}
+                        <div className="row border-bottom pb-4 m-1 m-sm-0">
 
-{/* -------====================================--------١٢٣٤٥٦٧٨٩يبلاتنمك٨٩٠----- */}
-                        <div className="row border-bottom pb-4">
-                            <div className="mt-4">
-                                <h4 className="">What this place offers
-                                </h4>
-                            </div>
-                            <div className=" col-md-5">
+                            <h4 className="">What this place offers
+                            </h4>
+
+                            <div className="col-md-5">
                                 <div className="row  w-100">
                                     {
                                         amenities.slice(0, isExpanded ? amenities.length : 3).map((ind, i) => (
@@ -192,7 +205,7 @@ const DetailsContent = ({
                                 selectsRange
                                 selectsDisabledDaysInRange
                                 inline
-                                monthsShown={2}
+                                monthsShown={monthsShown}
                             />
                         </div>
 

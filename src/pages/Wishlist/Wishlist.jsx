@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {  useSelector } from 'react-redux';
 import Card from '../../components/Card/Card';
+import Navbar from '../../components/Navbar/Navbar';
 
 const Wishlist = () => {
     const { get, isLoading, isError } = useSelector((state) => state.WishlistGet);
@@ -13,6 +14,7 @@ const Wishlist = () => {
     
     return (
         <>
+        <Navbar/>
             <Card
                 hotelData={hotelData}
                 isLoading={isLoading}

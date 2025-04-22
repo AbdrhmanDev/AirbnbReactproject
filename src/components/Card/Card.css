@@ -7,13 +7,13 @@
     justify-content: space-between;
     padding: 0 10px;
     transform: translateY(-50%);
-    opacity: 0;
+    /* opacity: 0; */
 }
 .setCard{
     margin-top: 150px;
 }
 .cursor-icons-all:hover {
-    opacity: 1;
+    /* opacity: 1; */
 }
 
 .carousel-img {

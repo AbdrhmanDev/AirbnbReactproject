@@ -11,16 +11,24 @@ import { PiBuildingApartmentFill } from "react-icons/pi";
 import { FaSwimmer } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
-// import { format } from 'date-fns';
+import LoginModal from '../Login/LoginModal';
+
+
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
+    const [storedValue, setStoredValue] = useState(null);
     const menuRef = useRef();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [setIsLoggedIn] = useState(false);
+    const [ setGoogleCredential] = useState(null);
 
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -29,8 +37,12 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-
+    useEffect(() => {
+        // تحقق من القيمة في localStorage
+        const value = localStorage.getItem("authToken");
+        setStoredValue(value); // تعيين القيمة إذا كانت موجودة
+      }, []);
+      
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -40,6 +52,7 @@ const Navbar = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
 
     return (
         <>
@@ -65,7 +78,11 @@ const Navbar = () => {
                     </div>
 
                     <div className="d-flex align-items-center gap-3">
-                        <span className="fw-semibold">Switch to hosting</span>
+                        <span className="fw-semibold">
+                            {
+                                storedValue ? <button  className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button> : <button className='border-0 bg-body p-2 hoverFromNav'>Airbnb your home</button>
+                            }
+                        </span>
 
                         <a href="#" className="text-dark">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-globe" viewBox="0 0 16 16">
@@ -90,30 +107,44 @@ const Navbar = () => {
                             {showMenu && (
                                 <div
                                     className="position-absolute bg-white border rounded shadow p-2"
-                                    style={{
-                                        top: '120%',
-                                        right: 0,
-                                        zIndex: 1000,
-                                        minWidth: '180px'
-                                    }}
-                                >
-                                    <ul className="list-unstyled mb-0 m-2">
-
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
-                                        <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
+                                    style={{top: '120%',right: 0,zIndex: 1000,minWidth: '180px'}}>
+                                        {/* ul Login */}
+                                   {
+                                     storedValue  ?
+                                      <ul className="list-unstyled mb-0 m-2">
+                                     <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
+                                     <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
+                                     <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
+                                     <div className='border'></div>
+                                     <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
+                                     <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
+                                     <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Bookings</Link></li>
+                                     <div className='border'></div>
+                                     <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
+                                     <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help</Link></li>
+                                     <li><Link to="/logout" className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
+                                      </ul> :
+                                        <ul className="list-unstyled mb-0 m-2">
+                                        <li><Link to="/login" className="dropdown-item m-2 " style={{ fontSize: "13px" }}  >Login</Link></li>
+                                        <li>
+                                            <button onClick={() => {
+                                                            openModal();
+                                                            setShowMenu(false);
+                                                        }}>Login</button>
+                                        </li>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
                                         <div className='border'></div>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}> Manage listings</Link></li>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
-                                        <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Bookings</Link></li>
-                                        <div className='border'></div>
-                                        <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
-                                        <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help</Link></li>
-                                        <li><Link to="/logout" className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
+                                        <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                        <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
                                     </ul>
+                                   }
+
+                                    
                                 </div>
                             )}
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </nav>
@@ -121,6 +152,13 @@ const Navbar = () => {
             {!isScrolled && (
                 <SearchBar className="w-50" />
             )}
+            <LoginModal
+                isOpen={isModalOpen}
+                closeModal={closeModal}
+                setIsLoggedIn={setIsLoggedIn}
+                setGoogleCredential={setGoogleCredential}
+            />
+            {/* <LoginModal/> */}
         </>
     );
 };
@@ -170,10 +208,9 @@ const SearchBar = () => {
         setAddressValue(selected);
         setShowAddressMenu(false);
     };
-    console.log(Hotels);
+
 
     const handleSearch = () => {
-        // فقط لو فيه تواريخ، نعمل format
         const valuestart = StartDate ? StartDate.toLocaleDateString('en-GB') : "";
         const valueend = EndDate ? EndDate.toLocaleDateString('en-GB') : "";
 

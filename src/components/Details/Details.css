@@ -18,7 +18,7 @@
 }
 
 .img-room {
-  width: 400px;
+  width: 380px;
   height: 200px;
 }
 
@@ -313,7 +313,7 @@ button.switch-month:active {
   .detials,
   .right-f,
   .card-innormal {
-    display: none !important;
+    /* display: none !important; */
   }
   #reviewsCarousel,
   .card-inresponsive {

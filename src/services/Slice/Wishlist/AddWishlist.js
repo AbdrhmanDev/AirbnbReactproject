@@ -7,7 +7,11 @@ const API_TOKEN = import.meta.env.VITE_TOKEN;
 
 const AddWishlist = async (id) => {
 
-    if (!id) throw new Error("hotelId is required");
+    const isLogin= localStorage.getItem('authToken')
+    // if(!isLogin) throw new Error("is proplem");
+    console.log(isLogin);
+    
+    // if (!id) throw new Error("hotelId is required");
 
     try {
         const response = await axios.post(
@@ -17,7 +21,7 @@ const AddWishlist = async (id) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${API_TOKEN}`
+                    'Authorization': `Bearer ${isLogin}`
                 }
             }
         );
