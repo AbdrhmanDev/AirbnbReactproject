@@ -29,7 +29,7 @@ const UserInfo = () => {
   }
 
   return (
-    <div className="text-start style-card" style={{ marginTop:"100px" }}>
+    <div className=" container text-start style-card" style={{ marginTop:"100px" }}>
       <h1>Account</h1>
       <div className="Account d-flex font-weight-bold font-size=" style={{ fontSize: "20px" }}>
         <p>{userData.name},{userData.email} ,</p>
