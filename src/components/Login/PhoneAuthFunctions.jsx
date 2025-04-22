@@ -1,6 +1,7 @@
 import { auth, RecaptchaVerifier } from "./firbase";
 import { signInWithPhoneNumber, signOut } from "firebase/auth";
 
+
 // إعداد الريكابتشا
 export const setupRecaptcha = (handleSendOTP) => {
   if (!window.recaptchaVerifier) {
@@ -108,7 +109,7 @@ export const handleLogout = (googleCredential, setGoogleCredential, setIsLoggedI
 };
 
 // تسجيل الدخول بجوجل
-export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef, setGoogleCredential) => {
+export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef, setGoogleCredential,setUserData) => {//new
   console.log("Google login successful:", response);
 
   try {
@@ -128,8 +129,11 @@ export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef
       console.log('✅ User verified by server:', data.user);
       alert(`Welcome ${data.user.name}!`);
       localStorage.setItem('authToken', data.token);
+      localStorage.setItem('userData', JSON.stringify(data.user)); // << تخزين بيانات اليوزر
       setIsLoggedIn(true);
       setGoogleCredential(response.credential);
+      setUserData(data.user); // << هنا بنسجل بيانات اليوزر في الـ state
+
       modalRef.current?.classList.remove('show');
       document.body.style.overflow = 'auto';
     } else {
