@@ -1,0 +1,24 @@
+/* ToggleSwitch.css */
+.privacy-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60px;
+    height: 30px;
+    border-radius: 50px;
+    background-color: #1a73e8;
+    color: white;
+    cursor: pointer;
+    padding: 0 10px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .privacy-toggle span {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+  
+  .privacy-toggle span.active {
+    opacity: 1;
+  }
