@@ -16,13 +16,26 @@ const Home = () => {
       setHotelData(allHotels);
     }
   }, [filteredHotels, allHotels]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [googleCredential, setGoogleCredential] = useState(null);
+
+  useEffect(() => {
+    const storedCredential = localStorage.getItem("authToken");
+    if (storedCredential) {
+      setGoogleCredential(storedCredential);
+      setIsLoggedIn(true);
+    }
+  }, []);
 
 
   return (
     <>
-     
       <div className=" navbar-fixed">
-      <Navbar/>
+      <Navbar 
+      isLoggedIn={isLoggedIn} 
+      setIsLoggedIn={setIsLoggedIn} 
+      setGoogleCredential={setGoogleCredential} 
+      />
       <Category />
       </div>
       <Card

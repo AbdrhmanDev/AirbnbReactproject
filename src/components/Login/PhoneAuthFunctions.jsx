@@ -1,5 +1,6 @@
 import { auth, RecaptchaVerifier } from "./firbase";
 import { signInWithPhoneNumber, signOut } from "firebase/auth";
+import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 
 // إعداد الريكابتشا
 export const setupRecaptcha = (handleSendOTP) => {
@@ -52,7 +53,7 @@ export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowO
     alert("Please enter a valid 6-digit OTP.");
     return;
   }
-              
+
   confirmationResult.confirm(code)
     .then((result) => {
       console.log("Phone number verified!", result.user);
@@ -60,8 +61,14 @@ export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowO
       setIsLoggedIn(true);
       setShowOtpInputs(false);
       setOtp(Array(6).fill(""));
-      modalRef.current?.classList.remove('show');
-      document.body.style.overflow = 'auto';
+      const modalEl = document.getElementById("phoneOtpModal");
+      if (modalEl) {
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        modalInstance?.hide();
+      }
+  
+      // document.body.style.overflow = 'auto';
+
     })
     .catch((error) => {
       console.error("Invalid OTP:", error);
@@ -129,11 +136,14 @@ export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef
       alert(`Welcome ${data.user.name}!`);
       localStorage.setItem('authToken', data.token);
       console.log(data.token);
-      
+
       setIsLoggedIn(true);
+      const modalEl = document.getElementById("phoneOtpModal");
+      if (modalEl) {
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        modalInstance?.hide();
+      }
       setGoogleCredential(response.credential);
-      modalRef.current?.classList.remove('show');
-      document.body.style.overflow = 'auto';
     } else {
       alert('Login failed on server.');
     }

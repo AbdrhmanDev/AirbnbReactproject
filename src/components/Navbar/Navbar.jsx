@@ -18,14 +18,47 @@ import PhoneOtpComponent from '../Login/PhoneNumberForm';
 
 
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const [storedValue, setStoredValue] = useState(null);
+
     const menuRef = useRef();
+    const modalRef = useRef(null);
+    useEffect(() => {
+        console.log("isLoggedIn updated in Navbar:", isLoggedIn);
+    }, [isLoggedIn]);
+
+    console.log(isLoggedIn);
 
 
+    const logout = () => {
+        localStorage.removeItem("authToken");
+        setGoogleCredential(null);
+        setIsLoggedIn(false);
+        if (modalRef.current) {
+            modalRef.current.classList.remove('show');
+        }
+    };
+    const handleLogin = (authToken) => {
+        console.log("Logging in with token:", authToken);
+        localStorage.setItem("authToken", authToken);
+        setGoogleCredential(authToken);
+        setIsLoggedIn(true);
+        setShowMenu(false);
+    };
 
+    const handleLogout = () => {
+        localStorage.removeItem("authToken");
+        setGoogleCredential(null);
+        setIsLoggedIn(false);
+        
+    };
+    useEffect(() => {
+        if (isLoggedIn) {
+            setShowMenu(false);
+        }
+    }, [isLoggedIn]);
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -35,11 +68,21 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
     useEffect(() => {
-        // تحقق من القيمة في localStorage
         const value = localStorage.getItem("authToken");
-        setStoredValue(value); // تعيين القيمة إذا كانت موجودة
-    }, []);
+        setStoredValue(value);
 
+        const handleStorageChange = (event) => {
+            if (event.key === "authToken") {
+                setStoredValue(event.newValue);
+            }
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
+    }, []);
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -107,7 +150,7 @@ const Navbar = () => {
                                     style={{ top: '120%', right: 0, zIndex: 1000, minWidth: '180px' }}>
                                     {/* ul Login */}
                                     {
-                                        storedValue ?
+                                        isLoggedIn ?
                                             <ul className="list-unstyled mb-0 m-2">
                                                 <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
                                                 <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
@@ -119,17 +162,15 @@ const Navbar = () => {
                                                 <div className='border'></div>
                                                 <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
                                                 <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help</Link></li>
-                                                <li><Link to="/logout" className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
+                                                <li><Link  className="dropdown-item  m-2" style={{ fontSize: "13px" }} onClick={logout}>Logout</Link></li>
                                             </ul> :
                                             <ul className="list-unstyled mb-0 m-2">
-                                                <Link
-                                                    to="#"
-                                                    className="nav-link"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#phoneOtpModal"
-                                                >
-                                                    Login
-                                                </Link>
+                                                <PhoneOtpComponent isLoggedIn={isLoggedIn}
+                                                    setIsLoggedIn={setIsLoggedIn}
+                                                    setGoogleCredential={setGoogleCredential}
+                                                    handleLogin={handleLogin}
+                                                    handleLogout={handleLogout}
+                                                />
                                                 <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
                                                 <div className='border'></div>
                                                 <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>

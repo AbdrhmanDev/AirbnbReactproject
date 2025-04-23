@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Card.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import {  useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CatalogMagic from '../Loader/Loader';
 
 import { ToastContainer } from 'react-toastify';
@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FiHeart } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import { toggleWishlist } from '../wishlistHelpers/wishlistHelpers';
+import PhoneOtpComponent from '../Login/PhoneNumberForm';
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
     return (
         <div className="container  mt-5 p-1">
@@ -36,10 +37,10 @@ const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
 const ImageCard = ({ hotel }) => {
     const [current, setCurrent] = useState(0);
     const [isWished, setIsWished] = useState(false);
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
- 
+    const isLogin = localStorage.getItem('authToken');
 
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
@@ -59,13 +60,10 @@ const ImageCard = ({ hotel }) => {
         setCurrent((prev) => (prev - 1 + images.length) % images.length);
     };
 
-    
-  
-
     return (
-        <div className="card-container" 
-        style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}
-        onClick={()=>{navigate(`/details/${_id}`)}}
+        <div className="card-container"
+            style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}
+            onClick={() => { navigate(`/details/${_id}`) }}
         >
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <div className="position-relative">
@@ -92,21 +90,26 @@ const ImageCard = ({ hotel }) => {
 
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
-                        <FiHeart 
+                        <FiHeart
+                            data-bs-toggle={!isLogin ? "modal" : ""}
+                            data-bs-target={!isLogin ? "#phoneOtpModal" : ""}
                             style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
-                            onClick={(e) =>
-                                toggleWishlist({
-                                  e,
-                                  isWished,
-                                  dispatch,
-                                  hotelId: _id,
-                                  hotelTitle: title,
-                                  hotelImages: images,
-                                  setIsWished,
-                                })
-                              }
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (isLogin) {
+                                    toggleWishlist({
+                                        isWished,
+                                        dispatch,
+                                        hotelId: _id,
+                                        hotelTitle: title,
+                                        hotelImages: images,
+                                        setIsWished,
+                                    });
+                                }
+                            }}
                         />
                     </span>
+
                 </div>
 
                 <div className="d-flex mt-1">

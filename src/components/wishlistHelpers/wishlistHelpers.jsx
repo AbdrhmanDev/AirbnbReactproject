@@ -5,8 +5,8 @@ import { addwishlistPost } from '../../services/Slice/Wishlist/AddWishlist';
 import { DeleteWishlistThunk } from '../../services/Slice/Wishlist/DeleteWishlist';
 import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
 
-export const toggleWishlist = ({e,isWished,dispatch,hotelId,hotelTitle,hotelImages,setIsWished,}) => {
-  e.stopPropagation();
+export const toggleWishlist = ({isWished,dispatch,hotelId,hotelTitle,hotelImages,setIsWished,}) => {
+
 
   if (isWished) {
     dispatch(DeleteWishlistThunk(hotelId));
