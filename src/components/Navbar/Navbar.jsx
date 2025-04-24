@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
 import PhoneOtpComponent from '../Login/PhoneNumberForm';
+import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 
 
 
@@ -30,7 +31,12 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
     }, [isLoggedIn]);
 
     console.log(isLoggedIn);
-
+  const dispatch = useDispatch();
+    const {user}= useSelector((state)=>state.userProfile.profile)||{};
+    
+    useEffect(() => {
+      dispatch(fetchProfileThunk())
+    },[]);
 
     const logout = () => {
         localStorage.removeItem("authToken");
@@ -138,7 +144,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                         >
                             <RxHamburgerMenu className='me-2' />
                             <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
-                                A
+                                {
+                                    !isLoggedIn ? <img className='rounded-circle' style={{ width: '30px', height: '30px' }}
+                                    src="https://i.pinimg.com/474x/07/c4/72/07c4720d19a9e9edad9d0e939eca304a.jpg" alt="" />:
+                                <img src={user?.avatar} alt="" className='rounded-circle' style={{ width: '30px', height: '30px' }}/>
+                                }
                             </div>
                             <span className="position-absolute top-0 start-100 me-5 mt-1 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '10px' }}>
                                 2
@@ -157,11 +167,12 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                                                 <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
                                                 <div className='border'></div>
                                                 <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
-                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
-                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Bookings</Link></li>
+                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Refer a Host</Link></li>
+                                                <li><Link to="/Account" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Account</Link></li>
                                                 <div className='border'></div>
-                                                <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
-                                                <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help</Link></li>
+                                                <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                                <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
                                                 <li><Link  className="dropdown-item  m-2" style={{ fontSize: "13px" }} onClick={logout}>Logout</Link></li>
                                             </ul> :
                                             <ul className="list-unstyled mb-0 m-2">

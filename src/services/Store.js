@@ -8,6 +8,7 @@ import DeleteWishlistSlice from "./Slice/Wishlist/DeleteWishlist";
 import GetHotelByIdSlice from "./Slice/HotelById";
 import GetAllFilterSlice from "./Slice/Filter/AllFillter";
 import GetUserTripSlice from "./Slice/Trip";
+import ProfileSlice from "./Slice/Profile/ProfileAPI";
 
 const Store = configureStore({
     reducer: {
@@ -18,7 +19,8 @@ const Store = configureStore({
         WishlistDelete:DeleteWishlistSlice.reducer,
         HotelByID:GetHotelByIdSlice.reducer,
         GetAllFilter:GetAllFilterSlice.reducer,
-        UserTrip:GetUserTripSlice.reducer
+        UserTrip:GetUserTripSlice.reducer,
+        userProfile:ProfileSlice.reducer
     }
 });
 

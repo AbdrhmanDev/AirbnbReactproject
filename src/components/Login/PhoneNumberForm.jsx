@@ -53,7 +53,7 @@ const PhoneOtpComponent = ({
 
   return (
     <GoogleOAuthProvider clientId="739388745257-cp69iqth6eeg742jbudiahenlkc1808o.apps.googleusercontent.com">
-      <div className={styles.container}>
+      <div className="m-2 " style={{fontSize:"13px"}}>
         {/* زر تسجيل الدخول أو تسجيل الخروج */}
         {!isLoggedIn && (
           <span
