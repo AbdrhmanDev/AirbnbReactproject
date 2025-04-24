@@ -9,7 +9,6 @@ const ProfileCard = () => {
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
-  // لما المستخدم يضغط برا المودال
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -75,8 +74,7 @@ const ProfileCard = () => {
               <button className="btn btn-outline-dark rounded-3 fw-semibold">Get verified</button>
             </div>
           </div>
-
-          {/* right side */}
+          {/* left side */}
           <div className="ms-5 mt-5 pt-4 col-6" style={{ maxWidth: '300px' }}>
             <hr />
             <p className="fw-bold mt-4 mb-2">It's time to create your profile</p>
@@ -89,8 +87,7 @@ const ProfileCard = () => {
             </button>
           </div>
         </div>
-
-        {/* المودال */}
+        {/* modal */}
         {showModal && (
           <>
             <div className="modal fade show d-block" tabIndex="-1" role="dialog">
