@@ -118,7 +118,7 @@ const ProfileSection = () => {
                                 style={{ width: '150px', height: '150px', fontSize: '72px' }}
                             >
                                 {
-                                    user?.avatar == null ? user.name.slice(0,1):
+                                    user?.avatar == null ? user?.name.slice(0,1):
                                <img width={"100%"} style={{borderRadius:"50%"}} src={user.avatar} alt="" />
                                     
                                 }

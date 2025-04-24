@@ -6,18 +6,20 @@ import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 import { differenceInDays, differenceInMonths } from 'date-fns';
 import ProfileAbout from '../../features/ProfileAbout/ProfileAbout';
 import { useNavigate } from 'react-router-dom';
+import { ProfileEditThunk } from '../../services/Slice/Profile/EditProfileApi';
 
 const ProfileCard = () => {
   const [showModal, setShowModal] = useState(false);
   const [showProfileAbout, setShowProfileAbout] = useState(false);
-
   const modalRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
   const { user } = useSelector((state) => state.userProfile.profile) || [];
+  const update = useSelector((state) => state.ProfileEdit.edit) || [];
   const date = new Date(user?.createdAt)
+  const id = user?._id; 
   const now = new Date();
   date.toLocaleDateString();
   const day = differenceInDays(now, date)
@@ -26,7 +28,9 @@ const ProfileCard = () => {
   const newFirst = firstName?.slice(0, firstName.indexOf(' '));
   //عملت الكوندشن دا علشان لو المسخدم محطش مسافه ميمسحش اخر حرف في اسمه
   const firstNameNew = newFirst !== -1 ? newFirst : "";
-  console.log(user);
+
+  console.log("Update user",update);
+  
 
 
   useEffect(() => {
@@ -47,6 +51,12 @@ const ProfileCard = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showModal]);
+  useEffect(()=>{
+    if (id&&user?.name) {
+    dispatch(ProfileEditThunk({ id: id, username: user?.name }))
+    }
+  },[id])
+  
   useEffect(() => {
     dispatch(fetchProfileThunk())
     const firstLogin = localStorage.getItem('firstLogin');
@@ -61,10 +71,8 @@ const ProfileCard = () => {
     navigate('/account/ProfileSection')
   }
 
-
   return (
     <>
-
       <div className="container my-5">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-10">
@@ -78,9 +86,9 @@ const ProfileCard = () => {
                         src={user?.avatar}
                         onClick={handleOpen}
                         className={style.userImg2}
-                        alt=""
+                        alt={firstNameNew}
                       />
-                      <h5 className="mt-3 mb-1">{user?.name}</h5>
+                      <h5 className="mt-3 mb-1">{firstNameNew}</h5>
                       <p className="text-muted">{user?.role}</p>
                     </div>
                     <div className="col-6 d-flex flex-column justify-content-center text-center">
@@ -98,31 +106,24 @@ const ProfileCard = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className={`p-4 mt-3 rounded-4 shadow-sm ${style.card}`}>
                   <h5 className="fw-bold mb-4">{firstNameNew} confirmed information</h5>
-
                   <div className="mb-2 d-flex align-items-center">
                     <span className={style.checkmark}>✓</span>
                     <span className="ms-2">Email address</span>
                   </div>
-
                   <div className="mb-4 d-flex align-items-center">
                     <span className={style.checkmark}>✓</span>
                     <span className="ms-2">Phone number</span>
                   </div>
-
                   <hr />
-
                   <h5 className="fw-bold mt-4 mb-2">Verify your identity</h5>
                   <p className="text-muted mb-4">
                     Before you book or host on Airbnb, you’ll need to complete this step.
                   </p>
-
                   <button className="btn btn-outline-dark rounded-3 fw-semibold">Get verified</button>
                 </div>
               </div>
-
               {/* Right side */}
               <div className="col-12 col-lg-6">
                 {showProfileAbout ? (
@@ -144,11 +145,9 @@ const ProfileCard = () => {
                   <ProfileAbout firstNameNew={newFirst} />
                 )}
               </div>
-
             </div>
           </div>
         </div>
-
       </div>
       {showModal && (
         <>
@@ -157,8 +156,7 @@ const ProfileCard = () => {
             className="modal fade show d-block"
             tabIndex="-1"
             role="dialog"
-            style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}
-          >
+            style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
             <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content" ref={modalRef}>
                 <div className="modal-header">
@@ -181,7 +179,6 @@ const ProfileCard = () => {
               </div>
             </div>
           </div>
-
           {/* Backdrop */}
           <div
             className="modal-backdrop fade show"
@@ -197,8 +194,6 @@ const ProfileCard = () => {
           ></div>
         </>
       )}
-
-
     </>
   );
 };
