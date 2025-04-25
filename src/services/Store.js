@@ -20,8 +20,8 @@ const Store = configureStore({
         HotelByID:GetHotelByIdSlice.reducer,
         GetAllFilter:GetAllFilterSlice.reducer,
         UserTrip:GetUserTripSlice.reducer,
+        ProfileEdit:ProfileEditSlice.reducer,
         userProfile:ProfileSlice.reducer,
-        ProfileEdit:ProfileEditSlice.reducer
     }
 });
 

@@ -6,7 +6,6 @@ import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 import { differenceInDays, differenceInMonths } from 'date-fns';
 import ProfileAbout from '../../features/ProfileAbout/ProfileAbout';
 import { useNavigate } from 'react-router-dom';
-import { ProfileEditThunk } from '../../services/Slice/Profile/EditProfileApi';
 
 const ProfileCard = () => {
   const [showModal, setShowModal] = useState(false);
@@ -17,9 +16,7 @@ const ProfileCard = () => {
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
   const { user } = useSelector((state) => state.userProfile.profile) || [];
-  const update = useSelector((state) => state.ProfileEdit.edit) || [];
   const date = new Date(user?.createdAt)
-  const id = user?._id; 
   const now = new Date();
   date.toLocaleDateString();
   const day = differenceInDays(now, date)
@@ -28,11 +25,9 @@ const ProfileCard = () => {
   const newFirst = firstName?.slice(0, firstName.indexOf(' '));
   //عملت الكوندشن دا علشان لو المسخدم محطش مسافه ميمسحش اخر حرف في اسمه
   const firstNameNew = newFirst !== -1 ? newFirst : "";
-
-  console.log("Update user",update);
   
 
-
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -51,11 +46,6 @@ const ProfileCard = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showModal]);
-  useEffect(()=>{
-    if (id&&user?.name) {
-    dispatch(ProfileEditThunk({ id: id, username: user?.name }))
-    }
-  },[id])
   
   useEffect(() => {
     dispatch(fetchProfileThunk())
@@ -123,7 +113,9 @@ const ProfileCard = () => {
                   </p>
                   <button className="btn btn-outline-dark rounded-3 fw-semibold">Get verified</button>
                 </div>
+                
               </div>
+              
               {/* Right side */}
               <div className="col-12 col-lg-6">
                 {showProfileAbout ? (
@@ -144,6 +136,7 @@ const ProfileCard = () => {
                 ) : (
                   <ProfileAbout firstNameNew={newFirst} />
                 )}
+                
               </div>
             </div>
           </div>

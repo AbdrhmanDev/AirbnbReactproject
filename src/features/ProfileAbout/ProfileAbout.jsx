@@ -5,15 +5,46 @@ import {
   FaCoffee, FaUtensils, FaMusic,
   FaBinoculars, FaLandmark, FaCamera, FaSwimmer
 } from 'react-icons/fa';
+import {
+  FaBriefcase,
+  // FaGlobe,
+  FaSchool,
+  FaPaw,
+  // FaMusic,
+  FaMagic,
+  // FaClock
+} from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+const iconsMap = {
+  FaBriefcase,
+  FaSchool,
+  FaMagic,
+  FaCoffee,
+  FaUtensils,
+  FaMusic,
+  FaBinoculars,
+  FaLandmark,
+  FaCamera,
+  FaSwimmer
+};
 
-const ProfileAbout = ({firstNameNew}) => {
-    const navigate= useNavigate()
-    const EditProfile =()=>{
-        navigate('/account/ProfileSection')
-    }
+const ProfileAbout = ({ firstNameNew }) => {
+  const navigate = useNavigate()
+  const EditProfile = () => {
+    navigate('/account/ProfileSection')
+  }
+  const getDataFavorite = localStorage.getItem('profileData')
+  const getData = JSON.parse(getDataFavorite)
+  const arr = getData.profileFields
+  console.log(arr);
+  const extractIconName = (iconObj) => {
+    // iconObj هو العنصر اللي جايلك
+    const type = iconObj?.type;
+    return type?.name || null;
+  };
+
   return (
-    <Container className="px-3 px-md-5 mt-4" style={{ maxWidth: '100%', padding: '0 1rem' }}>
+    <Container className=" px-3 px-md-5 mt-4" style={{ maxWidth: '100%', padding: '0 1rem' }}>
       <div
         className="mx-auto"
         style={{
@@ -22,21 +53,34 @@ const ProfileAbout = ({firstNameNew}) => {
         }}
       >
         <h3 className="fw-bold">About {firstNameNew}</h3>
-        <Button variant="outline-dark" onClick={EditProfile} className="my-3 w-25">Edit profile</Button>
+        <Button variant="outline-dark " onClick={EditProfile} className="my-3 w-25">Edit profile</Button>
 
-        <Row className="mb-4 mt-4">
-          <Col xs={12} md={6} className="d-flex align-items-center mb-2">
-            <FaClock className="me-2" />
-            <span>I spend too much time: dsasa</span>
-          </Col>
-          <Col xs={12} md={6} className="d-flex align-items-center mb-2">
-            <FaHeart className="me-2" />
-            <span>I’m obsessed with: sa</span>
-          </Col>
-          <Col xs={12} className="d-flex align-items-center">
-            <FaGlobe className="me-2" />
-            <span>Lives in Egypt, United Kingdom</span>
-          </Col>
+        <Row className="mb-4 mt-2 ">
+          <div style={{
+            width: '100%',
+            overflow: 'auto',
+            wordBreak: 'break-word'
+          }} className='mb-4'>
+            {getData.about}
+          </div>
+
+          <Row className="mt-2">
+            {arr?.map((item, index) => {
+              const iconName = extractIconName(item.icon);
+              const IconComponent = iconsMap[iconName];
+              return (
+                <Col xs={12} md={6} className="d-flex align-items-center mb-2" key={index}>
+                  {IconComponent && <IconComponent className="me-2" />}
+                  <span>{item.label}</span>
+                </Col>
+              );
+            })}
+          </Row>
+
+
+
+
+
         </Row>
 
         <hr />

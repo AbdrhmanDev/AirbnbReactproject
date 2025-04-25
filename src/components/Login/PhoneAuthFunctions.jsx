@@ -115,7 +115,7 @@ export const handleLogout = (googleCredential, setGoogleCredential, setIsLoggedI
 };
 
 // تسجيل الدخول بجوجل
-export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef, setGoogleCredential) => {
+export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef, setGoogleCredential, setUserData) => {
   console.log("Google login successful:", response);
 
   try {
@@ -133,17 +133,45 @@ export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef
 
     if (data.success) {
       console.log('✅ User verified by server:', data.user);
-      alert(`Welcome ${data.user.name}!`);
       localStorage.setItem('authToken', data.token);
+      localStorage.setItem('userData', JSON.stringify(data.user));
       console.log(data.token);
 
+      // Update the state first
       setIsLoggedIn(true);
+      setGoogleCredential(response.credential);
+      setUserData(data.user);
+
+      // Then close the modal and clean up
       const modalEl = document.getElementById("phoneOtpModal");
       if (modalEl) {
+        // Remove modal backdrop
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+        
+        // Reset body styles
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        
+        // Reset modal styles
+        modalEl.style.display = 'none';
+        modalEl.setAttribute('aria-hidden', 'true');
+        modalEl.removeAttribute('aria-modal');
+        modalEl.removeAttribute('role');
+        modalEl.removeAttribute('style');
+        
+        // Remove modal instance
         const modalInstance = bootstrap.Modal.getInstance(modalEl);
-        modalInstance?.hide();
+        if (modalInstance) {
+          modalInstance.dispose();
+        }
       }
-      setGoogleCredential(response.credential);
+      
+      // Show welcome message after a short delay
+      setTimeout(() => {
+        alert(`Welcome ${data.user.name}!`);
+      }, 100);
     } else {
       alert('Login failed on server.');
     }

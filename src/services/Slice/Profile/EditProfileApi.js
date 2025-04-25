@@ -2,39 +2,47 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_API;
-const FetchProfileEdit = async (username,formData) => {
-    const isLogin= localStorage.getItem('authToken')
-    console.log(formData);
-    
+const ProfileEdit = async ({ id, username, avatar }) => {
+    const isLogin = localStorage.getItem("authToken");
+    console.log(id, username);
+    console.log(avatar);
+  
     let response;
     try {
-        response = await axios.patch(`${API_KEY}/users/${formData}`, 
-            {username:username},
-            {headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${isLogin}`
-            },}
-        );
+        const data = {
+            username: username,
+            avatar: avatar
+          };
+  
+      response = await axios.patch(`${API_KEY}/users/${id}`, data, {
+        headers: {
+          "Authorization": `Bearer ${isLogin}`,
+          "Content-Type": "application/json"
+        },
+      });
     } catch (error) {
-        console.log("fetch Edit Profile is Error",error);
-        
-        throw new error("Place try again")
+      console.log("Edit Profile is Error", error);
+      throw new Error("Error while updating profile");
     }
+  
     console.log(response.data);
-    
-    return response.data;
-}
-
-export const ProfileEditThunk = createAsyncThunk('FetchProfileEdit', FetchProfileEdit)
+    return response.data.user;
+  };
+  
+export const ProfileEditThunk = createAsyncThunk('ProfileEdit', ProfileEdit)
 
 const ProfileEditSlice = createSlice({
-    name: "FetchProfileEdit",
+    name: "ProfileEdit",
     initialState: {
-        edit: [],
+        edit:null,
         isLoading: true,
         isError: false,
         errorMessage: null
+    },
+    reducers: {
+        updateProfile: (state, action) => {
+            state.edit = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(ProfileEditThunk.fulfilled, (states, action) => {
@@ -55,5 +63,5 @@ const ProfileEditSlice = createSlice({
 
     }
 })
-
+export const { updateProfile } = ProfileEditSlice.actions;
 export default ProfileEditSlice;

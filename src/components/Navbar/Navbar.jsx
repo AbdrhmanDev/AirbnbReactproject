@@ -126,7 +126,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                     <div className="d-flex align-items-center gap-3">
                         <span className="fw-semibold">
                             {
-                                storedValue ? <button className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button> : <button className='border-0 bg-body p-2 hoverFromNav'>Airbnb your home</button>
+                                isLoggedIn ? <button className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button> : <button className='border-0 bg-body p-2 hoverFromNav'>Airbnb your home</button>
                             }
                         </span>
 
@@ -145,8 +145,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                             <RxHamburgerMenu className='me-2' />
                             <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
                                 {
-                                    !isLoggedIn ? <img className='rounded-circle' style={{ width: '30px', height: '30px' }}
-                                    src="https://i.pinimg.com/474x/07/c4/72/07c4720d19a9e9edad9d0e939eca304a.jpg" alt="" />:
+                                    !isLoggedIn ? <img src="https://i.pinimg.com/474x/07/c4/72/07c4720d19a9e9edad9d0e939eca304a.jpg" width={"30px"} className='rounded-circle' alt="" />:
                                 <img src={user?.avatar} alt="" className='rounded-circle' style={{ width: '30px', height: '30px' }}/>
                                 }
                             </div>

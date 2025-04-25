@@ -13,6 +13,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './ProfileSection.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
+import { ProfileEditThunk, updateProfile } from '../../services/Slice/Profile/EditProfileApi';
+import axios from 'axios';
 const profileFields = [
     { icon: <FaSchool className="me-3" />, text: 'Where I went to school' },
     { icon: <FaGlobe className="me-3" />, text: "Where I've always wanted to go" },
@@ -40,15 +42,62 @@ const ProfileSection = () => {
     const [selectedProfileFields, setSelectedProfileFields] = useState([])
     const maxChars = 500;
     const modalRef = useRef();
-    const navigate= useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {user}= useSelector((state)=>state.userProfile.profile)||{};
-    
-    useEffect(() => {
-      dispatch(fetchProfileThunk())
-    },[]);
+    const { user } = useSelector((state) => state.userProfile.profile) || {};
+    const update = useSelector((state) => state.ProfileEdit.edit) || [];
+    const id = user?._id;
+    console.log("userSection aftr", update);
     const handleOpen = () => setShowModal(true);
     const handleChange = (e) => setValueWatched(e.target.value);
+
+    const handleImageChange = async (e) => {
+        if (e.target.files && e.target.files[0]) {
+            const avatar = e.target.files[0];
+            console.log("Selected Image:", avatar);
+
+            try {
+                // Upload to Cloudinary
+                const formData = new FormData();
+                formData.append("file", avatar);
+                formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_PRESET);
+
+                const cloudName = import.meta.env.VITE_CLOUDINARY_NAME;
+
+                const uploadRes = await axios.post(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                    formData
+                );
+                if (!uploadRes.data?.secure_url) {
+                    throw new Error("Failed to get image URL from Cloudinary");
+                }
+
+                const imageUrl = uploadRes.data.secure_url;
+                console.log("Cloudinary Image URL:", imageUrl);
+
+               const updateResult = await  dispatch(ProfileEditThunk({
+                     id: id,
+                    username: user?.name,
+                    avatar: imageUrl
+                }))
+                dispatch(updateProfile(updateResult.payload));
+                  
+                await dispatch(fetchProfileThunk());
+                
+                console.log("Cloudinary upload response:", uploadRes.data);
+            } catch (err) {
+                console.error("Upload error:", err);
+                alert("Failed to upload image");
+            }
+        } else {
+            console.log("No file selected");
+        }
+    };
+    useEffect(() => {
+        dispatch(fetchProfileThunk())
+    }, [dispatch])
+    console.log("userSection befor", update);
+
 
     const savaData = () => {
         setShowModal(false)
@@ -117,20 +166,37 @@ const ProfileSection = () => {
                                 className="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center mx-auto"
                                 style={{ width: '150px', height: '150px', fontSize: '72px' }}
                             >
-                                {
-                                    user?.avatar == null ? user?.name.slice(0,1):
-                               <img width={"100%"} style={{borderRadius:"50%"}} src={user.avatar} alt="" />
-                                    
-                                }
+                                {user?.avatar == null ? (
+                                    user?.name.slice(0, 1)
+                                ) : (
+                                    <img
+                                        key={user?.avatar}
+                                        width={"100%"}
+                                        style={{ borderRadius: "50%" }}
+                                        src={user?.avatar}
+                                        alt="Profile Avatar"
+                                    />
+                                )}
                             </div>
-                            <button
-                                className="btn btn-light  position-absolute bottom-0 start-50 translate-middle-x rounded-pill px-3 py-1 shadow-sm d-flex align-items-center"
-                                style={{ fontSize: '14px' }}
+
+                            <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: "none" }}  // إخفاء الـ input
+                                id="upload-avatar"
+                                onChange={handleImageChange}
+                            />
+
+                            <label
+                                htmlFor="upload-avatar"
+                                className="btn btn-light position-absolute bottom-0 start-50 translate-middle-x rounded-pill px-3 py-1 shadow-sm d-flex align-items-center"
+                                style={{ fontSize: "14px", cursor: "pointer" }}
                             >
                                 <FaCamera className="me-2" /> Add
-                            </button>
+                            </label>
                         </div>
                     </div>
+
 
                     {/* Profile Info */}
                     <div className="col-12 col-md-8 ">

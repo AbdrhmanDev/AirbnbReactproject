@@ -41,7 +41,7 @@ const ImageCard = ({ hotel }) => {
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
     const isLogin = localStorage.getItem('authToken');
-
+    
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
     const { images, title, pricePerNight, rating, address, _id } = hotel;

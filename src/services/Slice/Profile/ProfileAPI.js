@@ -32,6 +32,7 @@ const ProfileSlice = createSlice({
         isError: false,
         errorMessage: null
     },
+
     extraReducers: (builder) => {
         builder.addCase(fetchProfileThunk.fulfilled, (states, action) => {
             states.profile= action.payload;

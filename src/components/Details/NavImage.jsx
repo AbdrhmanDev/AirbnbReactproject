@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TbGridDots } from "react-icons/tb";
 import { ToastContainer } from 'react-toastify';
 const NavImage = ({ title, images, _id }) => {
-    // const [showImages, setShowImages] = useState(false);
     const [isWished, setIsWished] = useState(false);
     const wishlist = useSelector((state) => state.WishlistGet.get);
     const dispatch = useDispatch();
