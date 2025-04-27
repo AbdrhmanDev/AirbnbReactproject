@@ -16,14 +16,24 @@ import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 import { ProfileEditThunk, updateProfile } from '../../services/Slice/Profile/EditProfileApi';
 import axios from 'axios';
 const profileFields = [
-    { icon: <FaSchool className="me-3" />, text: 'Where I went to school' },
-    { icon: <FaGlobe className="me-3" />, text: "Where I've always wanted to go" },
-    { icon: <FaBriefcase className="me-3" />, text: 'My work' },
-    { icon: <FaPaw className="me-3" />, text: 'Pets' },
-    { icon: <FaMusic className="me-3" />, text: 'My favorite song in high school' },
-    { icon: <FaClock className="me-3" />, text: 'I spend too much time: ', value: 'dsasa' },
-    { icon: <FaMagic className="me-3" />, text: 'My most useless skill' }
+    { icon: "FaSchool", text: 'Where I went to school' },
+    { icon: "FaGlobe", text: "Where I've always wanted to go" },
+    { icon: "FaBriefcase", text: 'My work' },
+    { icon: "FaPaw", text: 'Pets' },
+    { icon: "FaMusic", text: 'My favorite song in high school' },
+    { icon: "FaClock", text: 'I spend too much time ' },
+    { icon: "FaMagic", text: 'My most useless skill' }
 ];
+const iconMap = {
+    FaSchool: <FaSchool className="me-3" />,
+    FaGlobe: <FaGlobe className="me-3" />,
+    FaBriefcase: <FaBriefcase className="me-3" />,
+    FaPaw: <FaPaw className="me-3" />,
+    FaMusic: <FaMusic className="me-3" />,
+    FaClock: <FaClock className="me-3" />,
+    FaMagic: <FaMagic className="me-3" />
+};
+
 const interests = [
     { icon: "☕", label: "Coffee" },
     { icon: "🍜", label: "Food" },
@@ -75,15 +85,15 @@ const ProfileSection = () => {
                 const imageUrl = uploadRes.data.secure_url;
                 console.log("Cloudinary Image URL:", imageUrl);
 
-               const updateResult = await  dispatch(ProfileEditThunk({
-                     id: id,
+                const updateResult = await dispatch(ProfileEditThunk({
+                    id: id,
                     username: user?.name,
                     avatar: imageUrl
                 }))
                 dispatch(updateProfile(updateResult.payload));
-                  
+
                 await dispatch(fetchProfileThunk());
-                
+
                 console.log("Cloudinary upload response:", uploadRes.data);
             } catch (err) {
                 console.error("Upload error:", err);
@@ -122,8 +132,8 @@ const ProfileSection = () => {
                 return [...prev, { label, icon }];
             }
         });
-        // console.log(label,icon);
     };
+
     const finishData = () => {
         const profileData = {
             interests: selectedInterests,
@@ -156,7 +166,7 @@ const ProfileSection = () => {
     }, [ShowModal]);
     return (
         <div className="w-100 px-3 py-5 d-flex justify-content-center">
-            <div className="w-100" style={{ maxWidth: '1100px' }}>
+            <div className="w-100" style={{ maxWidth: '900px' }}>
                 <div className="row d-flex align-items-start">
 
                     {/* Profile Picture */}
@@ -178,7 +188,6 @@ const ProfileSection = () => {
                                     />
                                 )}
                             </div>
-
                             <input
                                 type="file"
                                 accept="image/*"
@@ -186,7 +195,6 @@ const ProfileSection = () => {
                                 id="upload-avatar"
                                 onChange={handleImageChange}
                             />
-
                             <label
                                 htmlFor="upload-avatar"
                                 className="btn btn-light position-absolute bottom-0 start-50 translate-middle-x rounded-pill px-3 py-1 shadow-sm d-flex align-items-center"
@@ -196,8 +204,6 @@ const ProfileSection = () => {
                             </label>
                         </div>
                     </div>
-
-
                     {/* Profile Info */}
                     <div className="col-12 col-md-8 ">
                         <h3>Your profile</h3>
@@ -205,7 +211,6 @@ const ProfileSection = () => {
                             The information you share will be used across Airbnb to help other guests and Hosts get to know you.{' '}
                             <Link>Learn more</Link>
                         </p>
-
                         <div className={`${styles.hover_item}  row mt-4`}>
                             {profileFields.map((field, index) => {
                                 const isSelectedProfile = selectedProfileFields.some((i) => i.label === field.text);
@@ -222,7 +227,7 @@ const ProfileSection = () => {
                                             transition: "0.3s"
                                         }}
                                         className={`col-10 col-md-6 mb-4 d-flex align-items-center pb-3`}>
-                                        {field.icon}
+                                        {iconMap[field.icon]}
                                         <span>
                                             {field.text}
                                             {field.value && <strong className=" ms-1">{field.value}</strong>}
@@ -230,14 +235,12 @@ const ProfileSection = () => {
                                     </div>
                                 );
                             })}
-
                         </div>
 
                         <div className='col-lg-12  col-md-8 col-sm-12 border-bottom pb-3'>
                             <h3>About you</h3>
                             <div className={`${styles.text_aria} p-3`}>
                                 <p className='m-0 p-o text-muted'>
-
                                     {
                                         valueWatched.length > 1 ? valueWatched : "Write something fun and punchy."
                                     }
@@ -264,13 +267,10 @@ const ProfileSection = () => {
                                                 transition: "0.3s",
                                                 backgroundColor: isSelected ? "#3e3e3e" : hoveredIndex === index ? "#f7f7f7" : "transparent",
                                                 color: isSelected ? "#fff" : "#000",
-
-                                            }}
-                                        >
+                                            }}>
                                             <span className="me-2" style={{ fontSize: "1.4rem" }}>{item.icon}</span>
                                             <span>{item.label}</span>
-                                        </div>
-                                    )
+                                        </div>)
                                 })}
                             </div>
 
@@ -280,9 +280,7 @@ const ProfileSection = () => {
                                 className='border-0 p-2 ps-4 pe-4 mt-3 mb-5 rounded-2 bg-dark text-light'
                             >Done</button>
                         </div>
-
                     </div>
-
                     {
                         ShowModal &&
                         (
@@ -314,5 +312,4 @@ const ProfileSection = () => {
         </div>
     );
 };
-
 export default ProfileSection;

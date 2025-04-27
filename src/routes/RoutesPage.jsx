@@ -19,6 +19,7 @@ import Account from '../pages/Account/Account'
 import ProfileSection from '../features/ProfileSection/ProfileSection'
 import Layout from '../Layout/Layout'
 import ProfileAbout from '../features/ProfileAbout/ProfileAbout'
+import Personalinfo from '../components/user/Personal info/Personalinfo'
 
 
 
@@ -47,7 +48,7 @@ const RoutesPage = () => {
               { path: "Profile", element: <ProfileCard /> },
               { path: "ProfileAbout", element: <ProfileAbout/> },
               { path: "ProfileSection", element:<ProfileSection/> },
-              { path: "personal-info", element: <div>Personal Info Page</div> },
+              { path: "personal-info", element: <div> <Personalinfo/> </div> },
               { path: "login-security", element: <div>Login & Security Page</div> },
               { path: "payments", element: <div>Payments Page</div> },
               { path: "taxes", element: <div>Taxes Page</div> },

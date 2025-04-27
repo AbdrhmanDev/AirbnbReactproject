@@ -6,6 +6,7 @@ import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 import { differenceInDays, differenceInMonths } from 'date-fns';
 import ProfileAbout from '../../features/ProfileAbout/ProfileAbout';
 import { useNavigate } from 'react-router-dom';
+import Personalinfo from './Personal info/Personalinfo';
 
 const ProfileCard = () => {
   const [showModal, setShowModal] = useState(false);
@@ -63,6 +64,7 @@ const ProfileCard = () => {
 
   return (
     <>
+
       <div className="container my-5">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-10">
@@ -112,10 +114,8 @@ const ProfileCard = () => {
                     Before you book or host on Airbnb, you’ll need to complete this step.
                   </p>
                   <button className="btn btn-outline-dark rounded-3 fw-semibold">Get verified</button>
-                </div>
-                
-              </div>
-              
+                </div>      
+              </div>   
               {/* Right side */}
               <div className="col-12 col-lg-6">
                 {showProfileAbout ? (
@@ -165,7 +165,7 @@ const ProfileCard = () => {
                   <img
                     src={user?.avatar}
                     alt="Enlarged"
-                    className="img-fluid rounded w-50"
+                    className="img-fluid rounded-circle w-50"
                     style={{ maxHeight: '700px' }}
                   />
                 </div>

@@ -145,7 +145,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                             <RxHamburgerMenu className='me-2' />
                             <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
                                 {
-                                    !isLoggedIn ? <img src="https://i.pinimg.com/474x/07/c4/72/07c4720d19a9e9edad9d0e939eca304a.jpg" width={"30px"} className='rounded-circle' alt="" />:
+                                    !isLoggedIn ? <img src="https://static.vecteezy.com/system/resources/previews/003/715/527/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg" width={"30px"} className='rounded-circle' alt="" />:
                                 <img src={user?.avatar} alt="" className='rounded-circle' style={{ width: '30px', height: '30px' }}/>
                                 }
                             </div>

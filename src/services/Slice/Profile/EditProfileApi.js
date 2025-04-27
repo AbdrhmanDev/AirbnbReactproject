@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_API;
-const ProfileEdit = async ({ id, username, avatar }) => {
+const ProfileEdit = async ({ id, username, avatar,email,name }) => {
     const isLogin = localStorage.getItem("authToken");
     console.log(id, username);
     console.log(avatar);
@@ -11,7 +11,9 @@ const ProfileEdit = async ({ id, username, avatar }) => {
     try {
         const data = {
             username: username,
-            avatar: avatar
+            avatar: avatar,
+            email:email,
+            name:name
           };
   
       response = await axios.patch(`${API_KEY}/users/${id}`, data, {
@@ -35,7 +37,7 @@ const ProfileEditSlice = createSlice({
     name: "ProfileEdit",
     initialState: {
         edit:null,
-        isLoading: true,
+        isLoading:false,
         isError: false,
         errorMessage: null
     },
@@ -52,7 +54,7 @@ const ProfileEditSlice = createSlice({
         })
         builder.addCase(ProfileEditThunk.rejected, (states, action) => {
             states.isError = true;
-            states.isLoading = false;
+            states.isLoading = true;
             states.errorMessage = action.error.message;
         })
         builder.addCase(ProfileEditThunk.pending, (states) => {
