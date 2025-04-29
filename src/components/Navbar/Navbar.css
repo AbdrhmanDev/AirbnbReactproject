@@ -1,0 +1,104 @@
+.search-bar {
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 10px 20px;
+  }
+  .search-section {
+    border-right: 1px solid #ddd;
+    padding: 0 10px;
+  }
+  .search-section2{
+    padding: 0 10px;
+    font-size: 12px;
+  }
+  .aLLnav{
+    width: 98%;
+  }
+  .search-section:last-child {
+    border-right: none;
+  }
+  .calenderNew{
+    font-size: 13px;
+  }
+  .search-input {
+    font-size: 10px;
+    color: #666565;
+  }
+  .editsearch{
+    font-size: 10px;
+  }
+  .search-button {
+    background-color: #FF385C;
+    border-radius: 50%;
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }
+  .search-button:hover {
+    background-color: #e03150;
+  }
+  .search-bar-fixed {
+    position: fixed;
+    top: 65px; 
+    left: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+    padding: 10px 0;
+  }
+  .search-bar {
+    border-radius: 30px;
+    padding: 8px 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    gap: 1rem;
+  }
+  
+  .search-section .search-label {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .search-section .search-input {
+    font-weight: bold;
+  }
+  
+.asd{
+    display: none;
+}
+.nav-item{
+    font-size: 13px;
+}
+.hamad{
+    height: 53px;
+}
+.selectElement{
+  background-color: #ffffff;
+  font-size: 12px;
+}
+.selectElement:hover{
+  background-color: rgb(234, 234, 234);
+  border-radius: 5px;
+}
+input:focus {
+  outline: none;
+
+}
+.Toastify__toast {
+  background-color: transparent !important;  
+  box-shadow: none !important;     
+  color: #E03150 !important;  
+}
+
+/* تخصيص الرسالة داخل الـ toast */
+.Toastify__toast-body {
+  background-color: rgba(195, 11, 11, 0.1);  
+  border-radius: 5px; 
+}
+.hoverFromNav:hover{
+  background-color: #e4e4e4 !important;
+  border-radius: 13px;
+}

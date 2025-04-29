@@ -1,48 +1,31 @@
-// src/App.jsx
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Box, Container } from "@mui/material";
-import NightEarning from "./components/HostHome/NightEarning";
-import HomeVideo from "./components/HostHome/HomeVideo";
-import HomeCohost from "./components/HostHome/HomeCohost";
-import CoHosts from "./components//HostHome/Co-hosts";
-import AirCover from "./components/HostHome/AirCover";
-import AirVidApp from "./components/HostHome/AirVidApp";
-import HomeOwners from "./components/HostHome/HomeOwners";
-import Questions from "./components/HostHome/Questions";
-import GiftPage from "./pages/GiftPage";
-import MessagesPage from "./components/Message/MessagesPage";
+import './App.css'
+import RoutesPage from './routes/RoutesPage'
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchCategoryAsync } from './services/Slice/Category';
+import { fetchAllHotelAsync } from './services/Slice/Hotel';
+import { ToastContainer } from 'react-toastify';
+import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import PhoneOtpComponent from './components/Login/PhoneNumberForm';
 
-export default function App() {
+function App() {
+  const dispatch=  useDispatch()
+  useEffect(() => {
+    dispatch(fetchCategoryAsync())
+    dispatch(fetchAllHotelAsync())
+    dispatch(getwishlistThunk())
+    
+  }, [dispatch])
   return (
-    <Router>
-      <Routes>
-        {/* Host Home Page*/}
-        <Route
-          path="/"
-          element={
-            <>
-              <Container maxWidth="lg">
-                <Box display="flex" height="100vh" alignItems="center">
-                  <NightEarning />
-                </Box>
-              </Container>
-              <HomeVideo />
-              <HomeCohost />
-              <CoHosts />
-              <AirCover />
-              <AirVidApp />
-              <HomeOwners />
-              <Questions />
-            </>
-          }
-        />
-        {/* Gift Card Page */}
-        <Route path="/gift" element={<GiftPage />} />
-  
-        {/* Messages Page */}
-        <Route path="/messages" element={<MessagesPage />} />
-      </Routes>
-    </Router>
-  );
-}  
+    <>
+    <ToastContainer position="top-right" autoClose={3000} />
+    <RoutesPage/>
+    <PhoneOtpComponent/>
+    </>
+  )
+}
+
+export default App
