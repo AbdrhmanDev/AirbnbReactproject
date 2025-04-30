@@ -12,18 +12,17 @@ import "slick-carousel/slick/slick-theme.css";
 import PhoneOtpComponent from './components/Login/PhoneNumberForm';
 
 function App() {
-  const dispatch=  useDispatch()
+  const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchCategoryAsync())
     dispatch(fetchAllHotelAsync())
     dispatch(getwishlistThunk())
-    
+
   }, [dispatch])
   return (
     <>
-    <ToastContainer position="top-right" autoClose={3000} />
-    <RoutesPage/>
-    <PhoneOtpComponent/>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <RoutesPage />
     </>
   )
 }
