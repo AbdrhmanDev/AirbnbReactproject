@@ -20,10 +20,10 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
     //   <div className="container-fluid">
     //     <a className="navbar-brand" href="#" >app</a>
       
-        <div className="d-flex ">
+        <div className="d-flex m-5">
           {!isLoggedIn ? (
             <span
-              className="text-primary"
+              className="text-dark"
               role="button"
               style={{ cursor: "pointer" }}
               data-bs-toggle="modal"
@@ -33,7 +33,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
             </span>
           ) : (
             <span
-              className="text-danger"
+              className="text-dark"
               role="button"
               style={{ cursor: "pointer" }}
               onClick={logout}

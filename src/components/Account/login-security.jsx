@@ -6,7 +6,7 @@ const LoginSecurity = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <div className=" container m-5" style={{ marginTop:"100px" }}>
+    <div className="container mb-3" style={{ marginTop: "100px", margin:"auto" }}>
         <nav aria-label="breadcrumb" className="text-start">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">

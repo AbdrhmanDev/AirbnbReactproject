@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // استيراد BrowserRouter بشكل صحيح
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PhoneOtpComponent from './components/Login/PhoneNumberForm';
 import Navbar from './components/Login/Navbar.jsx';
 import UserInfo from "./components/Account/Setting.jsx";
 import LoginSecurity from "./components/Account/login-security.jsx";
+import Payment from "./components/Account/paymnt.jsx";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,7 +16,7 @@ const App = () => {
       setGoogleCredential(storedCredential);
       setIsLoggedIn(true);
     }
-  }, []); // هذا التأثير يتم تنفيذه مرة واحدة فقط عند تحميل الصفحة
+  }, []);
 
   const handleLogin = (authToken) => {
     console.log("Logging in with token:", authToken);
@@ -31,26 +32,32 @@ const App = () => {
   };
 
   return (
-    <div>
-      <Router>
-        <Navbar 
-          isLoggedIn={isLoggedIn} 
-          setIsLoggedIn={setIsLoggedIn} 
-          setGoogleCredential={setGoogleCredential} 
+    <Router>
+      <Navbar 
+        isLoggedIn={isLoggedIn} 
+        setIsLoggedIn={setIsLoggedIn} 
+        setGoogleCredential={setGoogleCredential} 
+      />
+
+      <Routes>
+        <Route 
+          path="/" 
+          element={
+            <PhoneOtpComponent 
+              isLoggedIn={isLoggedIn} 
+              setIsLoggedIn={setIsLoggedIn} 
+              setGoogleCredential={setGoogleCredential} 
+              handleLogin={handleLogin} 
+              handleLogout={handleLogout} 
+            />
+          } 
         />
-        <Routes>
-          <Route path="/" element={<PhoneOtpComponent 
-            isLoggedIn={isLoggedIn} 
-            setIsLoggedIn={setIsLoggedIn} 
-            setGoogleCredential={setGoogleCredential} 
-            handleLogin={handleLogin} 
-            handleLogout={handleLogout} 
-          />} />
-          <Route path="/Account" element={<UserInfo />} />
-          <Route path="/Account/login-security" element={<LoginSecurity/>} />
-        </Routes>
-      </Router>
-    </div>
+
+        <Route path="/Account" element={<UserInfo />} />
+        <Route path="/Account/login-security" element={<LoginSecurity />} />
+        <Route path="/Account/payments" element={<Payment />} />
+      </Routes>
+    </Router>
   );
 };
 

@@ -61,7 +61,7 @@ const PhoneOtpComponent = ({
             data-bs-toggle="modal"
             data-bs-target="#phoneOtpModal"
           >
-            Login
+            
           </span>
         )}
         {isLoggedIn && (
@@ -72,7 +72,7 @@ const PhoneOtpComponent = ({
               }
               className={styles.logoutBtn}
             >
-              Logout
+            
             </span>
           </div>
         )}
