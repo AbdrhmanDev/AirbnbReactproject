@@ -64,7 +64,6 @@ const ProfileSection = () => {
     const handleImageChange = async (e) => {
         if (e.target.files && e.target.files[0]) {
             const avatar = e.target.files[0];
-            console.log("Selected Image:", avatar);
 
             try {
                 // Upload to Cloudinary
@@ -83,7 +82,6 @@ const ProfileSection = () => {
                 }
 
                 const imageUrl = uploadRes.data.secure_url;
-                console.log("Cloudinary Image URL:", imageUrl);
 
                 const updateResult = await dispatch(ProfileEditThunk({
                     id: id,
@@ -106,7 +104,7 @@ const ProfileSection = () => {
     useEffect(() => {
         dispatch(fetchProfileThunk())
     }, [dispatch])
-    console.log("userSection befor", update);
+
 
 
     const savaData = () => {
@@ -121,7 +119,7 @@ const ProfileSection = () => {
                 return [...prev, { label, icon }];
             }
         });
-        console.log(label, icon);
+
     };
     const toggleProfileFields = (label, icon) => {
         setSelectedProfileFields((prev) => {
@@ -164,6 +162,7 @@ const ProfileSection = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [ShowModal]);
+    
     return (
         <div className="w-100 px-3 py-5 d-flex justify-content-center">
             <div className="w-100" style={{ maxWidth: '900px' }}>

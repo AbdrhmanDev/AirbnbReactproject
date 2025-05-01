@@ -3,7 +3,6 @@ import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_API;
 const FetchAllHotel = async () => {
-
     let response;
     try {
         response = await axios.get(`${API_KEY}/hotel`, {
@@ -40,7 +39,6 @@ const FetchCategoryHotels = async (CategoryId) => {
         }
     }
     console.log("category Hotels: ", response.data);
-
     return response.data;
 };
 export const fetchAllHotelAsync = createAsyncThunk('FetchAllHotel', FetchAllHotel)
@@ -87,9 +85,7 @@ const AllHotelSlice = createSlice({
             states.isLoading = true;
             states.isError = false;
             states.errorMessage = null;
-
         })
-
     }
 })
 

@@ -9,23 +9,25 @@ import { ToastContainer } from 'react-toastify';
 import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import { Button, Modal } from 'react-bootstrap';
 
 function App() {
-  const dispatch=  useDispatch()
+
+  const dispatch = useDispatch()
+  // const [modalShow, setModalShow] = useState(false);
+  
   useEffect(() => {
     dispatch(fetchCategoryAsync())
     dispatch(fetchAllHotelAsync())
     dispatch(getwishlistThunk())
-    
   }, [dispatch])
-  
-  
+
+
   return (
     <>
-    <ToastContainer position="top-right" autoClose={3000} />
-    <RoutesPage/>
-    
+      <ToastContainer position="top-right" autoClose={3000} />
+      <RoutesPage/>
+   
     </>
   )
 }

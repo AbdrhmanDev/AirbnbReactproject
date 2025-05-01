@@ -2,10 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_API;
+const API_TOKEN = import.meta.env.VITE_TOKEN;
+
 const ProfileEdit = async ({ id, username, avatar,email,name }) => {
-    const isLogin = localStorage.getItem("authToken");
-    console.log(id, username);
-    console.log(avatar);
   
     let response;
     try {
@@ -18,7 +17,7 @@ const ProfileEdit = async ({ id, username, avatar,email,name }) => {
   
       response = await axios.patch(`${API_KEY}/users/${id}`, data, {
         headers: {
-          "Authorization": `Bearer ${isLogin}`,
+          "Authorization": `Bearer ${API_TOKEN}`,
           "Content-Type": "application/json"
         },
       });

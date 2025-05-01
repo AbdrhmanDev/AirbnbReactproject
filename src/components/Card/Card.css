@@ -172,7 +172,7 @@
 }
 .custom-toast {
 
-    color: #272343 !important;
+    /* color: #272343 !important; */
     font-size: 12px !important;
     font-weight: 500;
     border-radius: 12px !important;

@@ -9,6 +9,8 @@ import GetAllFilterSlice from "./Slice/Filter/AllFillter";
 import GetUserTripSlice from "./Slice/Trip";
 import ProfileSlice from "./Slice/Profile/ProfileAPI";
 import ProfileEditSlice from "./Slice/Profile/EditProfileApi";
+import authSlice from "./Slice/Login/GoogleLogin";
+
 
 const Store = configureStore({
     reducer: {
@@ -22,6 +24,7 @@ const Store = configureStore({
         UserTrip:GetUserTripSlice.reducer,
         ProfileEdit:ProfileEditSlice.reducer,
         userProfile:ProfileSlice.reducer,
+        auth:authSlice.reducer
     }
 });
 

@@ -14,9 +14,9 @@ const FetchCategory = async () => {
    } catch (error) {
     console.log(error);
    }
-
    return response.data;
 }
+
 export const fetchCategoryAsync = createAsyncThunk('FetchCategory', FetchCategory)
 
 const CategorySlice = createSlice({
@@ -38,7 +38,6 @@ const CategorySlice = createSlice({
         builder.addCase(fetchCategoryAsync.pending,(states)=>{
             states.isLoading=true
         })
-
     }
 })
 

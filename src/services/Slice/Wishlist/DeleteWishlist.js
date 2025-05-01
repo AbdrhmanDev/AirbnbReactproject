@@ -4,14 +4,12 @@ import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
 const API_TOKEN = import.meta.env.VITE_TOKEN;
 const DeleteWishlist = async (id) => {
-    const isLogin= localStorage.getItem('authToken')
-    
     try {
         let response = await axios.delete(
             `${API_KEY}/users/wishlist`,
             {
                 headers: {
-                    'Authorization': `Bearer ${isLogin}`
+                    'Authorization': `Bearer ${API_TOKEN}`
                 },
                 data: {
                     hotelId: id

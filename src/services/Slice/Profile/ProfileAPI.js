@@ -2,23 +2,21 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_API;
-const FetchProfile = async () => {
-    const isLogin= localStorage.getItem('authToken')
+const API_TOKEN = import.meta.env.VITE_TOKEN;
 
+const FetchProfile = async () => {
     let response;
     try {
         response = await axios.get(`${API_KEY}/users/profile`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${isLogin}`
+                'Authorization': `Bearer ${API_TOKEN}`
             }
         });
     } catch (error) {
         throw error("Place try again")
     }
-    console.log(response.data);
-    
     return response.data;
 }
 
@@ -32,7 +30,6 @@ const ProfileSlice = createSlice({
         isError: false,
         errorMessage: null
     },
-
     extraReducers: (builder) => {
         builder.addCase(fetchProfileThunk.fulfilled, (states, action) => {
             states.profile= action.payload;
@@ -49,7 +46,6 @@ const ProfileSlice = createSlice({
             states.isError = false;
             states.errorMessage = null;
         })
-
     }
 })
 

@@ -3,14 +3,12 @@ import './Card.css';
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import CatalogMagic from '../Loader/Loader';
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import { FiHeart } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import { toggleWishlist } from '../wishlistHelpers/wishlistHelpers';
-import PhoneOtpComponent from '../Login/PhoneNumberForm';
+
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
     return (
         <div className="container  mt-5 p-1">
@@ -40,7 +38,6 @@ const ImageCard = ({ hotel }) => {
     const dispatch = useDispatch()
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
-    const isLogin = localStorage.getItem('authToken');
     
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
@@ -63,8 +60,7 @@ const ImageCard = ({ hotel }) => {
     return (
         <div className="card-container"
             style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}
-            onClick={() => { navigate(`/details/${_id}`) }}
-        >
+            onClick={() => { navigate(`/details/${_id}`) }}>
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <div className="position-relative">
                     <img src={images[current]} alt="Slide" className="carousel-img" />
@@ -91,12 +87,10 @@ const ImageCard = ({ hotel }) => {
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
                         <FiHeart
-                            data-bs-toggle={!isLogin ? "modal" : ""}
-                            data-bs-target={!isLogin ? "#phoneOtpModal" : ""}
                             style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
                             onClick={(e) => {
                                 e.stopPropagation();
-                                if (isLogin) {
+                                setIsWished((prev) => !prev);
                                     toggleWishlist({
                                         isWished,
                                         dispatch,
@@ -104,14 +98,9 @@ const ImageCard = ({ hotel }) => {
                                         hotelTitle: title,
                                         hotelImages: images,
                                         setIsWished,
-                                    });
-                                }
-                            }}
-                        />
+                                    });}}/>
                     </span>
-
                 </div>
-
                 <div className="d-flex mt-1">
                     <div className="card-body text-start">
                         <h6 className="card-title pt-1">{title}</h6>

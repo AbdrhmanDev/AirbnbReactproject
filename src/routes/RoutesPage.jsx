@@ -1,16 +1,11 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
 import { Provider } from 'react-redux'
-
-import Category from '../components/Categoryes/Category'
-
 import Store from '../services/Store'
 import Home from '../pages/Home/Home'
 import Wishlist from '../pages/Wishlist/Wishlist'
 import Details from '../pages/Details/Details'
 import Filltration from '../pages/Filltration/Filltration'
-import PhoneOtpComponent from '../components/Login/PhoneNumberForm'
 import ShowAllImage from '../components/Details/ShowAllImage/ShowAllImage'
 import Trip from '../components/Trips/Trip'
 import UserInfo from '../components/Setting/Setting'
@@ -20,8 +15,7 @@ import ProfileSection from '../features/ProfileSection/ProfileSection'
 import Layout from '../Layout/Layout'
 import ProfileAbout from '../features/ProfileAbout/ProfileAbout'
 import Personalinfo from '../components/user/Personal info/Personalinfo'
-
-
+import ModalLogin from '../components/Login/ModalLogin'
 
 const RoutesPage = () => {
 
@@ -30,12 +24,12 @@ const RoutesPage = () => {
     [
       {
         path: '', element: <Layout/>, children: [
-          {index:true,element:<Home/>},
+          {index:true,element:<Home />},
           {path:'wishlist',element:<Wishlist/>},
           {path:'/details/:id',element:<Details/>},
           {path:'/Filter',element:<Filltration/>},
           {path:'/images',element:<ShowAllImage/>},  
-          {path:'/Login',element:<PhoneOtpComponent/>},
+          {path:'/Login',element:<ModalLogin/>},
           {path:'/Trips',element:<Trip/>},
           {
             path: '/account',

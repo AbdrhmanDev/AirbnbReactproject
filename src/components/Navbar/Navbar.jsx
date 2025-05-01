@@ -11,60 +11,24 @@ import { PiBuildingApartmentFill } from "react-icons/pi";
 import { FaSwimmer } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
-import PhoneOtpComponent from '../Login/PhoneNumberForm';
 import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
-
-
-
-const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
+import ModalLogin from '../Login/ModalLogin';
+import { logout } from '../../services/Slice/Login/GoogleLogin';
+import { emitter } from '../../features/emitter';
+const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-    const [storedValue, setStoredValue] = useState(null);
-
+    // const [showLoginModal, setShowLoginModal] = useState(false);
     const menuRef = useRef();
-    const modalRef = useRef(null);
-    useEffect(() => {
-        console.log("isLoggedIn updated in Navbar:", isLoggedIn);
-    }, [isLoggedIn]);
+    const dispatch = useDispatch();
 
-    console.log(isLoggedIn);
-  const dispatch = useDispatch();
-    const {user}= useSelector((state)=>state.userProfile.profile)||{};
-    
     useEffect(() => {
-      dispatch(fetchProfileThunk())
-    },[]);
+        dispatch(fetchProfileThunk())
+    }, []);
 
-    const logout = () => {
-        localStorage.removeItem("authToken");
-        setGoogleCredential(null);
-        setIsLoggedIn(false);
-        if (modalRef.current) {
-            modalRef.current.classList.remove('show');
-        }
-    };
-    const handleLogin = (authToken) => {
-        console.log("Logging in with token:", authToken);
-        localStorage.setItem("authToken", authToken);
-        setGoogleCredential(authToken);
-        setIsLoggedIn(true);
-        setShowMenu(false);
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem("authToken");
-        setGoogleCredential(null);
-        setIsLoggedIn(false);
-        
-    };
-    useEffect(() => {
-        if (isLoggedIn) {
-            setShowMenu(false);
-        }
-    }, [isLoggedIn]);
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -73,22 +37,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-    useEffect(() => {
-        const value = localStorage.getItem("authToken");
-        setStoredValue(value);
 
-        const handleStorageChange = (event) => {
-            if (event.key === "authToken") {
-                setStoredValue(event.newValue);
-            }
-        };
-
-        window.addEventListener("storage", handleStorageChange);
-
-        return () => {
-            window.removeEventListener("storage", handleStorageChange);
-        };
-    }, []);
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -98,8 +47,9 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-
-
+    const handelLogout =()=>{
+        dispatch(logout())
+    }
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-white">
@@ -107,7 +57,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                     <a className="navbar-brand d-flex align-items-center" href="#">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg" alt="Airbnb" height="30" />
                     </a>
-
                     <div>
                         {!isScrolled ? (
                             <ul className="navbar-nav col-12 justify-content-center mx-auto">
@@ -125,9 +74,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
 
                     <div className="d-flex align-items-center gap-3">
                         <span className="fw-semibold">
-                            {
-                                isLoggedIn ? <button className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button> : <button className='border-0 bg-body p-2 hoverFromNav'>Airbnb your home</button>
-                            }
+                            <button className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button>
                         </span>
 
                         <a href="#" className="text-dark">
@@ -144,10 +91,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                         >
                             <RxHamburgerMenu className='me-2' />
                             <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
-                                {
-                                    !isLoggedIn ? <img src="https://static.vecteezy.com/system/resources/previews/003/715/527/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg" width={"30px"} className='rounded-circle' alt="" />:
-                                <img src={user?.avatar} alt="" className='rounded-circle' style={{ width: '30px', height: '30px' }}/>
-                                }
+                                {/* img profile */}
                             </div>
                             <span className="position-absolute top-0 start-100 me-5 mt-1 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '10px' }}>
                                 2
@@ -158,9 +102,9 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                                     className="position-absolute bg-white border rounded shadow p-2"
                                     style={{ top: '120%', right: 0, zIndex: 1000, minWidth: '180px' }}>
                                     {/* ul Login */}
-                                    {
-                                        isLoggedIn ?
-                                            <ul className="list-unstyled mb-0 m-2">
+
+
+                                    {/* <ul className="list-unstyled mb-0 m-2">
                                                 <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
                                                 <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
                                                 <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
@@ -172,25 +116,27 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
                                                 <div className='border'></div>
                                                 <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Gift cards</Link></li>
                                                 <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
-                                                <li><Link  className="dropdown-item  m-2" style={{ fontSize: "13px" }} onClick={logout}>Logout</Link></li>
-                                            </ul> :
-                                            <ul className="list-unstyled mb-0 m-2">
-                                                <PhoneOtpComponent isLoggedIn={isLoggedIn}
-                                                    setIsLoggedIn={setIsLoggedIn}
-                                                    setGoogleCredential={setGoogleCredential}
-                                                    handleLogin={handleLogin}
-                                                    handleLogout={handleLogout}
-                                                />
-                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
-                                                <div className='border'></div>
-                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
-                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
-                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
-                                                <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
-                                            </ul>
-                                    }
+                                                <li><Link  className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
+                                            </ul>  */}
+                                    <ul className="list-unstyled mb-0 m-2">
+                                        <li>
+                                            <p
+                                                className="dropdown-item m-2"
+                                                style={{ fontSize: "13px", cursor: "pointer" }}
+                                                onClick={() => emitter.emit('open-modal')}
+                                            >
+                                                login
+                                            </p>
+                                        </li>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
+                                        <div className='border'></div>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
+                                        <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                        <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
+                                        <li><Link  className="dropdown-item m-2" onClick={handelLogout} style={{ fontSize: "13px" }}>Logout</Link></li>
 
-
+                                    </ul>
                                 </div>
                             )}
                         </div>
@@ -203,6 +149,9 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setGoogleCredential }) => {
             )}
 
             {/* <LoginModal/> */}
+            <ModalLogin 
+                
+            />
         </>
     );
 };
@@ -280,8 +229,6 @@ const SearchBar = () => {
             });
             return;
         }
-
-        console.log("جاري إرسال الفلاتر:", allFilters);
         dispatch(GetAllFilterThunk(allFilters));
         navigate('/Filter');
     };

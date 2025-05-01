@@ -15,6 +15,7 @@ const GetHotelById = async (id) => {
 }
 
 export const GetHotelByIdThunk= createAsyncThunk('Hotel/getById',GetHotelById);
+
 const GetHotelByIdSlice = createSlice({
     name: "GetHotel",
     initialState: {

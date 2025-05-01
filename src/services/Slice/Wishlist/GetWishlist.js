@@ -4,8 +4,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const GetWishlist = async () => {
-    const isLogin= localStorage.getItem('authToken')
-    
     try {
        const response = await axios.get(
             `${API_KEY}/users/wishlist`,
@@ -13,20 +11,16 @@ const GetWishlist = async () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${isLogin}`
+                    'Authorization': `Bearer ${API_TOKEN}`
                 }
             }
         );
-        // console.log("response",response.data);
-        
         return response.data.wishlist;
     } catch (error) {
         console.error("Error fetching wishlist:", error.response?.data || error.message);
         throw error;
-    }
-    
+    }   
 }
-
 export const getwishlistThunk= createAsyncThunk('wishlist/get', GetWishlist);
 const GetWishlistSlice = createSlice({
     name: "GetWishlist",

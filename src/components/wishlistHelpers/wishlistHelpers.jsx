@@ -19,7 +19,7 @@ export const toggleWishlist = ({isWished,dispatch,hotelId,hotelTitle,hotelImages
       {
         position: "bottom-left",
         autoClose: 2500,
-        theme: "light",
+
         className: "custom-toast",
       }
     );
