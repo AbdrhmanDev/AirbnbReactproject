@@ -1,64 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import './App.css'
+import RoutesPage from './routes/RoutesPage'
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchCategoryAsync } from './services/Slice/Category';
+import { fetchAllHotelAsync } from './services/Slice/Hotel';
+import { ToastContainer } from 'react-toastify';
+import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import PhoneOtpComponent from './components/Login/PhoneNumberForm';
-import Navbar from './components/Login/Navbar.jsx';
-import UserInfo from "./components/Account/Setting.jsx";
-import LoginSecurity from "./components/Account/login-security.jsx";
-import Payment from "./components/Account/paymnt.jsx";
+import { Route } from 'react-router-dom';
 
-const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [googleCredential, setGoogleCredential] = useState(null);
 
+function App() {
+  const dispatch=  useDispatch()
   useEffect(() => {
-    const storedCredential = localStorage.getItem("authToken");
-    if (storedCredential) {
-      setGoogleCredential(storedCredential);
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const handleLogin = (authToken) => {
-    console.log("Logging in with token:", authToken);
-    localStorage.setItem("authToken", authToken);
-    setGoogleCredential(authToken);
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    setGoogleCredential(null);
-    setIsLoggedIn(false);
-  };
-
+    dispatch(fetchCategoryAsync())
+    dispatch(fetchAllHotelAsync())
+    dispatch(getwishlistThunk())
+    
+  }, [dispatch])
   return (
-    <Router>
-      <Navbar 
-        isLoggedIn={isLoggedIn} 
-        setIsLoggedIn={setIsLoggedIn} 
-        setGoogleCredential={setGoogleCredential} 
-      />
+    <>
+    <ToastContainer position="top-right" autoClose={3000} />
+    <RoutesPage/>
+    <PhoneOtpComponent/>
+   
 
-      <Routes>
-        <Route 
-          path="/" 
-          element={
-            <PhoneOtpComponent 
-              isLoggedIn={isLoggedIn} 
-              setIsLoggedIn={setIsLoggedIn} 
-              setGoogleCredential={setGoogleCredential} 
-              handleLogin={handleLogin} 
-              handleLogout={handleLogout} 
-            />
-          } 
-        />
+    </>
+  )
+}
 
-        <Route path="/Account" element={<UserInfo />} />
-        <Route path="/Account/login-security" element={<LoginSecurity />} />
-        <Route path="/Account/payments" element={<Payment />} />
-      </Routes>
-    </Router>
-  );
-};
-
-export default App;
+export default App

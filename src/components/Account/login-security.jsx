@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { FaShieldAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom'; 
@@ -6,7 +7,7 @@ const LoginSecurity = () => {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <div className="container mb-3" style={{ marginTop: "100px", margin:"auto" }}>
+    <div className="m-5" style={{ marginTop: "100px", margin:"auto" }}>
         <nav aria-label="breadcrumb" className="text-start">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">

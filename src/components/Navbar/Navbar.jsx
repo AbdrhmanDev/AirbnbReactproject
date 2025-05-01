@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
 import PhoneOtpComponent from '../Login/PhoneNumberForm';
+import UserInfo from '../Account/Setting';
 
 
 
@@ -34,12 +35,29 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+    // useEffect(() => {
+    //     // تحقق من القيمة في localStorage
+    //     const value = localStorage.getItem("authToken");
+    //     setStoredValue(value); // تعيين القيمة إذا كانت موجودة
+    // }, []);
+    ////////////////////////////////////////////////////////////////////
     useEffect(() => {
-        // تحقق من القيمة في localStorage
-        const value = localStorage.getItem("authToken");
-        setStoredValue(value); // تعيين القيمة إذا كانت موجودة
+        const handleStorageChange = () => {  // التعديل الجديد غادة فخري 
+            const value = localStorage.getItem("authToken");
+            setStoredValue(value);
+        };
+    
+        // التحقق في البداية
+        handleStorageChange();
+    
+        // الاستماع لتغييرات التخزين
+        window.addEventListener('storage', handleStorageChange);
+    
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
-
+/////////////////////////////////////
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -117,9 +135,20 @@ const Navbar = () => {
                                                 <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Profile</Link></li>
                                                 <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Bookings</Link></li>
                                                 <div className='border'></div>
-                                                <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
+                                                <li><Link to="/Account" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Settings</Link></li>
                                                 <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help</Link></li>
-                                                <li><Link to="/logout" className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
+                                                <li> <Link 
+                                                     to="#" 
+                                                 className="dropdown-item m-2" 
+                                               style={{ fontSize: "13px" }}
+                                             onClick={() => {
+                                              localStorage.removeItem("authToken"); // إزالة التوكن
+                                           setStoredValue(null); // تحديث الواجهة فورًا
+                                              }}
+                                               >
+                                            Logout
+                                             </Link>
+                                             </li>
                                             </ul> :
                                             <ul className="list-unstyled mb-0 m-2">
                                                 <Link
@@ -373,3 +402,4 @@ const SearchBar = () => {
 
 
 export default Navbar;
+

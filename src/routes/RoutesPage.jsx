@@ -15,6 +15,9 @@ import PhoneOtpComponent from '../components/Login/PhoneNumberForm'
 import ShowAllImage from '../components/Details/ShowAllImage/ShowAllImage'
 import Trip from '../components/Trips/Trip'
 import TripCard from '../components/Trips/TripCard'
+import UserInfo from '../components/Account/Setting'
+import LoginSecurity from '../components/Account/login-security'
+import Payment from '../components/Account/paymnt'
 
 
 
@@ -30,8 +33,12 @@ const RoutesPage = () => {
           {path:'/details/:id',element:<Details/>},
           {path:'/Filter',element:<Filltration/>},
           {path:'/images',element:<ShowAllImage/>},  
-          {path:'/Login',element:<PhoneOtpComponent/>},
-          {path:'/Trips',element:<Trip/>}
+          // {path:'/Login',element:<PhoneOtpComponent/>},
+          {path:'/Trips',element:<Trip/>},
+           {path:"/Account", element:<UserInfo />},
+          {path:"/Account/login-security" ,element:<LoginSecurity/>}, 
+          {path:"/Account/payments" ,element:<Payment/>},
+
         ]
       },
       { path: '*', element: <h1>404</h1> },

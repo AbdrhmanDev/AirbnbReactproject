@@ -29,7 +29,7 @@ const UserInfo = () => {
   }
 
   return (
-    <div className="container mb-3" style={{ marginTop: "100px", margin:"auto" }}>
+    <div className=" m-5" style={{ marginTop: "100px", margin:"auto" }}>
       <h1>Account</h1>
       <div className="Account d-flex font-weight-bold font-size=" style={{ fontSize: "20px" }}>
         <p>{userData.name},{userData.email} ,</p>

@@ -1,5 +1,6 @@
 import { auth, RecaptchaVerifier } from "./firbase";
 import { signInWithPhoneNumber, signOut } from "firebase/auth";
+// import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 
 
 // إعداد الريكابتشا
@@ -46,6 +47,32 @@ export const handleSendOTP = (countryCode, phoneNumber, setShowOtpInputs, setCon
 };
 
 // التحقق من OTP
+// export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowOtpInputs, setOtp, modalRef) => {
+//   const code = otp.join("");
+//   if (!confirmationResult) return alert("No OTP sent yet!");
+//   if (code.length !== 6) {
+//     alert("Please enter a valid 6-digit OTP.");
+//     return;
+//   }
+              
+//   confirmationResult.confirm(code)
+//     .then((result) => {
+//       console.log("Phone number verified!", result.user);
+//       const idToken = await result.user.getIdToken(); // ← هنا نأخذ التوكن الحقيقي
+//       localStorage.setItem("authToken", idToken); // ← نحفظ التوكن
+//       window.dispatchEvent(new Event('storage'));
+//       alert("Phone number verified successfully!");
+//       setIsLoggedIn(true);
+//       setShowOtpInputs(false);
+//       setOtp(Array(6).fill(""));
+//       modalRef.current?.classList.remove('show');
+//       document.body.style.overflow = 'auto';
+//     })
+//     .catch((error) => {
+//       console.error("Invalid OTP:", error);
+//       alert("Invalid OTP. Please try again.");
+//     });
+// };
 export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowOtpInputs, setOtp, modalRef) => {
   const code = otp.join("");
   if (!confirmationResult) return alert("No OTP sent yet!");
@@ -55,9 +82,15 @@ export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowO
   }
 
   confirmationResult.confirm(code)
-    .then((result) => {
+    .then(async (result) => {
       console.log("Phone number verified!", result.user);
-      alert("Phone number verified successfully!");
+      
+      // 👇 الحصول على توكن المستخدم من Firebase
+      const idToken = await result.user.getIdToken(); // ← هنا نأخذ التوكن الحقيقي
+      localStorage.setItem("authToken", idToken); // ← نحفظ التوكن
+      window.dispatchEvent(new Event('storage')); // ← إرسال إشعار للتغيير
+
+      alert("Logged in successfully!");
       setIsLoggedIn(true);
       setShowOtpInputs(false);
       setOtp(Array(6).fill(""));
@@ -89,6 +122,7 @@ export const handleOtpKeyDown = (e, index, otp, otpRefs) => {
 // تسجيل الخروج
 export const handleLogout = (googleCredential, setGoogleCredential, setIsLoggedIn) => {
   localStorage.removeItem("authToken");
+  window.dispatchEvent(new Event('storage'))
   if (googleCredential) {
     window.google.accounts.id.revoke(googleCredential, () => {
       console.log("Google logout successful");
@@ -109,11 +143,11 @@ export const handleLogout = (googleCredential, setGoogleCredential, setIsLoggedI
 };
 
 // تسجيل الدخول بجوجل
-export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef, setGoogleCredential,setUserData) => {//new
+export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef, setGoogleCredential ,setUserData) => {
   console.log("Google login successful:", response);
 
   try {
-    const res = await fetch('http://localhost:3000/api/users/google', {
+    const res = await fetch('http://localhost:3000/users/google', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -129,11 +163,13 @@ export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef
       console.log('✅ User verified by server:', data.user);
       alert(`Welcome ${data.user.name}!`);
       localStorage.setItem('authToken', data.token);
-      localStorage.setItem('userData', JSON.stringify(data.user)); // << تخزين بيانات اليوزر
+      window.dispatchEvent(new Event('storage'))
+      console.log(data.token);
+      localStorage.setItem('userData', JSON.stringify(data.user));
+
       setIsLoggedIn(true);
       setGoogleCredential(response.credential);
-      setUserData(data.user); // << هنا بنسجل بيانات اليوزر في الـ state
-
+      setUserData(data.user);
       modalRef.current?.classList.remove('show');
       document.body.style.overflow = 'auto';
     } else {

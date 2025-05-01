@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -14,7 +15,7 @@ const Payment = () => {
   ];
 
   return (
-    <div className="container mb-3" style={{ marginTop: "100px", margin: "auto" }}>
+    <div className="m-5" style={{ marginTop: "100px", margin: "auto" }}>
       <nav aria-label="breadcrumb" className="text-start">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -82,7 +83,7 @@ const Payment = () => {
             <div key={index} className="mb-4">
               {/* نص إضافي قبل أول وتاني زر */}
               {(index === 0 || index === 1) && (
-                <p className="text-muted fst-italic">
+                <p className="fst-italic">
                   {index === 0 ? "You can manage your current payment methods here." : "Add a new method to receive payments."}
                 </p>
               )}
