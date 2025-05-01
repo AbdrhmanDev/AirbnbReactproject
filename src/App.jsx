@@ -10,7 +10,6 @@ import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PhoneOtpComponent from './components/Login/PhoneNumberForm';
-
 function App() {
   const dispatch=  useDispatch()
   useEffect(() => {

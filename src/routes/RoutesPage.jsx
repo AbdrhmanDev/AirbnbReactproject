@@ -31,7 +31,7 @@ const RoutesPage = () => {
           {path:'/Filter',element:<Filltration/>},
           {path:'/images',element:<ShowAllImage/>},  
           {path:'/Login',element:<PhoneOtpComponent/>},
-          {path:'/Trips',element:<Trip/>}
+          {path:'/Trips',element:<Trip/>},
         ]
       },
       { path: '*', element: <h1>404</h1> },
