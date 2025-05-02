@@ -10,7 +10,6 @@ import {
   Stack,
   Switch,
   Divider,
- 
 } from '@mui/material';
 import DataPrivacy from './DataPrivacy'; 
 
@@ -132,8 +131,6 @@ const PrivacyPage = () => {
  <DataPrivacy/>
 
 )}
-
-
 
       {tab === 1 && (
       <Box>
