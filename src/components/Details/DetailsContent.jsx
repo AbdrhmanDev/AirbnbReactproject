@@ -1,43 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Details.css';
 import leftImg from '../../assets/left.png';
 import rightImg from '../../assets/right.png';
 import { GoStarFill } from "react-icons/go";
 import DatePicker from 'react-datepicker';
-
+import 'react-datepicker/dist/react-datepicker.css';
+import { RxDrawingPinFilled } from "react-icons/rx";
+import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { ImFlag } from "react-icons/im";
+import { IoIosArrowDown } from "react-icons/io";
 const DetailsContent = ({
     aboutThisSpace, spaceDetails,
     title, rating, address, hostId,
     amenities, propertyType, images,
-    advantages
+    advantages,pricePerNight
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [monthsShown, setMonthsShown] = useState(2); 
+    const [showGuests, setShowGuests] = useState(false)
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDates, setEndDate] = useState(new Date())
+    const formattedStart = dayjs(startDate).format('YYYY-MM-DD');
+    const formattedEnd = dayjs(endDates).format('YYYY-MM-DD');
+    const [adults, setAdults] = useState(0);
+    const [children, setChildren] = useState(0);
+    const [infants, setInfants] = useState(0);
+    const [pets, setPets] = useState(0);
+    const ClearMaun = useRef()
 
+    console.log("start",formattedStart,"end",formattedEnd);
+    
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
     };
-
-    const [dateRange, setDateRange] = useState([null, null]);
-    const [startDate, endDate] = dateRange;
-    const [monthsShown, setMonthsShown] = useState(2);  // Default to 2 months
-
-    // Update monthsShown based on window size
     useEffect(() => {
         const updateMonthsShown = () => {
             setMonthsShown(window.innerWidth < 576 ? 1 : 2);
         };
-        
-        // Call initially
         updateMonthsShown();
-
-        // Add resize event listener
         window.addEventListener('resize', updateMonthsShown);
-
         // Clean up the event listener
         return () => {
             window.removeEventListener('resize', updateMonthsShown);
         };
     }, []);
+    const handleClickOutside = (event) => {
+        if(ClearMaun.current && !ClearMaun.current.contains(event.target)){
+            setShowGuests(false)
+        }}
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [])
+    
+    const handelShowGusts =()=>{
+        console.log("onClick");
+        setShowGuests(true)
+    }
+
+    const countRender = (label,subLabel,value,setValue)=>(
+        <div>
+            <div className='w-100 d-flex bg-light mt-1 '>
+        <div className='w-50 ms-2'>
+         <span style={{fontSize:"14px"}}>{label}</span>
+         <p style={{fontSize:"10px"}}>{subLabel}</p>
+        </div>
+        <div  className='w-50 ms-2 mt-2'>
+         <span className={`border p-1 ps-2 pe-2 ms-3 rounded-circle ${value==0 ? 'opacity-50' :''}`} 
+         onClick={()=> setValue(value-1)}
+         >-</span>
+         <span className=' ms-4' >{value}</span>
+         <span className='border p-1 ps-2 pe-2 ms-3 rounded-circle pointer-event' onClick={()=> setValue(value+1)}>+</span>
+        </div>
+     </div>
+        </div>
+
+    )
 
     const Createt = new Date(hostId.createdAt);
     Createt.toLocaleDateString("en-GB");
@@ -197,11 +236,10 @@ const DetailsContent = ({
 
                         <div className="row mt-3 d-flex justify-content-center">
                             <DatePicker
+                            id='dateWithValue'
                                 swapRange
                                 selected={startDate}
-                                onChange={(update) => setDateRange(update)}
-                                startDate={startDate}
-                                endDate={endDate}
+                                onChange={(update) => setStartDate(update)}
                                 selectsRange
                                 selectsDisabledDaysInRange
                                 inline
@@ -215,45 +253,82 @@ const DetailsContent = ({
 
                     {/* اليمين: الكارد */}
                     <div className="col-12 col-lg-4 mt-4 mt-lg-0">
+                    <div className="p-4 position-sticky custom-edit">
+
+                    <div className='mb-4 card d-block shadow p-2 ps-5 position-sticky custom-edit ' >
+                                <RxDrawingPinFilled size={"22px"} className='text-danger ms-3'/>
+                                <span className='ms-2 ps-3' style={{fontSize:"12px"}}>Prices include all fees</span>
+                    </div>
                         <div className="card shadow p-4 position-sticky custom-edit">
-                            <h5 className="card-title mb-4">Add dates for prices</h5>
-                            <form>
-                                <div className="row g-3 mb-3">
-                                    <div className="col-md-6">
-                                        <label htmlFor="Check-In" className="form-label">Check-In</label>
-                                        <input
-                                            type="number"
-                                            className="form-control"
+                        
+                            <h5 className="card-title mb-4 ">$<span className='text-decoration-underline'>{pricePerNight}</span> <span className='ps-1 text-muted' style={{fontSize:"16px"}}> 1 nights</span></h5>
+                            <form className='rounded-2 border-5'>
+                                <div className="d-flex border-4 rounded-top-2 w-100 " >
+                                    <div className="" id='dateWithValue'>   
+                                        <DatePicker
+                                            className="w-100 p-2 ps-3 border-1 custom-data1"
                                             id="Check-In"
-                                            placeholder="Add date"
-                                            value={startDate ? startDate.toLocaleDateString("en-GB") : ""}
+                                            placeholderText='Add date'
+                                            selected={startDate}
+                                            onChange={(data)=>setStartDate(data)}
                                         />
                                     </div>
-                                    <div className="col-md-6">
-                                        <label htmlFor="Check-Out" className="form-label">Check-Out</label>
-                                        <input
-                                            type="number"
-                                            className="form-control"
+                                    <div className="">
+                                        <DatePicker
+                                            className="w-100 p-2 ps-3 border-1 custom-data2"
                                             id="Check-Out"
-                                            placeholder="Add date"
-                                            value={endDate ? endDate.toLocaleDateString("en-GB") : ""}
+                                            placeholderText='Add date'
+                                            selected={endDates}
+                                            onChange={(data)=>setEndDate(data)}
+
                                         />
                                     </div>
                                 </div>
-                                <div className="mb-4">
-                                    <label htmlFor="guests" className="form-label">Guests</label>
-                                    <select className="form-select" id="guests">
-                                        <option value="1">1 guest</option>
-                                        <option value="2">2 guests</option>
-                                        <option value="3">3 guests</option>
-                                        <option value="4">4 guests</option>
-                                    </select>
-                                </div>
-                                <button type="button" className="btn btn-danger w-100">Check availability</button>
+                                    <div className='border-2  position-relative' onClick={handelShowGusts}>
+                                        
+                                        <button  type="button" className='w-100 rounded-bottom-2 border-1 bg-body p-2 '>7 guests, 3 infants
+                                        <IoIosArrowDown className='ms-5'/>
+                                        </button>
+                                     <div ref={ClearMaun} className='position-relative position-absolute w-100 border rounded-bottom-2 p-2 bg-light'>
+                                     {
+                                        <>
+                                        
+                                     <div>
+                                     {  showGuests &&
+                                     <>
+                                                {countRender("adults","Age 13+",adults,setAdults)}
+                                                {countRender("Children","Age 2-12",children,setChildren)}
+                                                {countRender("Infants","under 2",infants,setInfants)}
+                                                {countRender("Pets","Age 2-12",pets,setPets)}
+                                            <div className='w-100 '>
+                                                <p style={{fontSize:"12px"}} className='m-2'>This place has a maximum of 7 guests, not including infants. Pets aren't allowed.</p>
+                                               <div className='d-flex justify-content-between'>
+                                               <Link className='text-end m-2 ' onClick={ ()=>
+                                                        [setAdults(0),setChildren(0),setPets(0),setInfants(0)]
+                                                }>
+                                                Clear
+                                                </Link>
+                                                <Link  className='m-2' onClick={()=>handleClickOutside()}>
+                                                Close
+                                                </Link>
+                                               </div>
+                                            </div>
+                                     </>}
+                                     </div>
+                                        </>}
+                                     </div>
+                                    </div>
+
                             </form>
+                                <button type="button" className="btn btn-danger w-100 mt-3">Check availability</button>
+                                <p style={{fontSize:"12px"}} className='m-2 text-center'>You won't be charged yet</p>
+                        </div>
+                        <div className='text-center mt-2'>
+                        <ImFlag size={"12px"}/>
+                        <Link className='text-dark ms-2 text-center' style={{fontSize:"12px"}}>Report this listing</Link>
                         </div>
                     </div>
-
+                    </div>
                 </div>
             </div>
         </>

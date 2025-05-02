@@ -34,7 +34,7 @@ const ModalLogin = (props) => {
           <Container>
             <div className="p-3 " style={{ maxWidth: '600px', margin: '0 auto' }}>
               <h3 className="h4 mb-4">Welcome to Airbnb</h3>
-              <Form>
+              <section>
                <LoginWithPhone/>
                 <div className="d-flex align-items-center text-muted small">
                   <div className="flex-grow-1 border-top"></div>
@@ -44,7 +44,7 @@ const ModalLogin = (props) => {
                  <div >
                  <LoginWithGoogle />
                  </div>
-              </Form>
+              </section>
             </div>
           </Container>
         </Modal.Body>

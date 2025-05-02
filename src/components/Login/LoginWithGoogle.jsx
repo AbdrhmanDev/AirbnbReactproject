@@ -1,16 +1,17 @@
 import React from 'react'
 import { GoogleLogin } from '@react-oauth/google';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { googleLoginThunk } from '../../services/Slice/Login/GoogleLogin';
 import { emitter } from '../../features/emitter';
 import { toast } from 'react-toastify';
 
 const LoginWithGoogle = () => {
     const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.userProfile.profile) || [];
 
     const handleGoogleLoginSuccess = (credentialResponse) => {
         const idToken = credentialResponse.credential; 
-        dispatch(googleLoginThunk(idToken));  
+        dispatch(googleLoginThunk({idToken:idToken,email:user?.email,name:user?.name}));  
         emitter.emit('close-modal')
       };
     const handleGoogleLoginFailure = (error) => {

@@ -4,11 +4,13 @@ const API_KEY = import.meta.env.VITE_API;
 
 export const googleLoginThunk = createAsyncThunk(
   "auth/googleLogin",
-  async (idToken, thunkAPI) => {
+  async ({ idToken, email, name }, thunkAPI) => {
     try {
       const {data}  = await axios.post(`${API_KEY}/users/google`,
-         { idToken },
+         { idToken,email,name },
         );
+        console.log(data);
+        
       return  {
         user: data.user,
         token: data.token,

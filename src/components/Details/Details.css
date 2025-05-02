@@ -343,3 +343,10 @@ button.switch-month:active {
 .carousel-control-next {
   width: 5%;
 }
+.custom-data1{
+  border-top-left-radius:6px ;
+  padding-left: 12px;
+}
+.custom-data2{
+  border-top-right-radius:6px ;
+}

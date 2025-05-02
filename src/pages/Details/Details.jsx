@@ -42,6 +42,8 @@ const Details = () => {
     cancellationPolicy,
     safetyFeatures
   } = HotelById;
+  console.log(HotelById);
+  
 
 
   useEffect(() => {
