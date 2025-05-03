@@ -15,7 +15,12 @@ import PhoneOtpComponent from "../components/Login/PhoneNumberForm";
 import ShowAllImage from "../components/Details/ShowAllImage/ShowAllImage";
 import Trip from "../components/Trips/Trip";
 import TripCard from "../components/Trips/TripCard";
-import Booking from "../components/Booking/Booking";
+import MessagesPage from "../components/Message/MessagesPage";
+import GiftPage from "../pages/GiftPage/GiftPage";
+import HostHome from "../pages/HostHome/HostHome";
+import UserInfo from "../components/Account/Setting";
+import LoginSecurity from "../components/Account/login-security";
+import Payment from "../components/Account/paymnt";
 
 const RoutesPage = () => {
   const router = createBrowserRouter([
@@ -30,8 +35,12 @@ const RoutesPage = () => {
         { path: "/images", element: <ShowAllImage /> },
         { path: "/Login", element: <PhoneOtpComponent /> },
         { path: "/Trips", element: <Trip /> },
-
-        { path: "/book", element: <Booking /> },
+        { path: "/MessagesPage", element: <MessagesPage /> },
+        { path: "/GiftPage", element: <GiftPage /> },
+        { path: "/HostHome", element: <HostHome /> },
+        { path: "/Account", element: <UserInfo /> },
+        { path: "/Account/login-security", element: <LoginSecurity /> },
+        { path: "/Account/payments", element: <Payment /> },
       ],
     },
     { path: "*", element: <h1>404</h1> },
