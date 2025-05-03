@@ -16,6 +16,7 @@ import Layout from '../Layout/Layout'
 import ProfileAbout from '../features/ProfileAbout/ProfileAbout'
 import Personalinfo from '../components/user/Personal info/Personalinfo'
 import ModalLogin from '../components/Login/ModalLogin'
+import CheckOut from '../pages/CheckOut/CheckOut'
 
 const RoutesPage = () => {
 
@@ -53,7 +54,10 @@ const RoutesPage = () => {
               { path: "hosting-tools", element: <div>Hosting Tools Page</div> },
               { path: "referrals", element: <div>Referrals Page</div> }
             ]
-          }
+          },
+          {path: "book/stays",element: <CheckOut />}
+            
+          
           
         ]
       },

@@ -40,7 +40,8 @@ const Details = () => {
     houseRules,
     advantages,
     cancellationPolicy,
-    safetyFeatures
+    safetyFeatures,
+    capacity
   } = HotelById;
   console.log(HotelById);
   
@@ -91,6 +92,8 @@ const Details = () => {
       propertyType={propertyType}
       images={images}
       advantages={advantages}
+      capacity={capacity}
+      _id={_id}
       />
       
       <MetaInformation 
