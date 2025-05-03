@@ -1,0 +1,29 @@
+/* Sticky Column Styling */
+.sticky-top {
+  position: sticky;
+  top: 60px; /* Adjust based on header height */
+  background-color: white;
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+/* Card Styling */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styling */
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  font-weight: bold;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .sticky-top {
+    position: static; /* Disable sticky behavior on smaller screens */
+  }
+}
