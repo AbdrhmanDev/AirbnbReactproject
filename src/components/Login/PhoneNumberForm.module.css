@@ -20,11 +20,15 @@
 .select {
   flex: 0.3;
   padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
 .input {
   flex: 0.7;
   padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
 .policyText {
@@ -72,5 +76,37 @@
   padding: 0.75rem;
   border: none;
 }
+.input2{
+  width: 95%;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;}
 
+.socialLoginBtn {
+  width: 50%;
+  margin: auto;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
 
+.socialLoginBtn:hover {
+  background-color: #f7f7f7;
+  border-color: #ccc;
+}
+
+.modal-backdrop {
+  display: none !important;
+}

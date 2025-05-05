@@ -5,4 +5,6 @@
  
 }
 
-
+.modal-backdrop {
+  display: none !important;
+}

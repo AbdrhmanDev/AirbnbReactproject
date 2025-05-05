@@ -1,36 +1,52 @@
 import { auth, RecaptchaVerifier } from "./firbase";
 import { signInWithPhoneNumber, signOut } from "firebase/auth";
-// import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
+import Swal from "sweetalert2";
 
 
 // إعداد الريكابتشا
 export const setupRecaptcha = (handleSendOTP) => {
   if (!window.recaptchaVerifier) {
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      size: 'invisible',
-      callback: () => {
-        console.log("reCAPTCHA verified");
-        handleSendOTP();
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: () => {
+          console.log("reCAPTCHA verified");
+          handleSendOTP();
+        },
       }
-    });
+    );
   }
 };
 
 // إرسال OTP
-export const handleSendOTP = (countryCode, phoneNumber, setShowOtpInputs, setConfirmationResult) => {
+export const handleSendOTP = (
+  countryCode,
+  phoneNumber,
+  setShowOtpInputs,
+  setConfirmationResult
+) => {
   const fullPhone = countryCode + phoneNumber;
   if (!/^\d+$/.test(phoneNumber)) {
     alert("Please enter a valid phone number.");
     return;
   }
 
-  setupRecaptcha(() => handleSendOTP(countryCode, phoneNumber, setShowOtpInputs, setConfirmationResult));
+  setupRecaptcha(() =>
+    handleSendOTP(
+      countryCode,
+      phoneNumber,
+      setShowOtpInputs,
+      setConfirmationResult
+    )
+  );
   const appVerifier = window.recaptchaVerifier;
-
+// ← هنا نستخدم الريكابتشا
   signInWithPhoneNumber(auth, fullPhone, appVerifier)
     .then((confirmation) => {
       setConfirmationResult(confirmation);
-      console.log('this is confirmation:', JSON.stringify(confirmation));
+      console.log("this is confirmation:", JSON.stringify(confirmation));
       setShowOtpInputs(true);
       console.log("OTP sent successfully.");
     })
@@ -38,42 +54,23 @@ export const handleSendOTP = (countryCode, phoneNumber, setShowOtpInputs, setCon
       console.error("Error sending OTP:", error);
       let errorMessage = "Failed to send OTP. Please try again.";
       if (error.code === "auth/invalid-phone-number") {
-        errorMessage = "The phone number is invalid. Please check and try again.";
+        errorMessage =
+          "The phone number is invalid. Please check and try again.";
       } else if (error.code === "auth/too-many-requests") {
         errorMessage = "Too many requests. Please try again later.";
       }
       alert(errorMessage);
     });
 };
-
-// التحقق من OTP
-// export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowOtpInputs, setOtp, modalRef) => {
-//   const code = otp.join("");
-//   if (!confirmationResult) return alert("No OTP sent yet!");
-//   if (code.length !== 6) {
-//     alert("Please enter a valid 6-digit OTP.");
-//     return;
-//   }
-              
-//   confirmationResult.confirm(code)
-//     .then((result) => {
-//       console.log("Phone number verified!", result.user);
-//       const idToken = await result.user.getIdToken(); // ← هنا نأخذ التوكن الحقيقي
-//       localStorage.setItem("authToken", idToken); // ← نحفظ التوكن
-//       window.dispatchEvent(new Event('storage'));
-//       alert("Phone number verified successfully!");
-//       setIsLoggedIn(true);
-//       setShowOtpInputs(false);
-//       setOtp(Array(6).fill(""));
-//       modalRef.current?.classList.remove('show');
-//       document.body.style.overflow = 'auto';
-//     })
-//     .catch((error) => {
-//       console.error("Invalid OTP:", error);
-//       alert("Invalid OTP. Please try again.");
-//     });
-// };
-export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowOtpInputs, setOtp, modalRef) => {
+// إرسال OTP
+export const handleVerifyOTP = (
+  otp,
+  confirmationResult,
+  setIsLoggedIn,
+  setShowOtpInputs,
+  setOtp,
+  modalRef
+) => {
   const code = otp.join("");
   if (!confirmationResult) return alert("No OTP sent yet!");
   if (code.length !== 6) {
@@ -81,21 +78,25 @@ export const handleVerifyOTP = (otp, confirmationResult, setIsLoggedIn, setShowO
     return;
   }
 
-  confirmationResult.confirm(code)
+  confirmationResult
+    .confirm(code)
     .then(async (result) => {
       console.log("Phone number verified!", result.user);
-      
+
       // 👇 الحصول على توكن المستخدم من Firebase
       const idToken = await result.user.getIdToken(); // ← هنا نأخذ التوكن الحقيقي
       localStorage.setItem("authToken", idToken); // ← نحفظ التوكن
-      window.dispatchEvent(new Event('storage')); // ← إرسال إشعار للتغيير
-
-      alert("Logged in successfully!");
+      window.dispatchEvent(new Event("storage")); // ← إرسال إشعار للتغيير
+      Swal.fire({
+        text: ' Welcome , Glad to have you here 😊',
+        icon: 'success',
+        confirmButtonText: 'Thanks!'
+      });
       setIsLoggedIn(true);
       setShowOtpInputs(false);
       setOtp(Array(6).fill(""));
-      modalRef.current?.classList.remove('show');
-      document.body.style.overflow = 'auto';
+      modalRef.current?.classList.remove("show");
+      document.body.style.overflow = "auto";
     })
     .catch((error) => {
       console.error("Invalid OTP:", error);
@@ -120,15 +121,25 @@ export const handleOtpKeyDown = (e, index, otp, otpRefs) => {
 };
 
 // تسجيل الخروج
-export const handleLogout = (googleCredential, setGoogleCredential, setIsLoggedIn) => {
-  localStorage.removeItem("authToken");
-  window.dispatchEvent(new Event('storage'))
+export const handleLogout = (
+  googleCredential,
+  setGoogleCredential,
+  setIsLoggedIn
+) => {
+  localStorage.removeItem("authToken"); // ← حذف التوكن
+  localStorage.removeItem("Emailtoken");
+
+  window.dispatchEvent(new Event("storage"));
   if (googleCredential) {
     window.google.accounts.id.revoke(googleCredential, () => {
       console.log("Google logout successful");
       setGoogleCredential(null);
       setIsLoggedIn(false);
-      alert("Logged out successfully!");
+      Swal.fire({
+        text: "logged in sucseefuly 😊",
+        icon: "success",
+        confirmButtonText: "Thanks!",
+      });
     });
   } else {
     signOut(auth)
@@ -143,41 +154,54 @@ export const handleLogout = (googleCredential, setGoogleCredential, setIsLoggedI
 };
 
 // تسجيل الدخول بجوجل
-export const handleGoogleLoginSuccess = async (response, setIsLoggedIn, modalRef, setGoogleCredential ,setUserData) => {
+export const handleGoogleLoginSuccess = async (
+  response,
+  setIsLoggedIn,
+  modalRef,
+  setGoogleCredential,
+  setUserData
+) => {
   console.log("Google login successful:", response);
 
   try {
-    const res = await fetch('http://localhost:3000/users/google', {
-      method: 'POST',
+    const res = await fetch("http://localhost:3000/users/google", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        idToken: response.credential
+        idToken: response.credential,
       }),
     });
 
     const data = await res.json();
 
     if (data.success) {
-      console.log('✅ User verified by server:', data.user);
-      alert(`Welcome ${data.user.name}!`);
-      localStorage.setItem('authToken', data.token);
-      window.dispatchEvent(new Event('storage'))
-      console.log(data.token);
-      localStorage.setItem('userData', JSON.stringify(data.user));
+      console.log("✅ User verified by server:", data.user);
+  
+      Swal.fire({
+        title: `Welcome  ${data.user.name}!`,
+        text: 'Glad to have you here 😊',
+        icon: 'success',
+        confirmButtonText: 'Thanks!'
+      });
+      // حفظ التوكن في localStorage
+      localStorage.setItem("authToken", data.token);
+      window.dispatchEvent(new Event("storage"));
 
+      localStorage.setItem("userData", JSON.stringify(data.user));
+// ← حفظ بيانات المستخدم
       setIsLoggedIn(true);
       setGoogleCredential(response.credential);
       setUserData(data.user);
-      modalRef.current?.classList.remove('show');
-      document.body.style.overflow = 'auto';
+      modalRef.current?.classList.remove("show");
+      document.body.style.overflow = "auto";
     } else {
-      alert('Login failed on server.');
+      alert("Login failed on server.");
     }
   } catch (error) {
-    console.error('Error verifying token on server:', error);
-    alert('An error occurred, please try again.');
+    console.error("Error verifying token on server:", error);
+    alert("An error occurred, please try again.");
   }
 };
 
