@@ -24,9 +24,9 @@ const EmailSignup = ({ show, handleClose, email, setIsLoggedIn ,setEmail}) => {
       newErrors.lastName = "Last name must be at least 2 characters.";
     }
 // التحقق من صحة البريد الإلكتروني
-    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
+if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+  newErrors.email = "Please enter a valid email address.";
+}
 // التحقق من صحة كلمة المرور
     if (!formData.password || formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
@@ -140,14 +140,14 @@ const EmailSignup = ({ show, handleClose, email, setIsLoggedIn ,setEmail}) => {
         </p>
         <hr />
 
-        <h5>Email</h5>
         <input
-          type="email"
-          placeholder="Email"
-          className="form-control mb-2"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        />
+  type="email"
+  placeholder="Email"
+  className="form-control mb-2"
+  value={email} // تعيين القيمة من props
+  readOnly     // جعل الحقل غير قابل للتعديل
+/>
+       
         {errors.email && <p className="text-danger">{errors.email}</p>}
 
         <h5>Date of birth</h5>
