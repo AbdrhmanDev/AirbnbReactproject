@@ -33,11 +33,11 @@ const RoutesPage = () => {
           {path:'/details/:id',element:<Details/>},
           {path:'/Filter',element:<Filltration/>},
           {path:'/images',element:<ShowAllImage/>},  
-          // {path:'/Login',element:<PhoneOtpComponent/>},
           {path:'/Trips',element:<Trip/>},
-           {path:"/Account", element:<UserInfo />},
+           {path:"/Account", element:<UserInfo />},  // rout of setting page
           {path:"/Account/login-security" ,element:<LoginSecurity/>}, 
           {path:"/Account/payments" ,element:<Payment/>},
+          // end of rout of setting page
 
         ]
       },

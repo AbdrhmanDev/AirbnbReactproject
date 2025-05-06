@@ -31,15 +31,11 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  // useEffect(() => {
-  //     // تحقق من القيمة في localStorage
-  //     const value = localStorage.getItem("authToken");
-  //     setStoredValue(value); // تعيين القيمة إذا كانت موجودة
-  // }, []);
-  ////////////////////////////////////////////////////////////////////
+  
+  //////////////////////////////////////////////////////////////////// // التعديل الجديد غادة فخري
   useEffect(() => {
     const handleStorageChange = () => {
-      // التعديل الجديد غادة فخري
+     
       const googleToken = localStorage.getItem("authToken");
       const emailToken = localStorage.getItem("Emailtoken");
       if (googleToken || emailToken) {
@@ -57,7 +53,7 @@ const Navbar = () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
-  /////////////////////////////////////
+  ///////////////////////////////////// End
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -237,7 +233,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         {" "}
-                        <Link
+                        <Link   // [login && logout]
                           to="#"
                           className="dropdown-item m-2"
                           style={{ fontSize: "13px" }}
@@ -262,6 +258,7 @@ const Navbar = () => {
                       >
                         Login
                       </Link>
+                      {/* // End og login and logout   */}
                       <li>
                         <Link
                           to="/profile"
