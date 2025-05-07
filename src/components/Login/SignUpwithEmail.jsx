@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Alert } from "react-bootstrap";
 import Swal from "sweetalert2";
 // تسجيل الدخول باستخدام البريد الإلكتروني
-const EmailSignup = ({ show, handleClose, email, setIsLoggedIn ,setEmail}) => {
+const EmailSignup = ({ show, handleClose, email, setIsLoggedIn, setEmail }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -14,24 +14,24 @@ const EmailSignup = ({ show, handleClose, email, setIsLoggedIn ,setEmail}) => {
   const [errors, setErrors] = useState({});
   const validateForm = () => {
     const newErrors = {};
-// التحقق من صحة البيانات المدخلة
+    // التحقق من صحة البيانات المدخلة
     if (!formData.firstName || formData.firstName.trim().length < 2) {
       newErrors.firstName = "First name must be at least 2 characters.";
     }
-// التحقق من صحة الاسم الأول
-// التحقق من صحة الاسم الأخير
+    // التحقق من صحة الاسم الأول
+    // التحقق من صحة الاسم الأخير
     if (!formData.lastName || formData.lastName.trim().length < 2) {
       newErrors.lastName = "Last name must be at least 2 characters.";
     }
-// التحقق من صحة البريد الإلكتروني
-if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-  newErrors.email = "Please enter a valid email address.";
-}
-// التحقق من صحة كلمة المرور
+    // التحقق من صحة البريد الإلكتروني
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    // التحقق من صحة كلمة المرور
     if (!formData.password || formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters.";
     }
-// التحقق من صحة تاريخ الميلاد ,وان يكون اكبر من 18 عام 
+    // التحقق من صحة تاريخ الميلاد ,وان يكون اكبر من 18 عام
     if (!formData.birthDate) {
       newErrors.birthDate = "Date of birth is required.";
     }
@@ -51,7 +51,8 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
 
   const handleSignup = async () => {
     if (!validateForm()) return;
-    try {  // إرسال البيانات إلى الخادم
+    try {
+      // إرسال البيانات إلى الخادم
       const response = await fetch("http://localhost:3000/users/register", {
         method: "POST",
         headers: {
@@ -66,7 +67,7 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
           address: formData.address,
         }),
       });
-// استلام البيانات من الخادم
+      // استلام البيانات من الخادم
       const data = await response.json();
       if (response.ok) {
         Swal.fire({
@@ -75,7 +76,7 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
           icon: "success",
           confirmButtonText: "Thanks!",
         });
-// حفظ التوكن في localStorage
+        // حفظ التوكن في localStorage
         localStorage.setItem("Emailtoken", data.token);
         window.dispatchEvent(new Event("storage"));
         localStorage.setItem("userData", JSON.stringify(data.user));
@@ -110,14 +111,14 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
         <Modal.Title>Sign Up with Email</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
-        <h5>Legal Name</h5> 
+        <h5>Legal Name</h5>
         <input
           type="text"
           placeholder="First Name in ID"
           className="form-control mb-2"
           value={formData.firstName}
           onChange={(e) =>
-            setFormData({ ...formData, firstName: e.target.value }) 
+            setFormData({ ...formData, firstName: e.target.value })
           }
         />
         {errors.firstName && <p className="text-danger">{errors.firstName}</p>}
@@ -134,20 +135,20 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
         {errors.lastName && <p className="text-danger">{errors.lastName}</p>}
 
         <hr />
-        <p className="text-muted mb-2">
+        <p className="text-muted mb-2 small">
           Make sure this matches the name on your government ID. If you go by
           another name, you can add a preferred first name.
         </p>
         <hr />
-
+        <h5>Contact info</h5>
         <input
-  type="email"
-  placeholder="Email"
-  className="form-control mb-2"
-  value={email} // تعيين القيمة من props
-  readOnly     // جعل الحقل غير قابل للتعديل
-/>
-       
+          type="email"
+          placeholder="Email"
+          className="form-control mb-2"
+          value={email} // تعيين القيمة من props
+          readOnly // جعل الحقل غير قابل للتعديل
+        />
+
         {errors.email && <p className="text-danger">{errors.email}</p>}
 
         <h5>Date of birth</h5>
@@ -161,7 +162,7 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
         />
         {errors.birthDate && <p className="text-danger">{errors.birthDate}</p>}
 
-        <p className="text-muted mb-2">
+        <p className="text-muted mb-2 small">
           To sign up, you need to be at least 18. Your birthday won’t be shared
           with other people who use Airbnb.
         </p>
@@ -190,7 +191,7 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
         />
         {errors.password && <p className="text-danger">{errors.password}</p>}
 
-        <p className="text-muted mb-2">
+        <p className="text-muted mb-2 small">
           By selecting Agree and continue, I agree to Airbnb’s Terms of Service,
           Payments Terms of Service, and Nondiscrimination Policy and
           acknowledge the <a href="#">Privacy Policy</a>.
@@ -202,7 +203,7 @@ if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
             width: "100%",
             backgroundColor: "#FF385C",
             color: "white",
-            padding: "0.75rem",
+            padding: "0.7rem",
             border: "none",
           }}
           onClick={handleSignup}

@@ -54,8 +54,8 @@ const PhoneOtpComponent = () => {
 
     return () => unsubscribe();
   }, []);
-// التحقق من وجود المستخدم في الجلسة
-  const handleOpenEmailModal = () => {     
+  // التحقق من وجود المستخدم في الجلسة
+  const handleOpenEmailModal = () => {
     const modalEl = document.getElementById("phoneOtpModal");
     const modalInstance = Modal.getInstance(modalEl) || new Modal(modalEl);
     modalInstance.hide();
@@ -132,7 +132,7 @@ const PhoneOtpComponent = () => {
               <div className="modal-body">
                 {!showOtpInputs ? (
                   <>
-                    <h3 className={style.title}>Welcome to Airbnb</h3>
+                    <h4 className={style.title}>Welcome to Airbnb</h4>
                     <label className="mb-2"></label>
                     <div className={style.inputGroup}>
                       <select
@@ -157,8 +157,7 @@ const PhoneOtpComponent = () => {
                       We’ll call or text you to confirm your number.{" "}
                       <a href="/">Privacy Policy</a>
                     </p>
-                    <button 
-      
+                    <button
                       className={style.continueBtn}
                       onClick={() =>
                         handleSendOTP(
@@ -187,17 +186,27 @@ const PhoneOtpComponent = () => {
                         }
                         onError={handleGoogleLoginError}
                         size="large"
+                        locale="en"
                         className={style.googleLoginBtn}
                       />
                     </div>
+
                     {/* تسيجيل الدخول بالايميل والباسورد */}
 
                     {!showEmailInput ? (
                       <button
                         onClick={() => setShowEmailInput(true)}
                         className={style.socialLoginBtn}
+                        style={{ position: "relative", textAlign: "center" }}
                       >
-                        <FaEnvelope style={{ marginInlineEnd: "8px" }} />
+                        <FaEnvelope
+                          style={{
+                            position: "absolute",
+                            left: "16px", // المسافة من أقصى اليسار
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                          }}
+                        />
                         Sign in with email
                       </button>
                     ) : (
