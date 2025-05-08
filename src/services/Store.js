@@ -10,6 +10,9 @@ import GetUserTripSlice from "./Slice/Trip";
 import ProfileSlice from "./Slice/Profile/ProfileAPI";
 import ProfileEditSlice from "./Slice/Profile/EditProfileApi";
 import authSlice from "./Slice/Login/GoogleLogin";
+import BookingHotelSlice from "./Slice/Booking/Booking";
+import PaymentFirstSlice from "./Slice/Payment/Payment";
+import ExecutePaymentSlice from "./Slice/Payment/ExecutePayment";
 
 
 const Store = configureStore({
@@ -24,7 +27,10 @@ const Store = configureStore({
         UserTrip:GetUserTripSlice.reducer,
         ProfileEdit:ProfileEditSlice.reducer,
         userProfile:ProfileSlice.reducer,
-        auth:authSlice.reducer
+        auth:authSlice.reducer,
+        booking:BookingHotelSlice.reducer,
+        PaymentFirst:PaymentFirstSlice.reducer,
+        ExecutePayment:ExecutePaymentSlice.reducer
     }
 });
 

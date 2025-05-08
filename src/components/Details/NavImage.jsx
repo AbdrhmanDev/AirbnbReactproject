@@ -113,7 +113,7 @@ const NavImage = ({ title, images, _id }) => {
                                         <div className="col-6 position-relative">
                                             <img src={images?.[4]} className="image-box rounded-end" alt="Image 5" />
                                             <button
-                                                className="btn-light3 position-absolute bottom-0 col-md-12  end-0 m-2 px-3 py-2 rounded-2 border-1 text-dark"
+                                                className="btn-light3 position-absolute bottom-0 col-md-8  end-0 m-2  py-2 rounded-2 border-1 text-dark"
                                                 onClick={ShowAllImages}
                                             >
                                              <TbGridDots className='mb-1'/>   Show all photos

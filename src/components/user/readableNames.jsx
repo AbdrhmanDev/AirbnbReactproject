@@ -2,7 +2,7 @@ import React from 'react';
 import { Breadcrumb } from 'react-bootstrap';
 import { useLocation, Link } from 'react-router-dom';
 
-
+// دا البجينيشن 
 const readableNames = {
 
   ProfileSection: 'الملف الشخصي',

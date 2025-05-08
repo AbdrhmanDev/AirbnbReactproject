@@ -178,12 +178,14 @@
     border-radius: 12px !important;
     display: flex;
     align-items: center;
+
 }
 
 .toast-content {
     display: flex;
     align-items: center;
     gap: 10px;
+ 
 }
 
 .toast-img {

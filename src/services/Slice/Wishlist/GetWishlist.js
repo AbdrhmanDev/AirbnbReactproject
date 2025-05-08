@@ -3,7 +3,9 @@ const API_TOKEN = import.meta.env.VITE_TOKEN;
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
 const GetWishlist = async () => {
+    const token = localStorage.getItem("token");
     try {
        const response = await axios.get(
             `${API_KEY}/users/wishlist`,
@@ -11,7 +13,7 @@ const GetWishlist = async () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${API_TOKEN}`
+                    'Authorization': `Bearer ${token}`
                 }
             }
         );

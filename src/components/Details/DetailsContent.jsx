@@ -10,10 +10,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { ImFlag } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from 'react-redux';
+import { BookingThunk } from '../../services/Slice/Booking/Booking';
+
 const DetailsContent = ({
     aboutThisSpace, spaceDetails,
     title, rating, address, hostId,
-    amenities, propertyType, images,_id,
+    amenities, propertyType, images, _id,
     advantages, pricePerNight, capacity
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -25,7 +28,7 @@ const DetailsContent = ({
     const [children, setChildren] = useState(0);
     const [infants, setInfants] = useState(0);
     const [pets, setPets] = useState(0);
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const ClearMaun = useRef()
     const Createt = new Date(hostId.createdAt);
     Createt.toLocaleDateString("en-GB");
@@ -40,9 +43,31 @@ const DetailsContent = ({
     const remainingDays = daysDiff % 30;
     const monthlyPrice = pricePerNight * 30 * 0.8;
     const totalPrice = (monthlyPrice * fullMonths) + (pricePerNight * remainingDays);
-
+    const dispatch = useDispatch()
+    const {isError,errorMessage} = useSelector((state) => state.booking);
+    // const Hotel = useSelector((state)=>state.booking.booking);
+    // console.log(Hotel?.booking?._id);
+    // const idHotel=Hotel?.booking?._id;
     const HotelReservation = () => {
-        navigate(`/book/stays?detailId=${_id}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&title=${encodeURIComponent(title)}&rating=${rating}&image=${encodeURIComponent(images[0])}&months=${fullMonths}&days=${remainingDays}&monthlyPrice=${monthlyPrice}&totalPrice=${totalPrice}&guests=${spaceDetails.rooms}`)
+            dispatch(BookingThunk({
+                properties: [
+                    {
+                        propertyId: _id,
+                        startDate: formattedStartDate,
+                        endDate: formattedEndDate,
+                        price: pricePerNight,
+                        companions: adults,
+                        petsAllowed: pets,
+                        paymentStatus: "pending",
+                        totalPrice: totalPrice,
+                        paymentMethod: "paypal",
+                    }
+                ]
+            })).unwrap().then(()=>{
+                navigate(`/book/stays?detailId=${_id}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&title=${encodeURIComponent(title)}&rating=${rating}&image=${encodeURIComponent(images[0])}&months=${fullMonths}&days=${remainingDays}&monthlyPrice=${monthlyPrice}&totalPrice=${totalPrice}&guests=${spaceDetails.rooms}`)
+            })
+            console.log();
+            
     }
 
     const handleToggle = () => {
@@ -84,7 +109,7 @@ const DetailsContent = ({
                 </div>
                 <div className='w-50 ms-2 mt-2'>
                     <span className={`border p-1 ps-2 pe-2 ms-3 rounded-circle ${value == 0 ? 'opacity-50' : ''}`}
-                        onClick={() => {if(value>0) setValue(value - 1)}}
+                        onClick={() => { if (value > 0) setValue(value - 1) }}
                     >-</span>
                     <span className=' ms-4' >{value}</span>
                     <span className='border p-1 ps-2 pe-2 ms-3 rounded-circle pointer-event' onClick={() => setValue(value + 1)}>+</span>
@@ -276,7 +301,7 @@ const DetailsContent = ({
                                             </>
                                         ) : daysDiff >= 30 ? (
                                             (() => {
-                                                
+
                                                 return (
                                                     <>
                                                         ${totalPrice.toFixed(2)}
@@ -365,6 +390,10 @@ const DetailsContent = ({
                                 <button type="button" className="btn btn-danger w-100 mt-3"
                                     onClick={HotelReservation}
                                 >Check availability</button>
+                                {/* error massage */}
+                               {
+                               isError && <p className='text-danger mt-1' style={{ fontSize:"12px" }}>{errorMessage}</p>
+                               }
                                 <p style={{ fontSize: "12px" }} className='m-2 text-center'>You won't be charged yet</p>
                             </div>
                             <div className='text-center mt-2'>

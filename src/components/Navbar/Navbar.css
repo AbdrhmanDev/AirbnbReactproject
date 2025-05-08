@@ -87,11 +87,7 @@ input:focus {
   outline: none;
 
 }
-.Toastify__toast {
-  background-color: transparent !important;  
-  box-shadow: none !important;     
-  color: #E03150 !important;  
-}
+
 
 /* تخصيص الرسالة داخل الـ toast */
 .Toastify__toast-body {

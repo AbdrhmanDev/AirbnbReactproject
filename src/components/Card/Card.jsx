@@ -86,7 +86,7 @@ const ImageCard = ({ hotel }) => {
 
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
-                        <FiHeart
+                        <FiHeart    
                             style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
                             onClick={(e) => {
                                 e.stopPropagation();
