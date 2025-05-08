@@ -170,6 +170,7 @@ const PhoneOtpComponent = () => {
                     >
                       Continue
                     </button>
+                
                     <p className={style.orText}>Or</p>
                     <hr />
                     {/* تسجيل الدخول بحساب جوجل  */}
@@ -331,8 +332,9 @@ const PhoneOtpComponent = () => {
           </div>
         </div>
       </div>
-      <div id="recaptcha-container" style={{ marginTop: "20px" }}></div> 
-       </GoogleOAuthProvider>
+      <div id="recaptcha-container"  ></div>
+    </GoogleOAuthProvider>
+    
   );
 };
 export default PhoneOtpComponent;

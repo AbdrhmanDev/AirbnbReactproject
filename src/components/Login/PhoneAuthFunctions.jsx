@@ -1,7 +1,7 @@
 import { auth, RecaptchaVerifier } from "./firbase";
 import { signInWithPhoneNumber, signOut } from "firebase/auth";
 import Swal from "sweetalert2";
-// إعداد الريكابتشا
+// // إعداد الريكابتشا
 export const setupRecaptcha = (handleSendOTP) => {
   if (!window.recaptchaVerifier) {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -17,7 +17,9 @@ export const setupRecaptcha = (handleSendOTP) => {
     );
   }
 };
+
 // إرسال OTP
+  // نفعل الريكابتشا
 export const handleSendOTP = (
   countryCode,
   phoneNumber,
@@ -29,7 +31,9 @@ export const handleSendOTP = (
     alert("Please enter a valid phone number.");
     return;
   }
-
+  setupRecaptcha(() =>
+    console.log("reCAPTCHA is ready")
+  );
   setupRecaptcha(() =>
     handleSendOTP(
       countryCode,
@@ -60,6 +64,7 @@ export const handleSendOTP = (
     });
 };
 // إرسال OTP
+
 export const handleVerifyOTP = (
   otp,
   confirmationResult,
@@ -207,3 +212,6 @@ export const handleGoogleLoginError = () => {
   console.log("Google login failed");
   alert("Google login failed. Please try again.");
 };
+
+
+

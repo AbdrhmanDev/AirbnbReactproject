@@ -170,7 +170,7 @@ const EmailSignup = ({ show, handleClose, email, setIsLoggedIn, setEmail }) => {
         <h5>Address</h5>
         <input
           type="text"
-          placeholder="Your address"
+          placeholder="country , city"
           className="form-control mb-2"
           value={formData.address}
           onChange={(e) =>
