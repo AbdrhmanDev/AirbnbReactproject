@@ -331,9 +331,8 @@ const PhoneOtpComponent = () => {
           </div>
         </div>
       </div>
-      <div id="recaptcha-container"></div>
-    </GoogleOAuthProvider>
+      <div id="recaptcha-container" style={{ marginTop: "20px" }}></div> 
+       </GoogleOAuthProvider>
   );
 };
-
 export default PhoneOtpComponent;

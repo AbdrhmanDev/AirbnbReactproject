@@ -1,8 +1,6 @@
 import { auth, RecaptchaVerifier } from "./firbase";
 import { signInWithPhoneNumber, signOut } from "firebase/auth";
 import Swal from "sweetalert2";
-
-
 // إعداد الريكابتشا
 export const setupRecaptcha = (handleSendOTP) => {
   if (!window.recaptchaVerifier) {
@@ -10,7 +8,7 @@ export const setupRecaptcha = (handleSendOTP) => {
       auth,
       "recaptcha-container",
       {
-        size: "invisible",
+        size:"invisible",
         callback: () => {
           console.log("reCAPTCHA verified");
           handleSendOTP();
@@ -19,7 +17,6 @@ export const setupRecaptcha = (handleSendOTP) => {
     );
   }
 };
-
 // إرسال OTP
 export const handleSendOTP = (
   countryCode,
