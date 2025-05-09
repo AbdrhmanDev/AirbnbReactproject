@@ -65,6 +65,46 @@ export const handleSendOTP = (
 };
 // إرسال OTP
 
+// export const handleVerifyOTP = (
+//   otp,
+//   confirmationResult,
+//   setIsLoggedIn,
+//   setShowOtpInputs,
+//   setOtp,
+//   modalRef
+// ) => {
+//   const code = otp.join("");
+//   if (!confirmationResult) return alert("No OTP sent yet!");
+//   if (code.length !== 6) {
+//     alert("Please enter a valid 6-digit OTP.");
+//     return;
+//   }
+
+//   confirmationResult
+//     .confirm(code)
+//     .then(async (result) => {
+//       console.log("Phone number verified!", result.user);
+
+//       // 👇 الحصول على توكن المستخدم من Firebase
+//       const idToken = await result.user.getIdToken(); // ← هنا نأخذ التوكن الحقيقي
+//       localStorage.setItem("authToken", idToken); // ← نحفظ التوكن
+//       window.dispatchEvent(new Event("storage")); // ← إرسال إشعار للتغيير
+//       Swal.fire({
+//         text: ' Welcome , Glad to have you here 😊',
+//         icon: 'success',
+//         confirmButtonText: 'Thanks!'
+//       });
+//       setIsLoggedIn(true);
+//       setShowOtpInputs(false);
+//       setOtp(Array(6).fill(""));
+//       modalRef.current?.classList.remove("show");
+//       document.body.style.overflow = "auto";
+//     })
+//     .catch((error) => {
+//       console.error("Invalid OTP:", error);
+//       alert("Invalid OTP. Please try again.");
+//     });
+// };
 export const handleVerifyOTP = (
   otp,
   confirmationResult,
@@ -83,16 +123,36 @@ export const handleVerifyOTP = (
   confirmationResult
     .confirm(code)
     .then(async (result) => {
-      console.log("Phone number verified!", result.user);
+      console.log("✅ Phone number verified!", result.user);
 
-      // 👇 الحصول على توكن المستخدم من Firebase
-      const idToken = await result.user.getIdToken(); // ← هنا نأخذ التوكن الحقيقي
-      localStorage.setItem("authToken", idToken); // ← نحفظ التوكن
-      window.dispatchEvent(new Event("storage")); // ← إرسال إشعار للتغيير
+      const idToken = await result.user.getIdToken();
+      localStorage.setItem("authToken", idToken);
+      window.dispatchEvent(new Event("storage"));
+
+      // ⬇️ إرسال البيانات إلى الباك إند
+      fetch("http://localhost:3000/users/phone-login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: result.user.uid,
+          phoneNumber: result.user.phoneNumber || result.user.phone, 
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("✅ Phone user saved:", data);
+        })
+        .catch((error) => {
+          console.error("❌ Failed to save phone user:", error);
+        });
+
+      // بقية الخطوات بعد التحقق
       Swal.fire({
-        text: ' Welcome , Glad to have you here 😊',
-        icon: 'success',
-        confirmButtonText: 'Thanks!'
+        text: "Welcome, Glad to have you here 😊",
+        icon: "success",
+        confirmButtonText: "Thanks!",
       });
       setIsLoggedIn(true);
       setShowOtpInputs(false);
@@ -101,10 +161,12 @@ export const handleVerifyOTP = (
       document.body.style.overflow = "auto";
     })
     .catch((error) => {
-      console.error("Invalid OTP:", error);
+      console.error("❌ Invalid OTP:", error);
       alert("Invalid OTP. Please try again.");
     });
 };
+
+
 
 // عند كتابة أرقام OTP
 export const handleOtpChange = (value, index, otp, setOtp, otpRefs) => {

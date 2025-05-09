@@ -157,6 +157,7 @@ const PhoneOtpComponent = () => {
                       We’ll call or text you to confirm your number.{" "}
                       <a href="/">Privacy Policy</a>
                     </p>
+                    {/* تسجيل الدخول باستخدام رقم الهاتف  */}
                     <button
                       className={style.continueBtn}
                       onClick={() =>
@@ -331,10 +332,9 @@ const PhoneOtpComponent = () => {
             </div>
           </div>
         </div>
+        <div id="recaptcha-container"></div>
       </div>
-      <div id="recaptcha-container"  ></div>
     </GoogleOAuthProvider>
-    
   );
 };
 export default PhoneOtpComponent;
