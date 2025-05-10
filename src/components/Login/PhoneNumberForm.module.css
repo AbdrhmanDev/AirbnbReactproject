@@ -1,0 +1,117 @@
+.container {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.modalContent {
+  padding: 1rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.select {
+  flex: 0.3;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.input {
+  flex: 0.7;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.policyText {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.continueBtn {
+  width: 100%;
+  background-color: #FF385c;
+  color: white;
+  padding:9px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.orText {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.googleLoginBox {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+}
+
+.otpContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.otpInput {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.verifyBtn {
+  width: 100%;
+  background-color: #FF385c;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+}
+.input2{
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;}
+
+.socialLoginBtn {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.socialLoginBtn:hover {
+  background-color: #f7f7f7;
+  border-color: #ccc;
+}
+
+.modal-backdrop {
+  display: none !important;
+}
+#recaptcha-container {
+  z-index: 999999 !important;
+}
