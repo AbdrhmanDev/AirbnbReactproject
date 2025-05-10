@@ -3,11 +3,11 @@
 import { toast } from 'react-toastify';
 import { addwishlistPost } from '../../services/Slice/Wishlist/AddWishlist';
 import { DeleteWishlistThunk } from '../../services/Slice/Wishlist/DeleteWishlist';
-// import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
 
-export const toggleWishlist = ({isWished,dispatch,hotelId,hotelTitle,hotelImages,setIsWished,}) => {
+export const toggleWishlist = ({isWished,dispatch,hotelId,hotelTitle,hotelImages,setIsWished}) => {
+  
 
-
+   
   if (isWished) {
     dispatch(DeleteWishlistThunk(hotelId));
     setIsWished(false);
@@ -40,7 +40,10 @@ export const toggleWishlist = ({isWished,dispatch,hotelId,hotelTitle,hotelImages
     );
   }
 
-  
+  return (
+    <>
+    </>
+  );
   
 };
     

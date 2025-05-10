@@ -14,14 +14,10 @@ import ShowAllImage from '../../components/Details/ShowAllImage/ShowAllImage';
 const Details = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-
   const HotelById = useSelector((state) => state.HotelByID.getById)||[] ;
   const isLoading = useSelector((state) => state.HotelByID.isLoading);
   const isError = useSelector((state) => state.HotelByID.isError);
   const errorMessage = useSelector((state) => state.HotelByID.errorMessage);
-  console.log(HotelById);
-
-  
 
   const {
     title,

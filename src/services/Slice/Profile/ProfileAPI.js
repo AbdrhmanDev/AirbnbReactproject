@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_API;
-const API_TOKENs = import.meta.env.VITE_TOKEN;
+
+const token =localStorage.getItem('token');
 
 const FetchProfile = async () => {
     const API_TOKEN = localStorage.getItem("token")
@@ -12,7 +13,7 @@ const FetchProfile = async () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${API_TOKEN}`
+                'Authorization': `Bearer ${token}`
             }
         });
     } catch (error) {

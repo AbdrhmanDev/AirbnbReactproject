@@ -66,7 +66,7 @@ const DetailsContent = ({
             })).unwrap().then(()=>{
                 navigate(`/book/stays?detailId=${_id}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&title=${encodeURIComponent(title)}&rating=${rating}&image=${encodeURIComponent(images[0])}&months=${fullMonths}&days=${remainingDays}&monthlyPrice=${monthlyPrice}&totalPrice=${totalPrice}&guests=${spaceDetails.rooms}`)
             })
-            console.log();
+
             
     }
 

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
-const API_TOKEN = import.meta.env.VITE_TOKEN;
 const DeleteWishlist = async (id) => {
     const token = localStorage.getItem("token");
 

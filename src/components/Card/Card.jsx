@@ -8,6 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FiHeart } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import { toggleWishlist } from '../wishlistHelpers/wishlistHelpers';
+import ModalLogin from '../Login/ModalLogin';
+import { emitter } from '../../features/emitter';
+import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
+
+
 
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
     return (
@@ -39,9 +44,11 @@ const ImageCard = ({ hotel }) => {
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
     
-    if (!hotel || !hotel.images || hotel.images.length === 0) return null;
-
     const { images, title, pricePerNight, rating, address, _id } = hotel;
+    const isLoggedIn = !!localStorage.getItem("token");
+   
+
+    if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
     const handleNext = () => {
         setCurrent((prev) => (prev + 1) % images.length);
@@ -60,10 +67,12 @@ const ImageCard = ({ hotel }) => {
     return (
         <div className="card-container"
             style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}
-            onClick={() => { navigate(`/details/${_id}`) }}>
+            >
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <div className="position-relative">
-                    <img src={images[current]} alt="Slide" className="carousel-img" />
+                    <img src={images[current]} alt="Slide" className="carousel-img cursor-pointer"
+                    onClick={() => { navigate(`details/${_id}`) }}
+                    />
 
                     <div className="cursor-icons-all">
                         <button className="carousel-control-prev" onClick={handlePrev}>
@@ -74,7 +83,9 @@ const ImageCard = ({ hotel }) => {
                         </button>
                     </div>
 
-                    <div className="dots-container">
+                    <div className="dots-container"
+                    
+                    >
                         {images.map((_, index) => (
                             <span
                                 key={index}
@@ -86,11 +97,15 @@ const ImageCard = ({ hotel }) => {
 
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
-                        <FiHeart    
+                        {
+                            isLoggedIn ? 
+                            <FiHeart    
                             style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
                             onClick={(e) => {
+                                dispatch(getwishlistThunk())
                                 e.stopPropagation();
                                 setIsWished((prev) => !prev);
+       
                                     toggleWishlist({
                                         isWished,
                                         dispatch,
@@ -98,10 +113,23 @@ const ImageCard = ({ hotel }) => {
                                         hotelTitle: title,
                                         hotelImages: images,
                                         setIsWished,
-                                    });}}/>
+                                        
+                                    })
+                                    ;}}/> :
+                                    <FiHeart    
+                            style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault(); 
+                                
+                                   emitter.emit('open-modal')
+                                    ;}}/>
+                        }
                     </span>
                 </div>
-                <div className="d-flex mt-1">
+                <div className="d-flex mt-1 cursor-pointer" 
+                    onClick={() => { navigate(`details/${_id}`) }}
+                >
                     <div className="card-body text-start">
                         <h6 className="card-title pt-1">{title}</h6>
                         <p className="card-text text-muted mb-1">{address?.city}, {address?.country}</p>
@@ -113,7 +141,9 @@ const ImageCard = ({ hotel }) => {
                     </div>
                 </div>
             </div>
+            <ModalLogin/>
         </div>
+        
     );
 };
 

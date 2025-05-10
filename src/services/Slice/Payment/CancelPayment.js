@@ -4,12 +4,11 @@ const API_KEY = import.meta.env.VITE_API;
 
 const token =localStorage.getItem('token');
 
-const ExecutePayment = async ({ paymentId, orderId }) => {
+const CancelPayment = async ({ paymentId }) => {
     try {
        const response = await axios.post(`${API_KEY}/payments/execute-paypal-payment`,
         {
             paymentId,
-            orderId
         },
         {headers: {
             'Content-Type': 'application/json',
@@ -25,32 +24,32 @@ const ExecutePayment = async ({ paymentId, orderId }) => {
     }
 }
 
-export const PaymentExecuteThunk = createAsyncThunk('ExecutePayment/execute', ExecutePayment);
+export const PaymentCancelThunk = createAsyncThunk('CancelPayment/execute', CancelPayment);
 
-const ExecutePaymentSlice = createSlice({
-    name: "ExecutePayment",
+const CancelPaymentSlice = createSlice({
+    name: "CancelPayment",
     initialState: {
-        ExecutePayment: null,
+        CancelPayment: null,
         isLoading: false,
         isError: false,
         errorMessage:''
     },
     extraReducers: (builder) => {
         builder
-            .addCase(PaymentExecuteThunk.pending, (state) => {
+            .addCase(PaymentCancelThunk.pending, (state) => {
                 state.isLoading = true;
                 state.isError = false;
                 state.errorMessage = '';
             })
-            .addCase(PaymentExecuteThunk.fulfilled, (state, action) => {
-                state.ExecutePayment = action.payload;
+            .addCase(PaymentCancelThunk.fulfilled, (state, action) => {
+                state.CancelPayment = action.payload;
                 state.isLoading = false;
             })
-            .addCase(PaymentExecuteThunk.rejected, (state,action) => {
+            .addCase(PaymentCancelThunk.rejected, (state,action) => {
                 state.isError = true;
                 state.isLoading = false;
                 state.errorMessage = action.payload || 'data is not found'; 
             });
     },
 });
-export default ExecutePaymentSlice;
+export default CancelPaymentSlice;

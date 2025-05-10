@@ -24,10 +24,18 @@ const Navbar = () => {
     // const [showLoginModal, setShowLoginModal] = useState(false);
     const menuRef = useRef();
     const dispatch = useDispatch();
+    const login = localStorage.getItem('token');
+    const [isLogin, setIsLogin] = useState(login)
+
+    const user = useSelector((state) => state.auth.user)
+    console.log(user);
+
 
     useEffect(() => {
         dispatch(fetchProfileThunk())
     }, []);
+
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -47,8 +55,10 @@ const Navbar = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-    const handelLogout =()=>{
+    const handelLogout = () => {
+        setIsLogin(false)
         dispatch(logout())
+        
     }
     return (
         <>
@@ -74,7 +84,9 @@ const Navbar = () => {
 
                     <div className="d-flex align-items-center gap-3">
                         <span className="fw-semibold">
-                            <button className='border-0 bg-body p-2 hoverFromNav'>Switch to hosting</button>
+                            <button className='border-0 bg-body p-2 hoverFromNav'>{
+                                isLogin ? "Switch to hosting" : "Airbnb your home"
+                            }</button>
                         </span>
 
                         <a href="#" className="text-dark">
@@ -104,39 +116,47 @@ const Navbar = () => {
                                     {/* ul Login */}
 
 
-                                    {/* <ul className="list-unstyled mb-0 m-2">
-                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
-                                                <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
-                                                <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
-                                                <div className='border'></div>
-                                                <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
-                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
-                                                <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Refer a Host</Link></li>
-                                                <li><Link to="/Account" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Account</Link></li>
-                                                <div className='border'></div>
-                                                <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Gift cards</Link></li>
-                                                <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
-                                                <li><Link  className="dropdown-item  m-2" style={{ fontSize: "13px" }}>Logout</Link></li>
-                                            </ul>  */}
-                                    <ul className="list-unstyled mb-0 m-2">
-                                        <li>
-                                            <p
-                                                className="dropdown-item m-2"
-                                                style={{ fontSize: "13px", cursor: "pointer" }}
-                                                onClick={() => emitter.emit('open-modal')}
-                                            >
-                                                login
-                                            </p>
-                                        </li>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
-                                        <div className='border'></div>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
-                                        <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
-                                        <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
-                                        <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
-                                        <li><Link  className="dropdown-item m-2" onClick={handelLogout} style={{ fontSize: "13px" }}>Logout</Link></li>
+                                    {isLogin &&
+                                        <ul className="list-unstyled mb-0 m-2">
+                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
+                                            <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
+                                            <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
+                                            <div className='border'></div>
+                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
+                                            <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                            <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Refer a Host</Link></li>
+                                            <li><Link to="/Account" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Account</Link></li>
+                                            <div className='border'></div>
+                                            <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                            <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
+                                            <li><Link className="dropdown-item m-2" onClick={handelLogout} style={{ fontSize: "13px" }}>Logout</Link></li>
+                                        </ul>
 
-                                    </ul>
+                                    }
+                                    {
+                                        !isLogin && <ul className="list-unstyled mb-0 m-2">
+                                            <li>
+                                                <p
+                                                    className="dropdown-item m-2"
+                                                    style={{ fontSize: "13px", cursor: "pointer" }}
+                                                    onClick={
+                                                        () => {
+                                                            emitter.emit('open-modal')
+                                                        }}
+                                                >
+                                                    login
+                                                </p>
+                                            </li>
+                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
+                                            <div className='border'></div>
+                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
+                                            <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                            <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
+
+                                        </ul>
+                                    }
+
                                 </div>
                             )}
                         </div>
@@ -149,8 +169,8 @@ const Navbar = () => {
             )}
 
             {/* <LoginModal/> */}
-            <ModalLogin 
-                
+            <ModalLogin
+
             />
         </>
     );

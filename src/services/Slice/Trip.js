@@ -3,6 +3,8 @@ const API_TOKEN = import.meta.env.VITE_TOKEN;
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const token =localStorage.getItem('token');
+
 const GetUserTrip = async () => {
     let response;
     try {
@@ -11,7 +13,7 @@ const GetUserTrip = async () => {
             `${API_KEY}/bookings/user`,
             {
                 headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`,
+                    'Authorization': `Bearer ${token}`,
                 }
             }
         );

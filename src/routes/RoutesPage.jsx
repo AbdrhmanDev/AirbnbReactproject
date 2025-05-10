@@ -17,6 +17,8 @@ import ProfileAbout from '../features/ProfileAbout/ProfileAbout'
 import Personalinfo from '../components/user/Personal info/Personalinfo'
 import ModalLogin from '../components/Login/ModalLogin'
 import CheckOut from '../pages/CheckOut/CheckOut'
+import PaymentSuccess from '../pages/Payment/PaymentSuccess'
+
 
 const RoutesPage = () => {
 
@@ -32,6 +34,8 @@ const RoutesPage = () => {
           {path:'/images',element:<ShowAllImage/>},  
           {path:'/Login',element:<ModalLogin/>},
           {path:'/Trips',element:<Trip/>},
+          {path:'/payment/success',element:<PaymentSuccess/> },
+
           {
             path: '/account',
             element: <Account />,  // دي تعرض الـ <Outlet />
