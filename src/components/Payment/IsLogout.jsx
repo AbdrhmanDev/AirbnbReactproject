@@ -41,10 +41,6 @@ const IsLogout = () => {
   const idHotel = Hotel?.booking?._id;
   const [statusPayment, setstatusPayment] = useState(false)
 
-
-
-  
-
   useEffect(() => {
     const handleFocus = () => {
       dispatch(getUserTripThunk());
@@ -70,11 +66,6 @@ const IsLogout = () => {
     }
   }, [tripData, idHotel]);
   
-    
-
-
-  
-
   const handelPayment = async () => {
     try {
       const response = await dispatch(PaymentFirstThunk(idHotel));
@@ -89,7 +80,6 @@ const IsLogout = () => {
       console.error(error)
       alert('Failed to initialize payment. Please try again.');
     }
-    
   };
   
   return (
