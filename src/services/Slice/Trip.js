@@ -33,13 +33,13 @@ const deleteUserTrip = async (paymentId) => {
             {},
             {
                 headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`,
+                    'Authorization': `Bearer ${token}`,
                 },
             }
         );
         return response.data;
     } catch (error) {
-        console.error("Error fetching wishlist:", error.response?.data || error.message);
+        console.error("Error c'ant delete trips", error.response?.data || error.message);
         throw error;
     }
 }
@@ -53,15 +53,14 @@ const getPaymentId = async (bookingId) => {
             `${API_KEY}/bookings/getPaymentIdByBookingId/${bookingId}`,
             {
                 headers: {
-                    'Authorization': `Bearer ${API_TOKEN}`,
+                    'Authorization': `Bearer ${token}`,
                 }
             }
         );
-        console.log("paymentId", response.data);
 
         return response.data;
     } catch (error) {
-        console.error("Error :", error.response?.data || error.message);
+        console.error("Error cant get BookingId:", error.response?.data || error.message);
         throw error;
     }
 }

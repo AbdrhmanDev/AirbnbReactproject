@@ -73,17 +73,7 @@ const IsLogout = () => {
     
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-         await dispatch(PaymentFirstThunk(idHotel));
-      } catch (error) {
-        console.error("Error fetching payment details:", error);
-      }
-    };
-    fetchData();
-
-  }, [])
+  
 
   const handelPayment = async () => {
     try {
@@ -156,7 +146,7 @@ const IsLogout = () => {
                           >Connect to paypal</button> :
                           <button className='m-2  px-3 py-2 rounded-2 border-0 text-light'
                           style={{ backgroundColor: "#0B3382" }}
-                          onClick={handelPayment}
+                          
                           disabled={statusPayment}
                         > Payment successfully </button>
                           }

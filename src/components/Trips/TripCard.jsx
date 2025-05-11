@@ -53,6 +53,8 @@ const TripItem = ({ trip }) => {
     const endDate = new Date(properties[0]?.endDate);
     const totalPrice = properties[0]?.totalPrice;
 
+    console.log(localTrip);
+    
     const canCancel = startDate > new Date();
 
     if (!property || !property.images || property.images.length === 0) return null;
