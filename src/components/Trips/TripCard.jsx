@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './CardTrips.Module.css';
 // import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { deleteUserTripThunk, getUserTripThunk } from '../../services/Slice/Trip';
+import { deleteUserTripThunk, getPaymentIdThunk, getUserTripThunk } from '../../services/Slice/Trip';
 
 
 const TripCard = ({ tripData, isLoading, isError, errorMessage }) => {
@@ -42,8 +42,12 @@ const TripCard = ({ tripData, isLoading, isError, errorMessage }) => {
 
 const TripItem = ({ trip }) => {
     const dispatch = useDispatch();
+    const [localTrip, setLocalTrip] = useState(trip);
+    useEffect(() => {
+        setLocalTrip(trip);
+    }, [trip]);
 
-    const { properties } = trip;
+    const { properties } = localTrip;
     const property = properties[0]?.propertyId;
     const startDate = new Date(properties[0]?.startDate);
     const endDate = new Date(properties[0]?.endDate);
@@ -77,12 +81,29 @@ const TripItem = ({ trip }) => {
                     {canCancel && (
                         <button
                             className="btn btn-danger btn-sm w-100 mt-2"
-                            onClick={(e) => {
+                            onClick={async (e) => {
                                 e.stopPropagation();
-                                console.log("Cancel booking for trip ID:", trip._id);
-                                dispatch(deleteUserTripThunk(trip._id));
-                                dispatch(getUserTripThunk());
+
+                                try {
+                                    const response = await dispatch(getPaymentIdThunk(trip._id));
+
+                                    const paymentId = response?.payload?.paymentId;
+                                    if (!paymentId) {
+                                        throw new Error("Payment ID not found");
+                                    }
+                                    console.log("Payment ID:", paymentId);
+
+                                    console.log("Cancel booking for trip ID:", trip._id, "Payment ID:", paymentId);
+
+                                    await dispatch(deleteUserTripThunk(paymentId));
+
+                                    await dispatch(getUserTripThunk());
+
+                                } catch (error) {
+                                    console.error("Error cancelling trip:", error);
+                                }
                             }}
+
                         >
                             Cancel Booking
                         </button>

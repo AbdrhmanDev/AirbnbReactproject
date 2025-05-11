@@ -3,7 +3,7 @@ const API_TOKEN = import.meta.env.VITE_TOKEN;
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const token =localStorage.getItem('token');
+const token = localStorage.getItem('token');
 
 const GetUserTrip = async () => {
     let response;
@@ -23,15 +23,18 @@ const GetUserTrip = async () => {
         throw error;
     }
 }
-const deleteUserTrip = async (tripId) => {
+const deleteUserTrip = async (paymentId) => {
     let response;
+    console.log("Payment ID in delete:", paymentId);
+
     try {
-        response = await axios.delete(
-            `${API_KEY}/bookings/${tripId}`,
+        response = await axios.post(
+            `${API_KEY}/payments/${paymentId}/cancel`,
+            {},
             {
                 headers: {
                     'Authorization': `Bearer ${API_TOKEN}`,
-                }
+                },
             }
         );
         return response.data;
@@ -41,9 +44,31 @@ const deleteUserTrip = async (tripId) => {
     }
 }
 
-export const getUserTripThunk = createAsyncThunk('trip/get', GetUserTrip);
-export const deleteUserTripThunk = createAsyncThunk('trip/get', deleteUserTrip);
+const getPaymentId = async (bookingId) => {
+    let response;
+    console.log("Booking ID:", bookingId);
 
+    try {
+        response = await axios.get(
+            `${API_KEY}/bookings/getPaymentIdByBookingId/${bookingId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${API_TOKEN}`,
+                }
+            }
+        );
+        console.log("paymentId", response.data);
+
+        return response.data;
+    } catch (error) {
+        console.error("Error :", error.response?.data || error.message);
+        throw error;
+    }
+}
+
+export const getUserTripThunk = createAsyncThunk('trip/get', GetUserTrip);
+export const deleteUserTripThunk = createAsyncThunk('trip/delete', deleteUserTrip);
+export const getPaymentIdThunk = createAsyncThunk('trip/getPaymentId', getPaymentId);
 const GetUserTripSlice = createSlice({
     name: "GetUserTrip",
     initialState: {
