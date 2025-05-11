@@ -5,9 +5,15 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 const MetaInformation = ({ address, images }) => {
 
-  const position = address?.coordinates
-    ? [address.coordinates[1], address.coordinates[0]]
-    : [30.033333, 31.233334];
+  const isValidCoordinates = Array.isArray(address?.coordinates) &&
+  address.coordinates.length === 2 &&
+  typeof address.coordinates[0] === 'number' &&
+  typeof address.coordinates[1] === 'number';
+
+const position = isValidCoordinates
+  ? [address.coordinates[1], address.coordinates[0]]
+  : [30.033333, 31.233334];
+
 
   const customIcon = new L.Icon({
     iconUrl: images?.[0],
@@ -34,7 +40,7 @@ const MetaInformation = ({ address, images }) => {
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             <Marker position={position} icon={customIcon}>
-              <Popup>{address.city} {address.country}</Popup>
+              <Popup>{address?.city} {address?.country}</Popup>
             </Marker>
           </MapContainer>
 

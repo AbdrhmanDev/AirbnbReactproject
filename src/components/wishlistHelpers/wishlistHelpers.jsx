@@ -5,8 +5,6 @@ import { addwishlistPost } from '../../services/Slice/Wishlist/AddWishlist';
 import { DeleteWishlistThunk } from '../../services/Slice/Wishlist/DeleteWishlist';
 
 export const toggleWishlist = ({isWished,dispatch,hotelId,hotelTitle,hotelImages,setIsWished}) => {
-  
-
    
   if (isWished) {
     dispatch(DeleteWishlistThunk(hotelId));
@@ -19,7 +17,6 @@ export const toggleWishlist = ({isWished,dispatch,hotelId,hotelTitle,hotelImages
       {
         position: "bottom-left",
         autoClose: 2500,
-       
         className: "custom-toast",
       }
     );

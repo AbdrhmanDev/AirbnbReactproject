@@ -12,8 +12,6 @@ import ModalLogin from '../Login/ModalLogin';
 import { emitter } from '../../features/emitter';
 import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
 
-
-
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
     return (
         <div className="container  mt-5 p-1">
@@ -43,10 +41,9 @@ const ImageCard = ({ hotel }) => {
     const dispatch = useDispatch()
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
-    
+    const auth= useSelector((state)=>state.auth.token)
+
     const { images, title, pricePerNight, rating, address, _id } = hotel;
-    const isLoggedIn = !!localStorage.getItem("token");
-   
 
     if (!hotel || !hotel.images || hotel.images.length === 0) return null;
 
@@ -54,6 +51,12 @@ const ImageCard = ({ hotel }) => {
         setCurrent((prev) => (prev + 1) % images.length);
     };
     useEffect(() => {
+        if (!auth) {
+            setIsWished(false);
+        }}
+        )
+    useEffect(() => {
+        
         if (wishlist && Array.isArray(wishlist)) {
             const isAlreadyWished = wishlist.some((item) => item._id === _id);
             setIsWished(isAlreadyWished);
@@ -67,11 +70,11 @@ const ImageCard = ({ hotel }) => {
     return (
         <div className="card-container"
             style={{ flex: '1 0 calc(19% - 12px)', minWidth: '220px', maxWidth: '250px' }}
-            >
+        >
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <div className="position-relative">
                     <img src={images[current]} alt="Slide" className="carousel-img cursor-pointer"
-                    onClick={() => { navigate(`details/${_id}`) }}
+                        onClick={() => { navigate(`details/${_id}`) }}
                     />
 
                     <div className="cursor-icons-all">
@@ -84,7 +87,7 @@ const ImageCard = ({ hotel }) => {
                     </div>
 
                     <div className="dots-container"
-                    
+
                     >
                         {images.map((_, index) => (
                             <span
@@ -98,36 +101,33 @@ const ImageCard = ({ hotel }) => {
                     <span className="badge bg-light text-dark position-absolute top-0 start-0 m-2 px-2 py-1">Guest favorite</span>
                     <span className="position-absolute top-0 end-0 m-2 fs-5">
                         {
-                            isLoggedIn ? 
-                            <FiHeart    
-                            style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
-                            onClick={(e) => {
-                                dispatch(getwishlistThunk())
-                                e.stopPropagation();
-                                setIsWished((prev) => !prev);
-       
-                                    toggleWishlist({
-                                        isWished,
-                                        dispatch,
-                                        hotelId: _id,
-                                        hotelTitle: title,
-                                        hotelImages: images,
-                                        setIsWished,
-                                        
-                                    })
-                                    ;}}/> :
-                                    <FiHeart    
-                            style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault(); 
-                                
-                                   emitter.emit('open-modal')
-                                    ;}}/>
+                            auth ?
+                                <FiHeart
+                                    style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
+                                    onClick={(e) => {
+                                        dispatch(getwishlistThunk())
+                                        e.stopPropagation();
+                                        setIsWished((prev) => !prev);
+                                        toggleWishlist({
+                                            isWished,
+                                            dispatch,
+                                            hotelId: _id,
+                                            hotelTitle: title,
+                                            hotelImages: images,
+                                            setIsWished,
+                                        });}} /> 
+                                        :
+                                <FiHeart
+                                    style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        emitter.emit('open-modal');
+                                    }} />
                         }
                     </span>
                 </div>
-                <div className="d-flex mt-1 cursor-pointer" 
+                <div className="d-flex mt-1 cursor-pointer"
                     onClick={() => { navigate(`details/${_id}`) }}
                 >
                     <div className="card-body text-start">
@@ -141,9 +141,9 @@ const ImageCard = ({ hotel }) => {
                     </div>
                 </div>
             </div>
-            <ModalLogin/>
+            <ModalLogin />
         </div>
-        
+
     );
 };
 

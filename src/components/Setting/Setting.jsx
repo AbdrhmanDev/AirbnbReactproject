@@ -24,12 +24,13 @@ const UserInfo = () => {
 
   const dispatch = useDispatch();
   const {user}= useSelector((state)=>state.userProfile.profile)||{};
+  const auth= useSelector((state)=>state.auth.token)
   
-  useEffect(() => {
-    dispatch(fetchProfileThunk())
-  },[]);
-
-  
+  useEffect(()=>{
+      if (auth) {
+        dispatch(fetchProfileThunk())
+      }
+    })
 
   return (
    <>

@@ -1,7 +1,7 @@
 import './App.css'
 import RoutesPage from './routes/RoutesPage'
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategoryAsync } from './services/Slice/Category';
 import { fetchAllHotelAsync } from './services/Slice/Hotel';
 import { ToastContainer } from 'react-toastify';
@@ -11,12 +11,17 @@ import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   const dispatch = useDispatch()
-  
+  const auth= useSelector((state)=>state.auth.token)
   useEffect(() => {
     dispatch(fetchCategoryAsync())
     dispatch(fetchAllHotelAsync())
-    dispatch(getwishlistThunk())
+    
   }, [dispatch])  
+  useEffect(()=>{
+    if (auth) {
+      dispatch(getwishlistThunk())
+    }
+  })
   
   return (
     <>

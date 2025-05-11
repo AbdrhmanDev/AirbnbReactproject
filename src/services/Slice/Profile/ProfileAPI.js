@@ -2,11 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_KEY = import.meta.env.VITE_API;
-
-const token =localStorage.getItem('token');
-
 const FetchProfile = async () => {
-    const API_TOKEN = localStorage.getItem("token")
+    const token = localStorage.getItem("token")
     let response;
     try {
         response = await axios.get(`${API_KEY}/users/profile`, {
@@ -20,7 +17,6 @@ const FetchProfile = async () => {
         console.error("Profile fetch error:", error.response?.data || error.message);
         throw new Error("Place try again")
     }
-    console.log("Authenticated user:", response);
     return response.data;
 }
 

@@ -9,8 +9,6 @@ export const googleLoginThunk = createAsyncThunk(
       const {data}  = await axios.post(`${API_KEY}/users/google`,
          { idToken,email,name },
         );
-        console.log(data);
-        
       return  {
         user: data.user,
         token: data.token,

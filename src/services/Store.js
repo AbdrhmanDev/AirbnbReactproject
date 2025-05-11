@@ -13,6 +13,7 @@ import authSlice from "./Slice/Login/GoogleLogin";
 import BookingHotelSlice from "./Slice/Booking/Booking";
 import PaymentFirstSlice from "./Slice/Payment/Payment";
 import ExecutePaymentSlice from "./Slice/Payment/ExecutePayment";
+import CancelPaymentSlice from "./Slice/Payment/CancelPayment";
 
 
 const Store = configureStore({
@@ -30,7 +31,8 @@ const Store = configureStore({
         auth:authSlice.reducer,
         booking:BookingHotelSlice.reducer,
         PaymentFirst:PaymentFirstSlice.reducer,
-        ExecutePayment:ExecutePaymentSlice.reducer
+        ExecutePayment:ExecutePaymentSlice.reducer,
+        CanselPayment:CancelPaymentSlice.reducer
     }
 });
 

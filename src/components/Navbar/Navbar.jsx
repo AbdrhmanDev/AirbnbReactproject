@@ -18,24 +18,29 @@ import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 import ModalLogin from '../Login/ModalLogin';
 import { logout } from '../../services/Slice/Login/GoogleLogin';
 import { emitter } from '../../features/emitter';
+
+
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
-    // const [showLoginModal, setShowLoginModal] = useState(false);
     const menuRef = useRef();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const login = localStorage.getItem('token');
-    const [isLogin, setIsLogin] = useState(login)
-
-    const user = useSelector((state) => state.auth.user)
-    console.log(user);
-
-
+    const [isLogin, setIsLogin] = useState(!!login);
+    const auth= useSelector((state)=>state.auth.token)
+    const userProfile= useSelector((state)=>state.userProfile.profile)
+    
     useEffect(() => {
         dispatch(fetchProfileThunk())
-    }, []);
+    },[])
 
-
+    const handelLogout = () => {
+        dispatch(logout());
+        setIsLogin(false);
+        localStorage.removeItem('token');
+        navigate('/');
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -55,11 +60,7 @@ const Navbar = () => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-    const handelLogout = () => {
-        setIsLogin(false)
-        dispatch(logout())
-        
-    }
+
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-white">
@@ -85,7 +86,7 @@ const Navbar = () => {
                     <div className="d-flex align-items-center gap-3">
                         <span className="fw-semibold">
                             <button className='border-0 bg-body p-2 hoverFromNav'>{
-                                isLogin ? "Switch to hosting" : "Airbnb your home"
+                                isLogin || auth ? "Switch to hosting" : "Airbnb your home"
                             }</button>
                         </span>
 
@@ -102,9 +103,14 @@ const Navbar = () => {
                             ref={menuRef}
                         >
                             <RxHamburgerMenu className='me-2' />
-                            <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
-                                {/* img profile */}
-                            </div>
+                           {
+                            isLogin || auth &&
+                            userProfile?.user?.avatar ? 
+                            <img src={userProfile?.user?.avatar} className='rounded-circle' alt="" style={{ width: '30px', height: '30px' }}/>
+                            : <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
+                            {/* img profile */}
+                        </div>
+                           }
                             <span className="position-absolute top-0 start-100 me-5 mt-1 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '10px' }}>
                                 2
                             </span>
@@ -114,9 +120,7 @@ const Navbar = () => {
                                     className="position-absolute bg-white border rounded shadow p-2"
                                     style={{ top: '120%', right: 0, zIndex: 1000, minWidth: '180px' }}>
                                     {/* ul Login */}
-
-
-                                    {isLogin &&
+                                    {isLogin || auth  ?
                                         <ul className="list-unstyled mb-0 m-2">
                                             <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
                                             <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
@@ -131,9 +135,7 @@ const Navbar = () => {
                                             <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
                                             <li><Link className="dropdown-item m-2" onClick={handelLogout} style={{ fontSize: "13px" }}>Logout</Link></li>
                                         </ul>
-
-                                    }
-                                    {
+                                        :
                                         !isLogin && <ul className="list-unstyled mb-0 m-2">
                                             <li>
                                                 <p
@@ -153,25 +155,18 @@ const Navbar = () => {
                                             <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
                                             <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
                                             <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
-
                                         </ul>
                                     }
-
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
             </nav>
-
             {!isScrolled && (
                 <SearchBar className="w-50" />
             )}
-
-            {/* <LoginModal/> */}
-            <ModalLogin
-
-            />
+            <ModalLogin/>
         </>
     );
 };
@@ -190,7 +185,6 @@ const SearchBar = () => {
     const [children, setChildren] = useState(null);
     const [infants, setInfants] = useState(null);
     const [pets, setPets] = useState(null);
-    const Hotels = useSelector((state) => state.GetAllFilter.AllFilter);
 
     const destinations = [
         { name: 'Hurghada, Egypt', reason: 'Because your wishlist has stays in Tenerife', icon: <PiSwimmingPoolBold /> },
@@ -222,7 +216,6 @@ const SearchBar = () => {
         setShowAddressMenu(false);
     };
 
-
     const handleSearch = () => {
         const valuestart = StartDate ? StartDate.toLocaleDateString('en-GB') : "";
         const valueend = EndDate ? EndDate.toLocaleDateString('en-GB') : "";
@@ -239,9 +232,7 @@ const SearchBar = () => {
             pets: pets
         };
 
-
         if (!AddressValue || AddressValue.trim().length === 0) {
-            // toast.error("Please enter a valid address");
             toast.error('Please enter a valid address', {
                 hideProgressBar: true,
                 className: "toastfay",
