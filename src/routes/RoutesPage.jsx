@@ -21,7 +21,7 @@ import HostHome from '../pages/HostHome/HostHome'
 import UserInfo from '../components/Account/Setting'
 import LoginSecurity from '../components/Account/login-security'
 import Payment from '../components/Account/paymnt'
-
+import HostExperiencePage from '../pages/HostExperience/HostExperiencePage'
 
 
 const RoutesPage = () => {
@@ -44,6 +44,8 @@ const RoutesPage = () => {
           { path: "/Account", element: <UserInfo /> },
           { path: "/Account/login-security", element: <LoginSecurity/> },
           { path: "/Account/payments", element: <Payment/> },
+          { path: "/HostExperiencePage", element: <HostExperiencePage /> },
+
         ]
       },
       { path: '*', element: <h1>404</h1> },
