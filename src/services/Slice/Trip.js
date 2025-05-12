@@ -3,7 +3,7 @@ const API_TOKEN = import.meta.env.VITE_TOKEN;
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const token = localStorage.getItem('token');
+var token = localStorage.getItem('token');
 
 const GetUserTrip = async () => {
     let response;

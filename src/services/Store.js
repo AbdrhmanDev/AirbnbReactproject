@@ -14,7 +14,8 @@ import BookingHotelSlice from "./Slice/Booking/Booking";
 import PaymentFirstSlice from "./Slice/Payment/Payment";
 import ExecutePaymentSlice from "./Slice/Payment/ExecutePayment";
 import CancelPaymentSlice from "./Slice/Payment/CancelPayment";
-
+import AvailableBookingSlice from "./Slice/Booking/AvailableBooking";
+import ChangeBookingSlice from "./Slice/Booking/ChangeBooking";
 
 const Store = configureStore({
     reducer: {
@@ -32,7 +33,9 @@ const Store = configureStore({
         booking:BookingHotelSlice.reducer,
         PaymentFirst:PaymentFirstSlice.reducer,
         ExecutePayment:ExecutePaymentSlice.reducer,
-        CanselPayment:CancelPaymentSlice.reducer
+        CanselPayment:CancelPaymentSlice.reducer,
+        AvailableBooking:AvailableBookingSlice.reducer,
+        ChangeBooking:ChangeBookingSlice.reducer
     }
 });
 

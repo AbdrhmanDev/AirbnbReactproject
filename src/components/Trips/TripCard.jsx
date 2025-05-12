@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './CardTrips.Module.css';
 // import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteUserTripThunk, getPaymentIdThunk, getUserTripThunk } from '../../services/Slice/Trip';
+import { useNavigate } from 'react-router-dom';
 
 
 const TripCard = ({ tripData, isLoading, isError, errorMessage }) => {
@@ -42,18 +43,20 @@ const TripCard = ({ tripData, isLoading, isError, errorMessage }) => {
 
 const TripItem = ({ trip }) => {
     const dispatch = useDispatch();
+    const navigate= useNavigate()
     const [localTrip, setLocalTrip] = useState(trip);
     useEffect(() => {
         setLocalTrip(trip);
     }, [trip]);
-
+    const hotel = useSelector((state) => state.HotelByID.getById);
+    const _id = hotel?._id;
+    console.log(hotel);
+  
     const { properties } = localTrip;
     const property = properties[0]?.propertyId;
     const startDate = new Date(properties[0]?.startDate);
     const endDate = new Date(properties[0]?.endDate);
     const totalPrice = properties[0]?.totalPrice;
-
-    console.log(localTrip);
     
     const canCancel = startDate > new Date();
 
@@ -61,9 +64,12 @@ const TripItem = ({ trip }) => {
 
     return (
         <div
-            className="card-container3"
+            className="card-container3 mb-4"
             style={{ flex: '1 0 calc(25% - 12px)', minWidth: '250px', maxWidth: '300px' }}
-            onClick={() => console.log("Navigate to trip details")}
+            onClick={() => 
+                {
+                     navigate(`/details/${_id}`)
+            }}
         >
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <img src={property.images[0]} alt="Property" className="trip-img3" />

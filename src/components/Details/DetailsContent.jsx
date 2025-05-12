@@ -10,8 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { ImFlag } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
-import { useDispatch, useSelector } from 'react-redux';
-import { BookingThunk } from '../../services/Slice/Booking/Booking';
+import { useDispatch} from 'react-redux';
+import { BookingAvailableThunk } from '../../services/Slice/Booking/AvailableBooking';
 
 const DetailsContent = ({
     aboutThisSpace, spaceDetails,
@@ -43,29 +43,27 @@ const DetailsContent = ({
     const remainingDays = daysDiff % 30;
     const monthlyPrice = pricePerNight * 30 * 0.8;
     const totalPrice = (monthlyPrice * fullMonths) + (pricePerNight * remainingDays);
-    const dispatch = useDispatch()
-    const {isError,errorMessage} = useSelector((state) => state.booking);
-    // const Hotel = useSelector((state)=>state.booking.booking);
-    // console.log(Hotel?.booking?._id);
-    // const idHotel=Hotel?.booking?._id;
-    const HotelReservation = () => {
-            dispatch(BookingThunk({
-                properties: [
-                    {
-                        propertyId: _id,
-                        startDate: formattedStartDate,
-                        endDate: formattedEndDate,
-                        price: pricePerNight,
-                        companions: adults,
-                        petsAllowed: pets,
-                        paymentStatus: "pending",
-                        totalPrice: totalPrice,
-                        paymentMethod: "paypal",
-                    }
-                ]
-            })).unwrap().then(()=>{
-                navigate(`/book/stays?detailId=${_id}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&title=${encodeURIComponent(title)}&rating=${rating}&image=${encodeURIComponent(images[0])}&months=${fullMonths}&days=${remainingDays}&monthlyPrice=${monthlyPrice}&totalPrice=${totalPrice}&guests=${spaceDetails.rooms}`)
-            }) 
+    const [isErrorBooking, setisErrorBooking] = useState('')
+    const dispatch= useDispatch()
+    
+    
+    
+    const HotelReservation = async () => {    
+       const res = await dispatch(BookingAvailableThunk({
+        startDate: startDate,
+        endDate: endDates,
+        propertyId: _id
+      }));
+      console.log("startDate",startDate);
+      console.log("endDate",endDates);
+      
+      
+      setisErrorBooking(res.payload.message)
+        if (res.payload.isBooked === false) {
+            navigate(`/book/stays?detailId=${_id}&pets=${pets}&adults=${adults}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&title=${encodeURIComponent(title)}&rating=${rating}&image=${encodeURIComponent(images[0])}&months=${fullMonths}&days=${remainingDays}&monthlyPrice=${monthlyPrice}&totalPrice=${totalPrice}&guests=${spaceDetails.rooms}&pricePerNight=${pricePerNight}`)
+        }
+        console.log(isErrorBooking);
+        
     }
 
     const handleToggle = () => {
@@ -389,9 +387,9 @@ const DetailsContent = ({
                                     onClick={HotelReservation}
                                 >Check availability</button>
                                 {/* error massage */}
-                               {
-                               isError && <p className='text-danger mt-1' style={{ fontSize:"12px" }}>{errorMessage}</p>
-                               }
+                              {
+                                isErrorBooking ? <span className='text-danger ms-1 mt-2'>{isErrorBooking}</span> : ''
+                              }
                                 <p style={{ fontSize: "12px" }} className='m-2 text-center'>You won't be charged yet</p>
                             </div>
                             <div className='text-center mt-2'>

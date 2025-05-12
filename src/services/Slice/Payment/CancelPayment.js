@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
 
-const token =localStorage.getItem('token');
+var token =localStorage.getItem('token');
 
 const CancelPayment = async ({ paymentId }) => {
     try {

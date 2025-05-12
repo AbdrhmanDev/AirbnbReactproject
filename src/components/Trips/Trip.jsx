@@ -14,12 +14,6 @@ function Trip() {
     const dispatch = useDispatch()
     const Payment = useSelector((state) => state.PaymentFirst.Payment) || [];
 
-
-    console.log(tripData);
-    console.log(Payment);
-    
-
-
     useEffect(() => {
         dispatch(getUserTripThunk());
     }, [dispatch]);

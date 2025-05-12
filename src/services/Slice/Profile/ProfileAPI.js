@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_KEY = import.meta.env.VITE_API;
+var API_KEY = import.meta.env.VITE_API;
 const FetchProfile = async () => {
     const token = localStorage.getItem("token")
     let response;
