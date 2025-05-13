@@ -272,6 +272,7 @@ const DetailsContent = ({
                                 selectsDisabledDaysInRange
                                 inline
                                 monthsShown={monthsShown}
+                                minDate={new Date()}
                             />
                         </div>
 
@@ -325,6 +326,7 @@ const DetailsContent = ({
                                             <DatePicker
                                                 className="w-100 p-2 ps-3 border-1 custom-data1"
                                                 id="Check-In"
+                                                minDate={new Date()}
                                                 placeholderText='Add date'
                                                 selected={startDate}
                                                 onChange={(data) => setStartDate(data)}
@@ -332,6 +334,7 @@ const DetailsContent = ({
                                         </div>
                                         <div className="">
                                             <DatePicker
+                                                    minDate={new Date()}
                                                 className="w-100 p-2 ps-3 border-1 custom-data2"
                                                 id="Check-Out"
                                                 placeholderText='Add date'

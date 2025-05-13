@@ -1,5 +1,5 @@
 // import { format, subDays } from 'date-fns';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button';
 
 import Modal from 'react-bootstrap/Modal';
@@ -7,9 +7,13 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from 'react-redux';
 import { ChangeBookingThunk } from '../../services/Slice/Booking/ChangeBooking';
+import { emitter } from '../../features/emitter';
+import { Toast } from 'react-bootstrap';
+import { toast, ToastContainer } from 'react-toastify';
+
 const MoadelChangeValue = ({ showChangValue, setshowChangValue, 
     startDate, endDate ,adults,BookingID,
-    _id
+    _id, pricePerNight
 }) => {
     const [selectedTab, setSelectedTab] = useState('dates');
     const [StartDate, setStartDate] = useState(new Date(startDate));
@@ -21,20 +25,54 @@ const MoadelChangeValue = ({ showChangValue, setshowChangValue,
 
     const [pets] = useState(0);
     const dispatch = useDispatch();
+    const [isError, setisError] = useState('')
+    // Calculate new total price when dates change
+    useEffect(() => {
+        if (StartDate && EndDate) {
+            const days = Math.ceil((EndDate - StartDate) / (1000 * 60 * 60 * 24));
+            const totalPrice = pricePerNight * days;
+            
+            
+            // Emit the new values
+            emitter.emit('booking-updated', {
+                startDate: StartDate,
+                endDate: EndDate,
+                adults: adultss,
+                totalPrice: totalPrice.toFixed(2),
+                days: days
+            });
+        }
+    }, [StartDate, EndDate, adultss, pricePerNight]);
+
     const handleChangeValue = async () => {
-    
-    // const newStartDate = format(subDays(startDate, 1), 'MM/dd/yyyy');
-    // const newEndDate = format(subDays(endDate, 1), 'MM/dd/yyyy');
-        setshowChangValue(false)
-      const res = await dispatch(ChangeBookingThunk({
-            startDate:StartDate,
-            endDate:EndDate,
-            propertyId:_id,
-            bookingId:BookingID
-        }))
-        console.log(res);
-        
-    }
+        setisError('')
+        try {
+          const res = await dispatch(ChangeBookingThunk({
+            startDate: StartDate,
+            endDate: EndDate,
+            propertyId: _id,
+            bookingId: BookingID
+          }));
+      
+          if (res.meta && res.meta.requestStatus === 'rejected') {
+            const errorMessage = res.payload || 'An unknown error occurred.';
+            toast.error(errorMessage);
+            setisError(errorMessage);
+            // لا تغلق المودال
+          } else {
+            // تم الحفظ بنجاح
+            toast.success("Booking updated successfully!");
+            setisError('');
+            setshowChangValue(false);
+          }
+        } catch (error) {
+            toast.error("Something went wrong.");
+            setisError("Something went wrong.");
+            throw new error
+        }
+
+
+      };
 
 
     return (
@@ -76,6 +114,7 @@ const MoadelChangeValue = ({ showChangValue, setshowChangValue,
                                                 selected={StartDate}
                                                 onChange={(update) => setStartDate(update)}
                                                 inline
+                                                minDate={new Date()}
                                             />
                                         </div>
                                         <div>
@@ -83,6 +122,7 @@ const MoadelChangeValue = ({ showChangValue, setshowChangValue,
                                                 selected={EndDate}
                                                 onChange={(update) => setEndDate(update)}
                                                 inline
+                                                minDate={new Date()}
                                             />
                                         </div>
                                     </div>
@@ -152,7 +192,9 @@ const MoadelChangeValue = ({ showChangValue, setshowChangValue,
                                     </div>
                                 </div>
                             </div>
+                            
                             </div>
+                           
                     }
                 </Modal.Body>
 
@@ -160,10 +202,16 @@ const MoadelChangeValue = ({ showChangValue, setshowChangValue,
                     <Button variant="secondary" onClick={handleClose}>
                         clear
                     </Button>
+                    <span className='text-danger'>
+                                {
+                                    isError ? "The Date is Already Booking " :""
+                                }
+                                </span>
                     <Button variant="primary" className='bg-dark' onClick={handleChangeValue}>
                         Save 
                     </Button>
                 </Modal.Footer>
+                <ToastContainer/>
             </Modal>
         </>
     )
