@@ -8,11 +8,12 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Accordion, AccordionSummary, AccordionDetails,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import { Pause, PlayArrow } from "@mui/icons-material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-
 
 const HeroSection = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -28,16 +29,14 @@ const HeroSection = () => {
   //   return () => window.removeEventListener("scroll", onScroll);
   // }, []);
 
-
-useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      setScrolled(window.scrollY > 1);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
 
   const handleToggleVideo = () => {
     if (videoRef.current) {
@@ -47,7 +46,7 @@ useEffect(() => {
   };
 
   const handleToggleShowMore = () => {
-     setShowMore((prev) => !prev);
+    setShowMore((prev) => !prev);
   };
 
   const gradientTextStyle = {
@@ -62,20 +61,18 @@ useEffect(() => {
     textAlign: "left",
   };
 
-  
-  
   return (
     <Box sx={{ position: "relative", width: "100%", overflow: "hidden" }}>
       {/* Navbar - Sticky Part */}
       <Box
-  sx={{
-     position: "sticky",
+        sx={{
+          position: "sticky",
           top: 0,
           width: "100%",
-          height: scrolled ? "70px" : "550px",
+          height: scrolled ? "10px" : "550px",
           backgroundColor: "white",
           zIndex: 1000,
-          transition: "height 0.4s ease",
+          transition: "height 0.001s",
           display: "flex",
           flexDirection: scrolled ? "row" : "column",
           justifyContent: scrolled ? "flex-end" : "center",
@@ -83,39 +80,47 @@ useEffect(() => {
           px: { xs: 3, md: 6 },
           pt: scrolled ? 0 : 6,
           overflow: "hidden",
-  }}
->
-  {/* المحتوى الكامل (يظهر فقط عندما لا يكون هناك سكرول) */}
-  
-  <Box
-    sx={{
-      width: "100%",
+        }}
+      >
+        {/* المحتوى الكامل (يظهر فقط عندما لا يكون هناك سكرول) */}
+
+        <Box
+          sx={{
+            width: "100%",
             maxWidth: 1100,
-            transition: "opacity 0.3s ease, transform 0.3s ease",
-            opacity: scrolled ? 0 : 1,
+            transition: "opacity 0.01s ease, transform 0.3s ease",
+            visibility: scrolled ? "hidden" : "visible",
             transform: scrolled ? "translateY(-20px)" : "translateY(0)",
             position: scrolled ? "absolute" : "relative",
             pointerEvents: scrolled ? "none" : "auto",
-    }}
-  >
-    <Typography variant="h6" color="black" fontWeight="bold" sx={{ mb: 2 }}>
-      Host an experience on Airbnb
-    </Typography>
+          }}
+        >
+          <Typography
+            variant="h6"
+            color="black"
+            fontWeight="bold"
+            sx={{ mb: 2 }}
+          >
+            Host an experience on Airbnb
+          </Typography>
 
-    <Typography sx={{ ...gradientTextStyle }}>
-      <Box component="span" sx={{ whiteSpace: "nowrap", display: "block" }}>
-        Earn money leading people on
-      </Box>
-      <Box component="span" sx={{ display: "block" }}>
-        activities you love.
-      </Box>
-    </Typography>
+          <Typography sx={{ ...gradientTextStyle }}>
+            <Box
+              component="span"
+              sx={{ whiteSpace: "nowrap", display: "block" }}
+            >
+              Earn money leading people on
+            </Box>
+            <Box component="span" sx={{ display: "block" }}>
+              activities you love.
+            </Box>
+          </Typography>
 
-    <Box sx={{ mt: 4, textAlign: "left" }}>
-      <Button
-        variant="contained"
-        sx={{
-          minWidth: "120px",
+          <Box sx={{ mt: 4, textAlign: "left" }}>
+            <Button
+              variant="contained"
+              sx={{
+                minWidth: "120px",
                 backgroundColor: "black",
                 color: "white",
                 textTransform: "none",
@@ -125,51 +130,72 @@ useEffect(() => {
                 fontSize: "1rem",
                 borderRadius: "30px",
                 "&:hover": { backgroundColor: "#2f2d34" },
-        }}
-        endIcon={<ArrowForwardIcon />}
-      >
-        Let's go
-      </Button>
-    </Box>
-  </Box>
+              }}
+              endIcon={<ArrowForwardIcon />}
+            >
+              Let's go
+            </Button>
+          </Box>
+        </Box>
 
-  {/* الزر المصغر (يظهر فقط عند السكرول) */}
+        {/* الزر المصغر (يظهر فقط عند السكرول) */}
+        <Box
+          sx={{
+            position: "sticky",
+            top: 0,
+            width: "100%",
+            height: "70px",
+            backgroundColor: "white",
+            zIndex: 1000,
+            display: scrolled ? "flex" : "none",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            px: { xs: 3, md: 6 },
+            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+            transition: "all 0.3s ease",
+          }}
+        ></Box>
+      {/*  */}
+      {scrolled && (
   <Box
     sx={{
-      position: "sticky",
-          top: 0,
-          width: "100%",
-          height: "70px",
-          backgroundColor: "white",
-          zIndex: 1000,
-          display: scrolled ? "flex" : "none",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          px: { xs: 3, md: 6 },
-          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-          transition: "all 0.3s ease",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",             // ✅ العرض بعرض الصفحة بالكامل
+      height: "50px",            // نفس ارتفاع الهيدر المصغر
+      backgroundColor: "white",  // ✅ خلفية بيضاء
+      display: "flex",           // علشان نحط الزر جوه في جهة اليمين
+      justifyContent: "flex-end",
+      alignItems: "center",
+      px: { xs: 3, md: 6 },      // ✅ padding يمين وشمال حسب حجم الشاشة
+      boxShadow: "0 2px 10px rgba(0,0,0,0.1)", // ظل خفيف علشان يبان فوق المحتوى
+      zIndex: 1100,
     }}
   >
     <Button
       variant="contained"
       sx={{
-       minWidth: "120px",
-            backgroundColor: "black",
-            color: "white",
-            textTransform: "none",
-            fontWeight: "bold",
-            px: 3,
-            py: 1,
-            fontSize: "0.9rem",
-            borderRadius: "30px",
-            "&:hover": { backgroundColor: "#2f2d34" },
+        minWidth: "120px",
+        backgroundColor: "black",
+        color: "white",
+        textTransform: "none",
+        fontWeight: "bold",
+        px: 3,
+        py: 1,
+        fontSize: "0.9rem",
+        borderRadius: "30px",
+        "&:hover": { backgroundColor: "#2f2d34" },
       }}
       endIcon={<ArrowForwardIcon />}
     >
       Let's go
     </Button>
   </Box>
-</Box>
+)}
+
+        {/*  */}
+      </Box>
 
       {/* Video Section - Below Navbar */}
       <Box
@@ -663,7 +689,7 @@ useEffect(() => {
           py: { xs: 3, md: 5 },
           px: { xs: 3, md: 10 },
           mt: 4,
-          maxWidth: "1100px", 
+          maxWidth: "1100px",
           mx: "auto",
         }}
       >
@@ -832,71 +858,92 @@ useEffect(() => {
         </Grid>
       </Box>
 
-
-<Box
-  sx={{
-    backgroundColor: "#f2f2f2",
-    py: { xs: 3, md: 5 },
-    px: { xs: 3, md: 10 },
-    mt: 3, // المسافة بين السيكشن الحالي والسيكشن الذي فوقه
-    maxWidth: "1100px", 
-    mx: "auto",
-  }}
->
-  <Grid container spacing={6} alignItems="center">
-    {/* الصورة على اليسار */}
-    <Grid item xs={12} md={6} sx={{ textAlign: { xs: "center", md: "left" }, display: 'flex', justifyContent: 'flex-start', mr: 4 }}>
-      <img
-        src="https://a0.muscache.com/im/pictures/28fc92ed-0595-42b6-b332-7ee6fdf55a3e.jpg?im_w=1440"
-        alt="AirCover Image"
-        style={{
-          width: "100%", // تأكد من أن الصورة تأخذ 100% من المساحة المتاحة
-          maxWidth: "450px", // يمكنك تحديد أقصى عرض للصورة
-          height: "auto",
-          borderRadius: "10px",
-        }}
-      />
-    </Grid>
-
-    {/* النص على اليمين */}
-    <Grid item xs={12} md={6} sx={{ textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-      <Typography
-        variant="h5"
+      <Box
         sx={{
-          fontWeight: "bold",
-          fontSize: { xs: "1.5rem", md: "1.4rem" },
-          mb: 1,
-          color: "#484848",
+          backgroundColor: "#f2f2f2",
+          py: { xs: 3, md: 5 },
+          px: { xs: 3, md: 10 },
+          mt: 3, // المسافة بين السيكشن الحالي والسيكشن الذي فوقه
+          maxWidth: "1100px",
+          mx: "auto",
         }}
       >
-        AirCover for Hosts
-      </Typography>
-      <Typography
-        variant="h5"
-        sx={{
-          fontWeight: "bold",
-          fontSize: { xs: "1.5rem", md: "1.4rem" },
-          mb: 2,
-          color: "#484848",
-        }}
-      >
-        covers Experiences, too
-      </Typography>
-      <Typography
-        variant="body2"
-        sx={{
-          fontSize: { xs: "1rem", md: "1rem" },
-          lineHeight: 1.6,
-          color: "#484848",
-        }}
-      >
-        AirCover for Hosts includes $1M in Experiences liability<br/> insurance in the rare event a guest gets hurt during an <br/> Airbnb Experience. Always included and always free.
-      </Typography>
-    </Grid>
-  </Grid>
-</Box>
+        <Grid container spacing={6} alignItems="center">
+          {/* الصورة على اليسار */}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              textAlign: { xs: "center", md: "left" },
+              display: "flex",
+              justifyContent: "flex-start",
+              mr: 4,
+            }}
+          >
+            <img
+              src="https://a0.muscache.com/im/pictures/28fc92ed-0595-42b6-b332-7ee6fdf55a3e.jpg?im_w=1440"
+              alt="AirCover Image"
+              style={{
+                width: "100%", // تأكد من أن الصورة تأخذ 100% من المساحة المتاحة
+                maxWidth: "450px", // يمكنك تحديد أقصى عرض للصورة
+                height: "auto",
+                borderRadius: "10px",
+              }}
+            />
+          </Grid>
 
- <Box
+          {/* النص على اليمين */}
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              textAlign: "left",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "1.5rem", md: "1.4rem" },
+                mb: 1,
+                color: "#484848",
+              }}
+            >
+              AirCover for Hosts
+            </Typography>
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: "bold",
+                fontSize: { xs: "1.5rem", md: "1.4rem" },
+                mb: 2,
+                color: "#484848",
+              }}
+            >
+              covers Experiences, too
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: { xs: "1rem", md: "1rem" },
+                lineHeight: 1.6,
+                color: "#484848",
+              }}
+            >
+              AirCover for Hosts includes $1M in Experiences liability
+              <br /> insurance in the rare event a guest gets hurt during an{" "}
+              <br /> Airbnb Experience. Always included and always free.
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box
         sx={{
           backgroundColor: "white",
           py: { xs: 6, md: 10 },
@@ -922,7 +969,6 @@ useEffect(() => {
             }}
           >
             How to get started
-
           </Typography>
         </Box>
 
@@ -937,316 +983,353 @@ useEffect(() => {
               color: "#484848",
             }}
           >
-           Here’s a quick overview of the process, from start to finish.
-
+            Here’s a quick overview of the process, from start to finish.
           </Typography>
         </Box>
       </Box>
 
-<Box
-  sx={{
-    py: { xs: 3, md: 5 },
-    px: { xs: 3, md: 10 },
-    mt: 3, 
-    maxWidth: "1100px",
-    mx: "auto",
-  }}
->
-  <Grid container spacing={2} justifyContent="center"> 
-    {/* الكرت الأول */}
-    <Grid item xs={12} md={4}>
       <Box
         sx={{
-          backgroundColor: "#f2f2f2",
-          padding: 3,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "left",
-          borderRadius: "8px",
-          boxShadow: 3,
-          position: "relative",
-          height: "100%", 
+          py: { xs: 3, md: 5 },
+          px: { xs: 3, md: 10 },
+          mt: 3,
+          maxWidth: "1100px",
+          mx: "auto",
         }}
       >
-        {/* الدائرة والرقم داخل الكرت */}
-        <Box
+        <Grid container spacing={2} justifyContent="center">
+          {/* الكرت الأول */}
+          <Grid item xs={12} md={4}>
+            <Box
+              sx={{
+                backgroundColor: "#f2f2f2",
+                padding: 3,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "left",
+                borderRadius: "8px",
+                boxShadow: 3,
+                position: "relative",
+                height: "100%",
+              }}
+            >
+              {/* الدائرة والرقم داخل الكرت */}
+              <Box
+                sx={{
+                  border: "2px solid black",
+                  color: "black",
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "left",
+                  justifyContent: "center",
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                  position: "absolute",
+                  top: 20,
+                  left: "calc(50%  20px)",
+                  backgroundColor: "#f2f2f2",
+                }}
+              >
+                1
+              </Box>
+              {/* محتوى الكرت */}
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  mb: 2,
+                  mt: 6,
+                  color: "#484848",
+                }}
+              >
+                Learn our quality <br /> standards
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: "1rem",
+                  color: "#484848",
+                  textAlign: "left",
+                }}
+              >
+                Make sure your experience meets
+                <br /> our bar for expertise, insider
+                <br /> access, and connection.
+              </Typography>
+            </Box>
+          </Grid>
+
+          {/* الكرت الثاني */}
+          <Grid item xs={12} md={4}>
+            <Box
+              sx={{
+                backgroundColor: "#f2f2f2",
+                padding: 3,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "left",
+                borderRadius: "8px",
+                boxShadow: 3,
+                position: "relative",
+                height: "100%",
+              }}
+            >
+              {/* الدائرة والرقم داخل الكرت */}
+              <Box
+                sx={{
+                  border: "2px solid black",
+                  color: "black",
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "left",
+                  justifyContent: "center",
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                  position: "absolute",
+                  top: 20,
+                  left: "calc(50%  20px)",
+                  backgroundColor: "#f2f2f2",
+                }}
+              >
+                2
+              </Box>
+              {/* محتوى الكرت */}
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  mb: 2,
+                  mt: 6,
+                  color: "#484848",
+                }}
+              >
+                Submit your <br />
+                experience
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: "1rem",
+                  color: "#484848",
+                  textAlign: "left",
+                }}
+              >
+                Share a description and high- <br />
+                quality photos of what you have in <br />
+                mind to show what your experience <br />
+                would be like.
+              </Typography>
+            </Box>
+          </Grid>
+
+          {/* الكرت الثالث */}
+          <Grid item xs={12} md={4}>
+            <Box
+              sx={{
+                backgroundColor: "#f2f2f2",
+                padding: 3,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "left",
+                borderRadius: "8px",
+                boxShadow: 3,
+                position: "relative",
+                height: "100%",
+              }}
+            >
+              {/* الدائرة والرقم داخل الكرت */}
+              <Box
+                sx={{
+                  border: "2px solid black",
+                  color: "black",
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "left",
+                  justifyContent: "center",
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                  position: "absolute",
+                  top: 20,
+                  left: "calc(50%  20px)",
+                  backgroundColor: "#f2f2f2",
+                }}
+              >
+                3
+              </Box>
+              {/* محتوى الكرت */}
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  mb: 2,
+                  mt: 6,
+                  color: "#484848",
+                }}
+              >
+                Start hosting
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: "1rem",
+                  color: "#484848",
+                  textAlign: "left",
+                }}
+              >
+                Your experience will be reviewed <br />
+                and if it is approved, you can add <br />
+                dates to your calendar and start <br />
+                welcoming guests
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        <Button
+          variant="contained"
           sx={{
-            border: "2px solid black",
-            color: "black",
-            width: 40,
-            height: 40,
-            borderRadius: "50%", 
-            display: "flex",
-            alignItems: "left",
-            justifyContent: "center",
-            fontWeight: "bold",
-            fontSize: "1.2rem",
-            position: "absolute",
-            top: 20,
-            left: "calc(50%  20px)", 
-            backgroundColor: "#f2f2f2", 
-          }}
-        >
-          1
-        </Box>
-        {/* محتوى الكرت */}
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "bold",
-            textAlign: "left",
-            mb: 2,
-            mt: 6,
-            color: "#484848",
-          }}
-        >
-          Learn our quality <br /> standards
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
+            backgroundColor: "black",
+            color: "white",
+            textTransform: "none",
             fontSize: "1rem",
-            color: "#484848",
-            textAlign: "left",
+            px: 4,
+            py: 1.5,
+            "&:hover": {
+              backgroundColor: "#333",
+            },
           }}
         >
-          Make sure your experience meets<br/> our bar for expertise, insider<br/> access, and connection.
-        </Typography>
-      </Box>
-    </Grid>
-
-    {/* الكرت الثاني */}
-    <Grid item xs={12} md={4}>
-      <Box
-        sx={{
-          backgroundColor: "#f2f2f2", 
-          padding: 3,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "left",
-          borderRadius: "8px",
-          boxShadow: 3 ,
-          position: "relative",
-          height: "100%", 
-        }}
-      >
-        {/* الدائرة والرقم داخل الكرت */}
-        <Box
-          sx={{
-             border: "2px solid black",
-            color: "black",
-            width: 40,
-            height: 40,
-            borderRadius: "50%", 
-            display: "flex",
-            alignItems: "left",
-            justifyContent: "center",
-            fontWeight: "bold",
-            fontSize: "1.2rem",
-            position: "absolute",
-            top: 20,
-            left: "calc(50%  20px)", 
-            backgroundColor: "#f2f2f2", 
-          }}
-        >
-          2
-        </Box>
-        {/* محتوى الكرت */}
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "bold",
-            textAlign: "left",
-            mb: 2,
-            mt: 6,
-            color: "#484848",
-          }}
-        >
-          Submit your <br/>
-          experience
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            fontSize: "1rem",
-            color: "#484848",
-            textAlign: "left",
-          }}
-        >
-          Share a description and high- <br/>
-          quality photos of what you have in <br/>
-          mind to show what your experience <br/>
-          would be like.
-        </Typography>
-      </Box>
-    </Grid>
-
-    {/* الكرت الثالث */}
-    <Grid item xs={12} md={4}>
-      <Box
-        sx={{
-          backgroundColor: "#f2f2f2",
-          padding: 3,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "left",
-          borderRadius: "8px",
-          boxShadow: 3,
-          position: "relative",
-          height: "100%", 
-        }}
-      >
-        {/* الدائرة والرقم داخل الكرت */}
-        <Box
-          sx={{
-             border: "2px solid black",
-            color: "black",
-            width: 40,
-            height: 40,
-            borderRadius: "50%", 
-            display: "flex",
-            alignItems: "left",
-            justifyContent: "center",
-            fontWeight: "bold",
-            fontSize: "1.2rem",
-            position: "absolute",
-            top: 20,
-            left: "calc(50%  20px)", 
-            backgroundColor: "#f2f2f2", 
-          }}
-        >
-          3
-        </Box>
-        {/* محتوى الكرت */}
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "bold",
-            textAlign: "left",
-            mb: 2,
-            mt: 6,
-            color: "#484848",
-          }}
-        >
-          Start hosting
-         </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            fontSize: "1rem",
-            color: "#484848",
-            textAlign: "left",
-          }}
-        >
-          Your experience will be reviewed <br/>
-          and if it is approved, you can add <br/>
-          dates to your calendar and start <br/>
-          welcoming guests
-        </Typography>
-      </Box>
-    </Grid>
-  </Grid>
-</Box>
-
-
-<Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-  <Button
-    variant="contained"
-    sx={{
-      backgroundColor: "black",
-      color: "white",
-      textTransform: "none",
-      fontSize: "1rem",
-      px: 4,
-      py: 1.5,
-      "&:hover": {
-        backgroundColor: "#333",
-      },
-    }}
-  >
-    Let's go
-  </Button>
-</Box>
-
-
-
-
-{/* FAQ Section */}
-<Box sx={{ mt: 25,pl:35 }}>
-      <Typography variant="h5" sx={{ fontWeight: 'bold',fontSize:'30px', mb: 5,mt:20, color:'#484848' }}>
-        Frequently asked questions
-      </Typography>
-
-      <Box>
-        <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1,color:'#484848'  }}>
-          Do I have to host a home to host an experience?
-        </Typography>
-        <Typography variant="body2" sx={{ pb:3,color:'#484848'  }}>
-          No. You don’t have to host guests overnight in your home or space to be an experience host.
-
-        </Typography>
-
-        <hr style={{ border: '1px solid #ddd', width: '70%', margin: '10px 0' }} />
-
-        <Typography variant="body3" sx={{ fontWeight: 'bold', mb: 1,pt:5,color:'#484848'  }}>
-          What’s the time commitment?
-
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 5 ,color:'#484848' }}>
-          You can host as often as you like—feel free to adjust your dates and times until you find what works best for you.
-
-        </Typography>
-
-        <hr style={{ border: '1px solid #ddd', width: '50%', margin: '10px 0' }} />
-
-        <Typography variant="body3" sx={{ fontWeight: 'bold', mb: 1,mt:3,color:'#484848'  }}>
-          Do I need a business license?
-
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 2 ,color:'#484848' }}>
-Depending on activities involved, certain experiences may require a business license. Make sure to check local laws in your area to determine<br/>
-which licenses may be required for your experience, especially if there is food, alcohol, or transportation involved.
-        </Typography>
-
-
-        
-        <Box sx={{ transition: 'max-height 0.5s ease-in-out', overflow: 'hidden' }}>
-          {showMore && (
-            
-            <>
-              <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1,color:'#484848'  }}>
-                Can I set a minimum number of guests per experience?
-
-              </Typography>
-              <Typography variant="body2" sx={{ mb: 2,color:'#484848'  }}>
-               The minimum number of guests you can host during each instance of your experience is 1.
-              </Typography>
-
-              <hr style={{ border: '1px solid #ddd', width: '50%', margin: '10px 0' }} />
-
-              <Typography variant="body1" sx={{ fontWeight: 'bold', mb: 1,color:'#484848'  }}>
-                Do I need insurance?
-
-              </Typography>
-              <Typography variant="body2" sx={{ mb: 2,color:'#484848'  }}>
-                With AirCover for Hosts you get Experiences liability insurance. That coverage applies to you in the rare event a guest is hurt or their<br/>
-                property is damaged during a covered Experience.
-              </Typography>
-
-            </>
-          )}
-        </Box>
-      </Box>
-
-           {/* {show more  */}
-      <Box sx={{ position: 'sticky', mt: 2, mb: 4,padding: 5 }}>
-        <Button onClick={handleToggleShowMore} sx={{ textTransform: 'none', border:'solid 1px #1976d2' }}>
-          {showMore ? 'Show less' : 'Show more'}
+          Let's go
         </Button>
       </Box>
-    </Box>
- 
 
+      {/* FAQ Section */}
+      <Box sx={{ mt: 25, pl: 35 }}>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: "bold",
+            fontSize: "30px",
+            mb: 5,
+            mt: 20,
+            color: "#484848",
+          }}
+        >
+          Frequently asked questions
+        </Typography>
+
+        <Box>
+          <Typography
+            variant="body1"
+            sx={{ fontWeight: "bold", mb: 1, color: "#484848" }}
+          >
+            Do I have to host a home to host an experience?
+          </Typography>
+          <Typography variant="body2" sx={{ pb: 3, color: "#484848" }}>
+            No. You don’t have to host guests overnight in your home or space to
+            be an experience host.
+          </Typography>
+
+          <hr
+            style={{ border: "1px solid #ddd", width: "70%", margin: "10px 0" }}
+          />
+
+          <Typography
+            variant="body3"
+            sx={{ fontWeight: "bold", mb: 1, pt: 5, color: "#484848" }}
+          >
+            What’s the time commitment?
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 5, color: "#484848" }}>
+            You can host as often as you like—feel free to adjust your dates and
+            times until you find what works best for you.
+          </Typography>
+
+          <hr
+            style={{ border: "1px solid #ddd", width: "50%", margin: "10px 0" }}
+          />
+
+          <Typography
+            variant="body3"
+            sx={{ fontWeight: "bold", mb: 1, mt: 3, color: "#484848" }}
+          >
+            Do I need a business license?
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 2, color: "#484848" }}>
+            Depending on activities involved, certain experiences may require a
+            business license. Make sure to check local laws in your area to
+            determine
+            <br />
+            which licenses may be required for your experience, especially if
+            there is food, alcohol, or transportation involved.
+          </Typography>
+
+          <Box
+            sx={{
+              transition: "max-height 0.5s ease-in-out",
+              overflow: "hidden",
+            }}
+          >
+            {showMore && (
+              <>
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: "bold", mb: 1, color: "#484848" }}
+                >
+                  Can I set a minimum number of guests per experience?
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 2, color: "#484848" }}>
+                  The minimum number of guests you can host during each instance
+                  of your experience is 1.
+                </Typography>
+
+                <hr
+                  style={{
+                    border: "1px solid #ddd",
+                    width: "50%",
+                    margin: "10px 0",
+                  }}
+                />
+
+                <Typography
+                  variant="body1"
+                  sx={{ fontWeight: "bold", mb: 1, color: "#484848" }}
+                >
+                  Do I need insurance?
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 2, color: "#484848" }}>
+                  With AirCover for Hosts you get Experiences liability
+                  insurance. That coverage applies to you in the rare event a
+                  guest is hurt or their
+                  <br />
+                  property is damaged during a covered Experience.
+                </Typography>
+              </>
+            )}
+          </Box>
+        </Box>
+
+        {/* {show more  */}
+        <Box sx={{ position: "sticky", mt: 2, mb: 4, padding: 5 }}>
+          <Button
+            onClick={handleToggleShowMore}
+            sx={{ textTransform: "none", border: "solid 1px #1976d2" }}
+          >
+            {showMore ? "Show less" : "Show more"}
+          </Button>
+        </Box>
+      </Box>
 
       <style>
         {`
