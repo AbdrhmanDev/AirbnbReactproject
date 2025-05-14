@@ -30,16 +30,13 @@ const HeroSection = () => {
 
 
 useEffect(() => {
-  const handleScroll = () => {
-    const isScrolled = window.scrollY > 10;
-    if (isScrolled !== scrolled) {
-      setScrolled(isScrolled);
-    }
-  };
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  return () => window.removeEventListener('scroll', handleScroll);
-}, [scrolled]);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
 
   const handleToggleVideo = () => {
@@ -73,32 +70,32 @@ useEffect(() => {
       <Box
   sx={{
      position: "sticky",
-      top: 0,
-      width: "100%",
-      height: scrolled ? "70px" : "550px",
-      backgroundColor: "white",
-      zIndex: 1000,
-      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-      display: "flex",
-      justifyContent: scrolled ? "flex-end" : "center",
-      alignItems: "center",
-      px: { xs: 3, md: 6 },
-      overflow: "hidden",
-
+          top: 0,
+          width: "100%",
+          height: scrolled ? "70px" : "550px",
+          backgroundColor: "white",
+          zIndex: 1000,
+          transition: "height 0.4s ease",
+          display: "flex",
+          flexDirection: scrolled ? "row" : "column",
+          justifyContent: scrolled ? "flex-end" : "center",
+          alignItems: scrolled ? "center" : "center",
+          px: { xs: 3, md: 6 },
+          pt: scrolled ? 0 : 6,
+          overflow: "hidden",
   }}
 >
   {/* المحتوى الكامل (يظهر فقط عندما لا يكون هناك سكرول) */}
+  
   <Box
     sx={{
       width: "100%",
-        maxWidth: 1100,
-        transition: "all 0.4s ease",
-        opacity: scrolled ? 0 : 1,
-        height: scrolled ? 0 : "auto",
-        overflow: "hidden",
-        transform: scrolled ? "translateY(-100%)" : "translateY(0)",
-        pointerEvents: scrolled ? "none" : "auto",
-        position: scrolled ? "absolute" : "relative",
+            maxWidth: 1100,
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+            opacity: scrolled ? 0 : 1,
+            transform: scrolled ? "translateY(-20px)" : "translateY(0)",
+            position: scrolled ? "absolute" : "relative",
+            pointerEvents: scrolled ? "none" : "auto",
     }}
   >
     <Typography variant="h6" color="black" fontWeight="bold" sx={{ mb: 2 }}>
@@ -114,20 +111,20 @@ useEffect(() => {
       </Box>
     </Typography>
 
-    <Box sx={{ mt:4 }}>
+    <Box sx={{ mt: 4, textAlign: "left" }}>
       <Button
         variant="contained"
         sx={{
           minWidth: "120px",
-          backgroundColor: "black",
-          color: "white",
-          textTransform: "none",
-          fontWeight: "bold",
-          px: 4,
-          py: 1.2,
-          fontSize: "1rem",
-          borderRadius: "30px",
-          "&:hover": { backgroundColor: "#2f2d34" },
+                backgroundColor: "black",
+                color: "white",
+                textTransform: "none",
+                fontWeight: "bold",
+                px: 4,
+                py: 1.2,
+                fontSize: "1rem",
+                borderRadius: "30px",
+                "&:hover": { backgroundColor: "#2f2d34" },
         }}
         endIcon={<ArrowForwardIcon />}
       >
@@ -139,26 +136,33 @@ useEffect(() => {
   {/* الزر المصغر (يظهر فقط عند السكرول) */}
   <Box
     sx={{
-      opacity: scrolled ? 1 : 0,
-      transform: scrolled ? "translateX(0)" : "translateX(20px)",
-      transition: "opacity 0.3s ease, transform 0.3s ease",
-      visibility: scrolled ? "visible" : "hidden",
-      position: scrolled ? "relative" : "absolute",
+      position: "sticky",
+          top: 0,
+          width: "100%",
+          height: "70px",
+          backgroundColor: "white",
+          zIndex: 1000,
+          display: scrolled ? "flex" : "none",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          px: { xs: 3, md: 6 },
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+          transition: "all 0.3s ease",
     }}
   >
     <Button
       variant="contained"
       sx={{
-        backgroundColor: "black",
-        color: "white",
-        textTransform: "none",
-        fontWeight: "bold",
-        px: 3,
-        py: 1,
-        fontSize: "0.9rem",
-        borderRadius: "30px",
-        "&:hover": { backgroundColor: "#2f2d34" },
-        transition: "all 0.3s ease",
+       minWidth: "120px",
+            backgroundColor: "black",
+            color: "white",
+            textTransform: "none",
+            fontWeight: "bold",
+            px: 3,
+            py: 1,
+            fontSize: "0.9rem",
+            borderRadius: "30px",
+            "&:hover": { backgroundColor: "#2f2d34" },
       }}
       endIcon={<ArrowForwardIcon />}
     >
