@@ -50,13 +50,12 @@ const TripItem = ({ trip }) => {
     }, [trip]);
     const hotel = useSelector((state) => state.HotelByID.getById);
     const _id = hotel?._id;
-    console.log(hotel);
-  
     const { properties } = localTrip;
     const property = properties[0]?.propertyId;
     const startDate = new Date(properties[0]?.startDate);
     const endDate = new Date(properties[0]?.endDate);
     const totalPrice = properties[0]?.totalPrice;
+    console.log(localTrip);
     
     const canCancel = startDate > new Date();
 
@@ -68,7 +67,7 @@ const TripItem = ({ trip }) => {
             style={{ flex: '1 0 calc(25% - 12px)', minWidth: '250px', maxWidth: '300px' }}
             onClick={() => 
                 {
-                     navigate(`/details/${_id}`)
+                     navigate(`/Trips/details?id=${localTrip._id}`)
             }}
         >
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
@@ -106,6 +105,8 @@ const TripItem = ({ trip }) => {
                                     await dispatch(deleteUserTripThunk(paymentId));
 
                                     await dispatch(getUserTripThunk());
+
+                                    
 
                                 } catch (error) {
                                     console.error("Error cancelling trip:", error);

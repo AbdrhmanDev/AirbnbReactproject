@@ -18,7 +18,7 @@ const PaymentSuccess = () => {
       } else {
          const response = await dispatch(PaymentExecuteThunk({ orderId,paymentId }));
          console.log(response.payload);
-        const logs= localStorage.setItem('statusPayment',response.payload.status)
+        var logs= localStorage.setItem('statusPayment',response.payload.status)
         console.log(logs);
         
     //  payload   //  {message: 'Payment completed successfully', transactionId: '28H935431T618251S', status: 'completed', bookingStatus: 'completed'}

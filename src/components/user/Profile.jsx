@@ -50,7 +50,7 @@ const ProfileCard = () => {
   
   useEffect(() => {
     dispatch(fetchProfileThunk())
-    const firstLogin = localStorage.getItem('firstLogin');
+    var firstLogin = localStorage.getItem('firstLogin');
     if (!firstLogin) {
       setShowProfileAbout(true); // Show ProfileSection if first time
     }

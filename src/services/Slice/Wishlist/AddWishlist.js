@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_API;
 
 const AddWishlist = async (id) => {
     
-    const token = localStorage.getItem("token");
+    var token = localStorage.getItem("token");
     if (!id) throw new Error("hotelId is required");
     try {
 

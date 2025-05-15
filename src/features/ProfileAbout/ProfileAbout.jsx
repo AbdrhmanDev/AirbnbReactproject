@@ -29,7 +29,7 @@ const ProfileAbout = ({ firstNameNew }) => {
     navigate('/account/ProfileSection');
   };
 
-  const getDataFavorite = localStorage.getItem('profileData');
+  var getDataFavorite = localStorage.getItem('profileData');
   const getData = JSON.parse(getDataFavorite);
   const profileFields = getData?.profileFields || [];
   const interests = getData?.interests || [];

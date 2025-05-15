@@ -16,6 +16,10 @@ import ExecutePaymentSlice from "./Slice/Payment/ExecutePayment";
 import CancelPaymentSlice from "./Slice/Payment/CancelPayment";
 import AvailableBookingSlice from "./Slice/Booking/AvailableBooking";
 import ChangeBookingSlice from "./Slice/Booking/ChangeBooking";
+import LoginPhoneSlice from "./Slice/login/LoginPhone";
+import verifyOtpSlice from "./Slice/login/verifyOtp";
+import RegisterSlice from "./Slice/login/Register";
+import BookingBtIdSlice from "./Slice/Booking/GetBookingById";
 
 const Store = configureStore({
     reducer: {
@@ -35,7 +39,11 @@ const Store = configureStore({
         ExecutePayment:ExecutePaymentSlice.reducer,
         CanselPayment:CancelPaymentSlice.reducer,
         AvailableBooking:AvailableBookingSlice.reducer,
-        ChangeBooking:ChangeBookingSlice.reducer
+        ChangeBooking:ChangeBookingSlice.reducer,
+        LoginPhone:LoginPhoneSlice.reducer,
+        verifyOtp:verifyOtpSlice.reducer,
+        register:RegisterSlice.reducer,
+        BookingByID:BookingBtIdSlice.reducer
     }
 });
 

@@ -4,7 +4,7 @@ import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
 var token =localStorage.getItem('token');
 
-const ProfileEdit = async ({ id, username, avatar,email,name }) => {
+const ProfileEdit = async ({ id, username, avatar,email,name,phone,address }) => {
   
     let response;
     try {
@@ -12,7 +12,9 @@ const ProfileEdit = async ({ id, username, avatar,email,name }) => {
             username: username,
             avatar: avatar,
             email:email,
-            name:name
+            name:name,
+            phone:phone,
+            address:address
           };
   
       response = await axios.patch(`${API_KEY}/users/${id}`, data, {

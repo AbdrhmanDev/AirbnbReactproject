@@ -71,6 +71,8 @@ const Details = () => {
       </div>
     );
   }
+  console.log(hostId);
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <NavImage  title={title} images={images}  _id={_id}/>

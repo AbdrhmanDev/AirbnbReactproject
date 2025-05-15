@@ -30,7 +30,7 @@ const UserInfo = () => {
       if (auth) {
         dispatch(fetchProfileThunk())
       }
-    })
+    },[])
 
   return (
    <>

@@ -18,6 +18,7 @@ import Personalinfo from '../components/user/Personal info/Personalinfo'
 import ModalLogin from '../components/Login/ModalLogin'
 import CheckOut from '../pages/CheckOut/CheckOut'
 import PaymentSuccess from '../pages/Payment/PaymentSuccess'
+import ConfirmBooking from '../components/Trips/ConfirmBooking/ConfirmBooking'
 
 
 const RoutesPage = () => {
@@ -35,6 +36,7 @@ const RoutesPage = () => {
           {path:'/Login',element:<ModalLogin/>},
           {path:'/Trips',element:<Trip/>},
           {path:'/payment/success',element:<PaymentSuccess/> },
+          {path:'/Trips/details',element:<ConfirmBooking/>},
 
           {
             path: '/account',

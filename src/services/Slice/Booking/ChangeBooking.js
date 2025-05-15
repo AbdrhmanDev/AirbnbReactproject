@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
 
-const token = () => localStorage.getItem('token');
+var token = localStorage.getItem('token');
 
 export const ChangeBookingThunk = createAsyncThunk(
     'ChangeBooking',
@@ -15,7 +15,7 @@ export const ChangeBookingThunk = createAsyncThunk(
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
-              'Authorization': `Bearer ${token()}`
+              'Authorization': `Bearer ${token}`
             }
           }
         );

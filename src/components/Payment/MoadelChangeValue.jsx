@@ -70,8 +70,6 @@ const MoadelChangeValue = ({ showChangValue, setshowChangValue,
             setisError("Something went wrong.");
             throw new error
         }
-
-
       };
 
 

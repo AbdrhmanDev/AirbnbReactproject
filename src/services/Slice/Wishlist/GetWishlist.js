@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 const GetWishlist = async () => {
-    const token = localStorage.getItem("token");
+    var token = localStorage.getItem("token");
     try {
        const response = await axios.get(
             `${API_KEY}/users/wishlist`,

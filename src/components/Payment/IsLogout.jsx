@@ -41,7 +41,7 @@ const IsLogout = () => {
   const startMonthName = start.toLocaleString('en-EG', { month: 'long' });
   const endDay = end.getDate();
   const endMonthName = end.toLocaleString('en-EG', { month: 'long' });
-  const isLoginIn = useSelector((state) => state.auth.token);
+  var isLoginIn = useSelector((state) => state.auth.token);
   const Hotel = useSelector((state) => state.booking.booking);
   const tripData = useSelector((state) => state.UserTrip.trip) || [];
   const dispatch = useDispatch();
@@ -89,7 +89,6 @@ const IsLogout = () => {
       console.log(res);
     };
     console.log(totalPrice);
-    
     if (isLoginIn && !hasDispatchedBooking.current) {
       hasDispatchedBooking.current = true;
       Booking();
@@ -120,8 +119,27 @@ const IsLogout = () => {
       setstatusPayment(false);
     }
   }, [tripData, idHotel]);
+  useEffect(() => {
+    if (startDate && endDate && pricePerNight) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
   
-  const handelPayment = async () => {
+      // فرق الأيام
+      const timeDiff = Math.abs(end.getTime() - start.getTime());
+      const newDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  
+      setDays(newDays);
+  
+      const newTotalPrice = pricePerNight * newDays;
+      setTotalPrice(newTotalPrice);
+  
+      const tax = 0.14;
+      const finalPrice = (newTotalPrice + newTotalPrice * tax).toFixed(2);
+      setTotalPriceFinal(finalPrice);
+    }
+  }, [startDate, endDate, pricePerNight]);
+  
+  var handelPayment = async () => {
     try {
       const response = await dispatch(PaymentFirstThunk(idHotel));
       if (response.payload?.approvalUrl) {

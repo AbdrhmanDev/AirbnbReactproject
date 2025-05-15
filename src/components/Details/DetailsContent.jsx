@@ -54,17 +54,14 @@ const DetailsContent = ({
         endDate: endDates,
         propertyId: _id
       }));
-      console.log("startDate",startDate);
-      console.log("endDate",endDates);
-      
       
       setisErrorBooking(res.payload.message)
         if (res.payload.isBooked === false) {
             navigate(`/book/stays?detailId=${_id}&pets=${pets}&adults=${adults}&startDate=${formattedStartDate}&endDate=${formattedEndDate}&title=${encodeURIComponent(title)}&rating=${rating}&image=${encodeURIComponent(images[0])}&months=${fullMonths}&days=${remainingDays}&monthlyPrice=${monthlyPrice}&totalPrice=${totalPrice}&guests=${spaceDetails.rooms}&pricePerNight=${pricePerNight}`)
         }
-        console.log(isErrorBooking);
-        
     }
+    console.log(hostId?.firstName);
+    
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
@@ -195,7 +192,7 @@ const DetailsContent = ({
                                 <img src={hostId.profileImage} className="rounded-circle userImg" alt="" />
                             </div>
                             <div className="col flex-column ms-4">
-                                <h5 className='' style={{ fontSize: "12px" }}>Hosted by {hostId.firstName}</h5>
+                                <h5 className='' style={{ fontSize: "12px" }}>Hosted by {hostId?.name}</h5>
                                 <div className='' style={{ fontSize: "12px" }}>{diffInDays} day {diffInMonths} Months hosting</div>
                             </div>
                         </div>

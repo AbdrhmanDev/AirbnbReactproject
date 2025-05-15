@@ -1,5 +1,5 @@
 import './App.css'
-import RoutesPage from './routes/RoutesPage'
+import RoutesPage from './Routes/RoutesPage';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategoryAsync } from './services/Slice/Category';
@@ -11,7 +11,9 @@ import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   const dispatch = useDispatch()
-  const auth= useSelector((state)=>state.auth.token)
+  var auth= useSelector((state)=>state.auth.token)
+  var token= localStorage.getItem('token');
+
   useEffect(() => {
     dispatch(fetchCategoryAsync())
     dispatch(fetchAllHotelAsync())
@@ -21,7 +23,8 @@ function App() {
     if (auth) {
       dispatch(getwishlistThunk())
     }
-  })
+  },[token])
+
   
   return (
     <>

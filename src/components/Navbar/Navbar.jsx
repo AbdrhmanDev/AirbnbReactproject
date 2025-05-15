@@ -14,7 +14,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
-import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 import ModalLogin from '../Login/ModalLogin';
 import { logout } from '../../services/Slice/Login/GoogleLogin';
 import { emitter } from '../../features/emitter';
@@ -26,14 +25,12 @@ const Navbar = () => {
     const menuRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const login = localStorage.getItem('token');
+    var login = localStorage.getItem('token');
     const [isLogin, setIsLogin] = useState(!!login);
     const auth= useSelector((state)=>state.auth.token)
     const userProfile= useSelector((state)=>state.userProfile.profile)
     
-    useEffect(() => {
-        dispatch(fetchProfileThunk())
-    },[])
+
 
     const handelLogout = () => {
         dispatch(logout());
@@ -65,9 +62,9 @@ const Navbar = () => {
         <>
             <nav className="navbar navbar-expand-lg bg-white">
                 <div className="container d-flex justify-content-between align-items-center ">
-                    <a className="navbar-brand d-flex align-items-center" href="#">
+                    <Link className="navbar-brand d-flex align-items-center " to={'/'}  >
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg" alt="Airbnb" height="30" />
-                    </a>
+                    </Link>
                     <div>
                         {!isScrolled ? (
                             <ul className="navbar-nav col-12 justify-content-center mx-auto">

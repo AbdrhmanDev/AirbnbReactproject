@@ -14,17 +14,32 @@ const Personalinfo = () => {
   const isLoading = useSelector((state) => state.ProfileEdit.isLoading);
   console.log(update);
   const [legalName, setLegalName] = useState(user?.name);
-  const [preferredName, setPreferredName] = useState('');
+  const [preferredName] = useState('');
   const [emails, setEmail] = useState(user?.email);
-  const [phone, setPhone] = useState('');
-  const [identityVerification, setIdentityVerification] = useState('Not started');
+  const [editEmail, setEditEmail] = useState(false)
+  const [phone, setPhone] = useState(user?.phone);
+  const [EditPhone, setEditPhone] = useState(false)
+  const [identityVerification] = useState('Not started');
   const [address, setAddress] = useState('');
+  const [EditAddress, setEditAddress] = useState(false)
   const [editName, seteditName] = useState(false)
   const id = user?._id;
   const dispatch = useDispatch()
 
+  if(!user){
+    <div>Loading...</div>
+  }
   const changeNameEdit = () => {
     seteditName(prev => !prev);
+  }
+  const handelEditPhone =() =>{
+    setEditPhone(priv=>!priv)
+  }
+  const handelEditAddress =() =>{
+    setEditAddress(priv=>!priv)
+  }
+  const handelEditEmail =() =>{
+    setEditEmail(priv=>!priv)
   }
   const getNewUserName = async () => {
 
@@ -34,17 +49,24 @@ const Personalinfo = () => {
         email: emails,
         username: legalName,
         name: legalName,
-        avatar: user?.avatar
+        avatar: user?.avatar,
+        phone: phone,
+        address:address
       }));
       // لو الطلب نجح
       if (ProfileEditThunk.fulfilled.match(action)) {
         seteditName(false);
+        setEditPhone(false);
+        setEditAddress(false);
+        setEditEmail(false)
       }
-
+      console.log(action);  
+      
     } catch (error) {
       console.log("Error updating profile:", error);
       throw new error
     }
+
   };
 
   useEffect(() => {
@@ -56,13 +78,11 @@ const Personalinfo = () => {
     if (user) {
       // بنحدث القيم علشان لو عمل رفرش يستني يجيب القيم علشان يعرضها الاول 
       setLegalName(user.name || '');
+      setPhone(user.phone || '');
+      setAddress(user?.address|| '');
       setEmail(user.email || '');
     }
   }, [user]);
-
-
-
-
 
   return (
     <Container>
@@ -91,7 +111,7 @@ const Personalinfo = () => {
             {editName ?
               <>
                 <p className='m-1 p-1 text-muted' style={{ fontSize: "13px" }}>Make sure this matches the name on your government ID.</p>
-                <input type='text' disabled={isLoading} value={legalName} onChange={(e) => setLegalName(e.target.value)} className='w-100 border-1 rounded-2 text-start ps-3' />
+                <input type='text' disabled={isLoading} value={legalName} onChange={(e) => setLegalName(e.target.value)} className='w-100 border-1 p-2  rounded-2 text-start ps-3' />
                 <button className='rounded-2 m-2 py-2 px-4 border-0 bg-dark text-light'
                   onClick={getNewUserName}
                   disabled={isLoading}
@@ -104,7 +124,7 @@ const Personalinfo = () => {
 
 
           {/* Preferred first name */}
-          <div className="d-flex justify-content-between align-items-center border-bottom py-3 flex-wrap">
+          <div className={`d-flex justify-content-between align-items-center  py-3 flex-wrap`}>
             <div>
               <h6 className="fw-bold">Preferred first name</h6>
               <p className="mb-0 text-muted">{preferredName || 'Not provided'}</p>
@@ -115,23 +135,60 @@ const Personalinfo = () => {
           </div>
 
           {/* Email address */}
-          <div className="d-flex justify-content-between align-items-center border-bottom py-3 flex-wrap">
+          <div className={`d-flex justify-content-between align-items-center ${!editEmail? "border-bottom" : ''} py-3 flex-wrap`}>
             <div>
               <h6 className="fw-bold">Email address</h6>
               <p className="mb-0 text-muted">{emails || 'Not provided'}</p>
             </div>
-            <Button variant="link" className="text-dark p-0">Edit</Button>
+          
+            <Button  variant="link" onClick={handelEditEmail}  className="text-dark p-0">Edit</Button>
+            {
+            editEmail ?
+            <input type='text' disabled={isLoading} value={emails} 
+            onChange={(e) => setEmail(e.target.value)} 
+            className='w-100 border-1 mt-2 p-2  rounded-2 text-start ps-3' />
+            :""
+           }
+          </div>
+
+          <div>
+            {
+              editEmail ? <button className='rounded-2 m-2 py-2 px-4 border-0 bg-dark text-light'
+              onClick={getNewUserName}
+              disabled={isLoading}
+            >
+              {isLoading ? "..." : "Save"}
+            </button> :""
+            }
           </div>
 
           {/* Phone numbers */}
-          <div className="d-flex justify-content-between align-items-center border-bottom py-3 flex-wrap ">
+          <div className={`d-flex justify-content-between ${!EditPhone ? "border-bottom mt-2" : ''} align-items-center  py-3 flex-wrap `}>
             <div className='w-75'>
               <h6 className="fw-bold">Phone numbers</h6>
               <p className="mb-0 text-muted ">
                 {phone ? phone : 'Add a number so confirmed guests and Airbnb can get  in touch. You can add other numbers and choose how they’re used.'}
               </p>
+         
             </div>
-            <Button variant="link" className="text-dark p-0">{phone ? 'Edit' : 'Add'}</Button>
+            <Button variant="link" onClick={handelEditPhone}  className="text-dark p-0">
+              {EditPhone? 'Edit' : 'Add'}</Button>
+              {
+                EditPhone ? <input disabled={isLoading} onChange={(e) => setPhone(e.target.value)} 
+                className='w-100 border-1 mt-2 p-2  rounded-2 text-start ps-3'  type="number" value={phone} /> : ""
+              }
+          </div>
+
+          <div>
+            {
+              EditPhone ?
+               <button className='rounded-2 m-2 py-2 px-4 border-0 bg-dark text-light'
+              onClick={getNewUserName}
+              disabled={isLoading}
+            >
+              {isLoading ? "..." : "Save"}
+            </button> :""
+            }
           </div>
 
           {/* Identity verification */}
@@ -150,17 +207,38 @@ const Personalinfo = () => {
             <div>
               <h6 className="fw-bold">Address</h6>
               <p className="mb-0 text-muted">{address || 'Not provided'}</p>
+         
             </div>
-            <Button variant="link" className="text-dark p-0">{address ? 'Edit' : 'Add'}</Button>
+
+            <Button variant="link" onClick={handelEditAddress}  className="text-dark p-0">{address ? 'Edit' : 'Add'}</Button>
+            {
+                EditAddress ?
+            <input type="text" disabled={isLoading} 
+            className='w-100 border-1 mt-2 p-2  rounded-2 text-start ps-3' 
+            value={address} onChange={(e)=>setAddress(e.target.value) } />
+            :""
+              }
+          </div>
+
+          <div>
+            {
+              EditAddress ?    
+                <button className='rounded-2 m-2 py-2 px-4 border-0 bg-dark text-light'
+              onClick={getNewUserName}
+              disabled={isLoading}
+            >
+              {isLoading ? "..." : "Save"}
+            </button> :""
+            }
           </div>
 
           {/* Emergency contact */}
           <div className="d-flex justify-content-between align-items-center py-3 flex-wrap">
             <div>
               <h6 className="fw-bold">Emergency contact</h6>
-              <p className="mb-0 text-muted">{address || 'Not provided'}</p>
+              <p className="mb-0 text-muted">{  'Not provided'}</p>
             </div>
-            <Button variant="link" className="text-dark p-0">{address ? 'Edit' : 'Add'}</Button>
+            <Button variant="link" className="text-dark p-0">{!address ? 'Edit' : 'Add'}</Button>
           </div>
         </Col>
 

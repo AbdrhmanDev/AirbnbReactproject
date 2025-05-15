@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const LoginWithGoogle = () => {
     const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userProfile.profile) || [];
-
+  
     const handleGoogleLoginSuccess = (credentialResponse) => {
         const idToken = credentialResponse.credential; 
         dispatch(googleLoginThunk({idToken:idToken,email:user?.email,name:user?.name}));  

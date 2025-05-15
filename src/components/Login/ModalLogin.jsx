@@ -30,12 +30,14 @@ const ModalLogin = (props) => {
         </Modal.Title>
       </Modal.Header>
     
-        <Modal.Body>
-          <Container>
-            <div className="p-3 " style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <Modal.Body >
+          <Container >
+            <div className="p-3 w-100" >
               <h3 className="h4 mb-4">Welcome to Airbnb</h3>
               <section>
+               <div className='w-100'>
                <LoginWithPhone/>
+               </div>
                 <div className="d-flex align-items-center text-muted small">
                   <div className="flex-grow-1 border-top"></div>
                   <span className="mx-2">or</span>

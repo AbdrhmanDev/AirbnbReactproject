@@ -1,86 +1,58 @@
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import React, { useState, useRef, useEffect } from 'react'
-import { Form, Button } from 'react-bootstrap';
-import { auth } from './Setup'
+import React, { useState } from 'react'
+import { Form, Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { emitter } from '../../features/emitter';
 import { useDispatch } from 'react-redux';
-import { googleLoginThunk } from '../../services/Slice/Login/GoogleLogin';
+import { LoginPhoneThunk } from '../../services/Slice/login/LoginPhone';
+import { toast, ToastContainer } from 'react-toastify';
+import { verifyOtpThunk } from '../../services/Slice/login/verifyOtp';
+import { registerThunk } from '../../services/Slice/login/Register';
 
 const LoginWithPhone = () => {
     const [form, setForm] = useState({ countryCode: '+20', phoneNumber: '', otp: '' });
-    const [state, setState] = useState({
-        confirmationResult: null, showOtpInput: false,
-        loading: false, error: null, isVerified: false
-    });
-    const [userId, setUserId] = useState(null);
-    const recaptchaRef = useRef(null);
-    const containerRef = useRef(null);
-    const [date, setDate] = useState(null)
+    const [isLogin, setIsLogin] = useState(false)
+    const [FirstPhone, setFirstPhone] = useState(true)
+    const [FormLogin, setFormLogin] = useState(false)
     const dispatch = useDispatch();
-    useEffect(() => {
-        if (containerRef.current && !recaptchaRef.current) {
-            recaptchaRef.current = new RecaptchaVerifier(auth, containerRef.current, {
-                size: 'invisible',
-                callback: () => console.log('reCAPTCHA verified'),
-                'expired-callback': () => {
-                    recaptchaRef.current = null;
-                }
-            });
-        }
-        return () => recaptchaRef.current = null;
-    }, []);
+
 
     const handleSendOTP = async () => {
-        if (!form.phoneNumber) return setState(prev => ({ ...prev, error: "Please enter a phone number." }));
-        setState(prev => ({ ...prev, loading: true, error: null }));
-        try {
-            const fullPhone = form.countryCode + form.phoneNumber;
-            const confirmation = await signInWithPhoneNumber(auth, fullPhone, recaptchaRef.current);
-            setState(prev => ({ ...prev, confirmationResult: confirmation, showOtpInput: true, loading: false }));
-        } catch (error) {
-            console.error('Error sending OTP:', error);
-            let errorMessage = "Failed to send OTP";
-            setState(prev => ({ ...prev, error: errorMessage, loading: false }));
-            recaptchaRef.current = null;
+        const res = await dispatch(LoginPhoneThunk(form.phoneNumber))
+        if (res.payload.isError === false) {
+            setFirstPhone(false)
+        } else {
+            toast.error(res.payload.message)
         }
+        console.log(res);
+
     };
 
 
     const handleVerifyOTP = async () => {
-        if (!form.otp || form.otp.length !== 6) {
-            return setState(prev => ({ ...prev, error: "Please enter a valid 6-digit OTP" }));
+        const res = await dispatch(verifyOtpThunk({
+            phone: form.phoneNumber,
+            otp: form.otp
+        }));
+        if (res.payload.isError && res.payload.message == 'User not found') {
+            setFormLogin(true)
+            setIsLogin(false)
+
+        } else if (res.payload.message == 'OTP expired' || res.payload.message == 'Invalid OTP') {
+            toast.error(res.payload.message)
         }
-
-        if (!state.confirmationResult) {
-            return setState(prev => ({ ...prev, error: "Please request a new OTP" }));
-        }
-
-        setState(prev => ({ ...prev, loading: true, error: null }));
-        try {
-            const result = await state.confirmationResult.confirm(form.otp);
-            const user = result.user;
-            const userToken = await user.getIdToken();
-            setUserId(userToken || 0);
-            console.log('OTP verified successfully:', userToken);
-            setState(prev => ({ ...prev, error: null, isVerified: true }));
-        } catch (error) {
-            setState(prev => ({ ...prev, error: "we error waring" }));
-
-            console.error('Error verifying OTP:', error);
-        } finally {
-            setState(prev => ({ ...prev, loading: false }));
+        else {
+            toast.success(res.payload.message)
+            localStorage.setItem('token', res.payload.token)
+            setIsLogin(true)
+            emitter.emit('close-modal');
         }
     };
 
-
-
     const handlePhoneChange = (e) => {
         setForm(prev => ({ ...prev, phoneNumber: e.target.value }));
-        setState(prev => ({ ...prev, error: null }));
     };
 
 
@@ -89,19 +61,30 @@ const LoginWithPhone = () => {
             firstName: '',
             lastName: '',
             email: '',
+            dateOfBirth: null
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required('firstName is required'),
             lastName: Yup.string().required('LastName is required'),
             email: Yup.string().email('Invalid email').required('Email is required'),
+            dateOfBirth: Yup.date().nullable().required("BirthOfDay Is required")
         }),
-        onSubmit: (values,) => {
-            const fullname = formik.values.firstName + formik.values.lastName
-            const emails = formik.values.email
-            dispatch(googleLoginThunk({ idToken: userId, email: emails, name: fullname }))
-            console.log({ idToken: userId, email: emails, name: fullname });
-            emitter.emit('close-modal')
-            console.log('Form submitted:', values);
+        onSubmit: async (values) => {
+            const res = await dispatch(registerThunk({
+                phone: form.phoneNumber,
+                email: values.email,
+                name: ` ${values.firstName} ${values.lastName}`,
+                dateOfBirth: values.dateOfBirth
+            }))
+            if (res.payload.message === 'User registered successfully') {
+                setFirstPhone(true)
+                setFormLogin(false)
+                toast.success(res.payload.message)
+            } else if(res.payload.message === 'User already exists')
+            {
+                toast.error(res.payload.message)
+            }
+
         }
     });
 
@@ -110,11 +93,12 @@ const LoginWithPhone = () => {
 
     return (
         <>
-            {!state.isVerified && !state.showOtpInput && (
+            {
+                FirstPhone &&
                 <div className="border rounded p-2 mb-3">
+                    {/* إدخال رقم الموبايل */}
                     <>
-                        {/* إدخال رقم الموبايل */}
-                        <Form.Group className="mb-2">
+                        <Form.Group className="mb-2 ">
                             <Form.Label className="small text-muted mb-1">Country code</Form.Label>
                             <Form.Select value={form.countryCode} onChange={e => setForm(prev => ({ ...prev, countryCode: e.target.value }))}>
                                 <option value="+20">Egypt (+20)</option>
@@ -124,34 +108,50 @@ const LoginWithPhone = () => {
                             </Form.Select>
                         </Form.Group>
                         <Form.Group className="mt-2">
-                            <div className='d-flex m-0'>
-                                <label className='pt-1'>{form.countryCode}</label>
-                                <input type="number" placeholder='Phone number' className="border-0 ms-2 w-100 p-1"
-                                    value={form.phoneNumber} onChange={handlePhoneChange} />
-                            </div>
+                            <>
+                                <div className='d-flex m-0'>
+                                    <label className='pt-1'>{form.countryCode}</label>
+                                    <input type="number" placeholder='Phone number' className="border-0 ms-2 w-100 p-1"
+                                        value={form.phoneNumber} onChange={handlePhoneChange} />
+                                </div>
+                                <button style={{ background: 'linear-gradient(to right, #d6249f, #fd5949)', border: 'none' }}
+                                    onClick={handleSendOTP} className='rounded-2 border-1 p-2 w-100 mt-4 text-light'
+                                >
+                                    Continue
+                                </button>
+                            </>
                         </Form.Group>
                     </>
                 </div>
-            )}
-
-            {!state.isVerified && state.showOtpInput && (
-                <>
-                    {/* إدخال OTP */}
-                    <Form.Group className="mt-2">
-                        <Form.Label className="small text-muted mb-3 m-1 ">Enter OTP</Form.Label>
-                        <input type="number" placeholder='Enter 6-digit OTP' className="border-2 rounded-3 mb-3 w-100 p-1"
-                            value={form.otp} onChange={e => setForm(prev => ({ ...prev, otp: e.target.value }))} />
-                    </Form.Group>
-                </>
-            )
-
             }
 
-            {state.error && <div className="alert alert-danger mt-2">Please check your number</div>}
-            <div ref={containerRef} style={{ display: 'none' }}></div>
 
-            <form onSubmit={formik.handleSubmit}>
-                {state.isVerified && (
+            <>
+                {/* إدخال OTP */}
+                {
+                    !isLogin && !FirstPhone && !FormLogin &&
+                    <>
+                        <Form.Group className="mt-2">
+                            <Form.Label className="small text-muted mb-3 m-1 ">Enter the code we sent over SMS to <b>{form.phoneNumber}</b></Form.Label>
+                            <input type="number" placeholder='Enter 6-digit OTP' className="border-2 rounded-3 mb-3 w-100 p-1"
+                                value={form.otp} onChange={e => setForm(prev => ({ ...prev, otp: e.target.value }))} />
+                        </Form.Group>
+                        <Button
+                            type="button"
+                            className="w-100 mb-3 rounded-3"
+                            style={{ background: 'linear-gradient(to right, #d6249f, #fd5949)', border: 'none', height: '50px', fontWeight: 'bold' }}
+                            onClick={handleVerifyOTP}
+                        >
+                            send otp
+                        </Button>
+                    </>
+                }
+            </>
+            {/* form Login and register */}
+            {
+                !isLogin && FormLogin &&
+                <form>
+
                     <div className='d-flex flex-column '>
                         <label className=' p-0  '> first name.</label>
                         <div className='d-flex flex-column w-100'>
@@ -170,8 +170,9 @@ const LoginWithPhone = () => {
 
                         <label className=''> Date of birth</label>
                         <DatePicker
-                            selected={date}
-                            onChange={(date) => setDate(date)}
+                            showYearDropdown
+                            selected={formik.values.dateOfBirth}
+                            onChange={(date) => formik.setFieldValue("dateOfBirth", date)}
                             dateFormat="dd/MM/yyyy"
                             placeholderText="dd/mm/yyyy"
                             className='rounded-2 border-1 p-2 ps-3 w-100 mt-1'
@@ -200,26 +201,16 @@ const LoginWithPhone = () => {
                             Agree and continue
                         </button>
                     </div>
-                )}
 
-                <p className="text-muted small mt-2" style={{ fontSize: "12px" }}>
-                    We'll call or text you to confirm your number. Standard message and data rates apply.
-                    <span className="ms-1  fw-bold text-decoration-underline" style={{ cursor: 'pointer' }}>Privacy Policy</span>
-                </p>
-            </form>
 
-            {!state.isVerified && (
-                <Button
-                    type="button"
-                    className="w-100 mb-3 rounded-3"
-                    style={{ background: 'linear-gradient(to right, #d6249f, #fd5949)', border: 'none', height: '50px', fontWeight: 'bold' }}
-                    onClick={state.showOtpInput ? handleVerifyOTP : handleSendOTP}
-                    disabled={state.loading}
-                >
-                    {state.loading ? 'Processing...' : (state.showOtpInput ? 'Verify OTP' : 'Continue')}
-                </Button>
-            )}
-
+                    <p className="text-muted small mt-2" style={{ fontSize: "12px" }}>
+                        We'll call or text you to confirm your number. Standard message and data rates apply.
+                        <span className="ms-1  fw-bold text-decoration-underline" style={{ cursor: 'pointer' }}>Privacy Policy</span>
+                    </p>
+                </form>
+            }
+       
+            <ToastContainer></ToastContainer>
         </>
     );
 };
