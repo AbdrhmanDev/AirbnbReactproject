@@ -85,6 +85,7 @@ const ConfirmBooking = () => {
                 throw new Error("Payment ID not found");
             }
             console.log("Payment ID:", paymentId);
+            
 
             console.log("Cancel booking for trip ID:",idBooking, "Payment ID:", paymentId);
             

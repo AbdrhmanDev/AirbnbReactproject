@@ -19,6 +19,7 @@ import ModalLogin from '../components/Login/ModalLogin'
 import CheckOut from '../pages/CheckOut/CheckOut'
 import PaymentSuccess from '../pages/Payment/PaymentSuccess'
 import ConfirmBooking from '../components/Trips/ConfirmBooking/ConfirmBooking'
+import MessagesPage from '../pages/MessagesPage/MessagesPage'
 
 
 const RoutesPage = () => {
@@ -37,7 +38,7 @@ const RoutesPage = () => {
           {path:'/Trips',element:<Trip/>},
           {path:'/payment/success',element:<PaymentSuccess/> },
           {path:'/Trips/details',element:<ConfirmBooking/>},
-
+          { path: "/MessagesPage", element: <MessagesPage/> },
           {
             path: '/account',
             element: <Account />,  // دي تعرض الـ <Outlet />
