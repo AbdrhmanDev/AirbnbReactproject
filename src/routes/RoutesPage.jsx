@@ -21,27 +21,27 @@ import PaymentSuccess from '../pages/Payment/PaymentSuccess'
 import ConfirmBooking from '../components/Trips/ConfirmBooking/ConfirmBooking'
 import MessagesPage from '../pages/MessagesPage/MessagesPage'
 
-
 const RoutesPage = () => {
-
-  
   const router = createBrowserRouter(
     [
       {
         path: '', element: <Layout/>, children: [
-          {index:true,element:<Home />},
-          {path:'wishlist',element:<Wishlist/>},
-          {path:'/details/:id',element:<Details/>},
-          {path:'/Filter',element:<Filltration/>},
-          {path:'/images',element:<ShowAllImage/>},  
-          {path:'/Login',element:<ModalLogin/>},
-          {path:'/Trips',element:<Trip/>},
-          {path:'/payment/success',element:<PaymentSuccess/> },
-          {path:'/Trips/details',element:<ConfirmBooking/>},
-          { path: "/MessagesPage", element: <MessagesPage/> },
+          {index:true, element: <Home />},
+          {path:'wishlist', element: <Wishlist/>},
+          {path:'/details/:id', element: <Details/>},
+          {path:'/Filter', element: <Filltration/>},
+          {path:'/images', element: <ShowAllImage/>},  
+          {path:'/Login', element: <ModalLogin/>},
+          {path:'/Trips', element: <Trip/>},
+          {path:'/payment/success', element: <PaymentSuccess/> },
+          {path:'/Trips/details', element: <ConfirmBooking/>},
+          // Messages routes
+          { path: "/messages", element: <MessagesPage /> }, // Shows all conversations
+          { path: "/messages/:id", element: <MessagesPage /> }, // Shows specific conversation
+          { path: "/user/:id/messages", element: <MessagesPage /> }, // Direct link to chat with specific user
           {
             path: '/account',
-            element: <Account />,  // دي تعرض الـ <Outlet />
+            element: <Account />,
             children: [
               {
                 index: true,
@@ -49,7 +49,7 @@ const RoutesPage = () => {
               },
               { path: "Profile", element: <ProfileCard /> },
               { path: "ProfileAbout", element: <ProfileAbout/> },
-              { path: "ProfileSection", element:<ProfileSection/> },
+              { path: "ProfileSection", element: <ProfileSection/> },
               { path: "personal-info", element: <div> <Personalinfo/> </div> },
               { path: "login-security", element: <div>Login & Security Page</div> },
               { path: "payments", element: <div>Payments Page</div> },
@@ -62,19 +62,14 @@ const RoutesPage = () => {
               { path: "referrals", element: <div>Referrals Page</div> }
             ]
           },
-          {path: "book/stays",element: <CheckOut />}
-            
-          
-          
+          {path: "book/stays", element: <CheckOut />}
         ]
       },
       { path: '*', element: <h1>404</h1> },
     ]
-
   )
   return (
     <>
-
       <Provider store={Store}>
         <RouterProvider router={router} />
       </Provider>

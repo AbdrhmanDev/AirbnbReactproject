@@ -37,9 +37,11 @@ const Details = () => {
     advantages,
     cancellationPolicy,
     safetyFeatures,
-    capacity
+    capacity,
   } = HotelById;
-  console.log(HotelById);
+  // console.log(HotelById);
+  // console.log("id host",HotelById.hostId._id);
+  
   
 
 
@@ -71,7 +73,7 @@ const Details = () => {
       </div>
     );
   }
-  console.log(hostId);
+
   
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

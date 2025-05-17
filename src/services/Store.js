@@ -20,6 +20,9 @@ import LoginPhoneSlice from "./Slice/login/LoginPhone";
 import verifyOtpSlice from "./Slice/login/verifyOtp";
 import RegisterSlice from "./Slice/login/Register";
 import BookingBtIdSlice from "./Slice/Booking/GetBookingById";
+import SendMessageSlice from "./Slice/Chat/ChatSend";
+import conversationsSlice from "./Slice/Chat/conversationsGet";
+import conversationsPersonalSlice from "./Slice/Chat/conversationsPersonal";
 
 const Store = configureStore({
     reducer: {
@@ -43,7 +46,10 @@ const Store = configureStore({
         LoginPhone:LoginPhoneSlice.reducer,
         verifyOtp:verifyOtpSlice.reducer,
         register:RegisterSlice.reducer,
-        BookingByID:BookingBtIdSlice.reducer
+        BookingByID:BookingBtIdSlice.reducer,
+        sendMessage:SendMessageSlice.reducer,
+        conversation:conversationsSlice.reducer,
+        conversationsPersonal:conversationsPersonalSlice.reducer
     }
 });
 

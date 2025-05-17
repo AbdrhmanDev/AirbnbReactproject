@@ -1,13 +1,24 @@
 import React from 'react';
 import './Details.css';
+import { useNavigate} from 'react-router-dom';
+
 
 const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
-  if (!hostId) return null;
 
   const { lastName, firstName, profileImage, role, createdAt } = hostId;
   const createDate = new Date(createdAt);
   const diffInMonths = Math.floor((new Date() - createDate) / (1000 * 60 * 60 * 24 * 30));
+  const navigate= useNavigate()
+  
+  if (!hostId) return null;
 
+  console.log(hostId._id);
+  
+  
+  const handelSendId =(id)=>{
+    console.log(id);
+    navigate(`/messages/${id}`)
+  }
   return (
     <>
       <div className="row">
@@ -96,7 +107,9 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
           <h5>Host details</h5>
           <p>Response rate: 100%</p>
           <p>Responds within an hour</p>
-          <button className="btn btn-dark mt-1">Message host</button>
+          <button className="btn btn-dark mt-1"
+          onClick={()=>handelSendId(hostId._id)}
+          >Message host</button>
           <p className="border-bottom pb-4 mt-2">
             You can message the host in Chinese, and Airbnb provides a translation function
           </p>

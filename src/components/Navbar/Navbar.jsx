@@ -119,7 +119,7 @@ const Navbar = () => {
                                     {/* ul Login */}
                                     {isLogin || auth  ?
                                         <ul className="list-unstyled mb-0 m-2">
-                                            <li><Link to="/MessagesPage" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
+                                            <li><Link to="/messages" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
                                             <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
                                             <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
                                             <div className='border'></div>

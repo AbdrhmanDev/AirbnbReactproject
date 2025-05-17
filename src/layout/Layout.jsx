@@ -12,7 +12,7 @@ const Layout = () => {
         <Outlet />
       </div>
       <div className="footer-fixed ">
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </>
   )

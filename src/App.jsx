@@ -1,5 +1,6 @@
 import './App.css'
-import RoutesPage from './Routes/RoutesPage';
+
+import RoutesPage from './routes/RoutesPage';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategoryAsync } from './services/Slice/Category';
