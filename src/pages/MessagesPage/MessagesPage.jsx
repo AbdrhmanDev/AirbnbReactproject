@@ -6,7 +6,7 @@ import { RiArrowDropDownLine, RiLoader2Fill } from "react-icons/ri";
 import { TiMessages } from "react-icons/ti";
 import { ToastContainer, toast } from "react-toastify";
 import Pusher from "pusher-js";
-
+import { Modal, Button } from 'react-bootstrap';
 // Thunks
 import { sendMessageThunk } from "../../services/Slice/Chat/ChatSend";
 import { conversationsPersonalThunk } from "../../services/Slice/Chat/conversationsPersonal";
@@ -24,16 +24,28 @@ const MessagesPage = () => {
   const [receiverUser, setReceiverUser] = useState(null);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingMessages, setLoadingMessages] = useState(true);
+  const [imageProfile, setImage] = useState('')
+  const [showEmojiModal, setShowEmojiModal] = useState(false);
 
-
+  const handleEmojiClick = (emoji) => {
+    setContent(content + emoji);
+    setShowEmojiModal(false); // اقفل المودال بعد الاختيار
+  };
 
   useEffect(() => {
     const fetch = async () => {
       const res = await dispatch(fetchProfileThunk())
-      setidUser(res.payload.user._id)
+      setidUser(res.payload?.user?._id)
+      setImage(res.payload?.user?.avatar)
+      console.log("iiiiiiiiiiii", res.payload?.user?.avatar);
+
     }
     fetch()
   }, [])
+  useEffect(() => {
+    console.log("Personal: ", Personal);
+    console.log("Receiver user: ", receiverUser);
+  }, [Personal, receiverUser]);
 
   useEffect(() => {
     const fetchReceiverInfo = () => {
@@ -42,22 +54,25 @@ const MessagesPage = () => {
         setReceiverUser({
           name: user._id.name,
           avatar: user._id.avatar,
+          isAttachment: user._id.isAttachment
         });
       }
+      console.log(user);
+
     };
 
     fetchReceiverInfo();
   }, [id, Personal]);
 
+
   const currentUserId = idUser;
-  console.log(messages);
 
   useEffect(() => {
     const fetchMessageFromHostAndUser = async () => {
       setLoadingMessages(true);
       const res = await dispatch(conversationsHostAndUserThunk(id));
       const msgs = res.payload?.data;
-      console.log(res);
+      console.log("ssssssssss", res);
 
 
       if (Array.isArray(msgs)) {
@@ -68,38 +83,41 @@ const MessagesPage = () => {
             month: 'long',  // "long" for full month name, "short" for short name
             year: 'numeric'
           });
+          console.log("Message sender:", msg.sender);
           const formattedTime = date.toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit',
             hour12: true, // لو عايزها بنظام AM/PM، خليه true
           });
 
-          return{
+          return {
             fromMe: msg.sender._id === currentUserId,
             text: msg.content,
-              avatar: msg.sender._id === currentUserId
-                ? "https://cdn-icons-png.flaticon.com/512/6858/6858504.png"
-                : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-                createdAt : formattedDate,
-                  read : msg.read,
-                    delivered : msg.delivered,
-                    time: formattedTime,
+            avatar: msg.sender._id === currentUserId
+              ? imageProfile
+              : msg?.sender?.avatar || receiverUser?.avatar || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+            createdAt: formattedDate,
+            read: msg.read,
+            delivered: msg.delivered,
+            time: formattedTime,
           }
         }));
       }
 
       setLoadingMessages(false);
     };
+
     const fetchMessage = async () => {
       setLoadingUsers(true);
       const res = await dispatch(conversationsPersonalThunk());
 
       const list = res.payload;
-
+      console.log(res);
       setPersonal(Array.isArray(list) ? list : []);
       setLoadingUsers(false);
     };
     fetchMessage();
+
 
     fetchMessageFromHostAndUser();
 
@@ -122,6 +140,7 @@ const MessagesPage = () => {
           avatar: newMessage.sender._id === currentUserId
             ? "https://cdn-icons-png.flaticon.com/512/6858/6858504.png"
             : newMessage.sender.avatar || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+
         },
       ]);
     });
@@ -208,97 +227,114 @@ const MessagesPage = () => {
                     className="rounded-circle"
                   />
                   <div className="flex-grow-1">
-                    <div className="fw-bold">{item._id.name || "User"}</div>
-                    <div className="text-muted small">{item.lastMessage?.content || "No message yet"}</div>
+                    {/* الاسم + الوقت */}
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="fw-bold">{item._id.name || "Host"}</div>
+                      <div className="text-muted small">
+                        {new Date(item.lastMessage?.updatedAt).toLocaleTimeString("en-GB", {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+
+                      </div>
+
+                    </div>
+
+
+                    {/* الرسالة */}
+                    <div className="text-muted small d-flex justify-content-between">
+                      {item.lastMessage?.content
+                        ? item.lastMessage.content.length > 50
+                          ? `${item.lastMessage.content.slice(0, 50)}...`
+                          : item.lastMessage.content
+                        : "No message yet"}
+                      {item.unreadCount > 0 && (
+                        <span className="badge px-1 mt-1 py-1 bg-danger rounded-pill">{item.unreadCount}</span>
+                      )}
+                    </div>
                   </div>
-                  {item.unreadCount > 0 && (
-                    <span className="badge bg-danger rounded-pill">{item.unreadCount}</span>
-                  )}
                 </Link>
               ))
-
-
             )}
         </div>
 
         {/* Main Chat */}
         <div className="col-12 col-md-8 col-lg-9 d-flex flex-column">
           {
-            id ? <div className="d-flex align-items-center p-3 border-bottom">
+            id ? <div className="d-flex align-items-center p-3  border-bottom">
               <img
                 src={receiverUser?.avatar || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
-                width="45"
+                width="40"
                 alt="User"
                 className="rounded-circle"
               />
-
-              <span className="ms-3">{receiverUser?.name || "Chat with User"}</span>
+              <div>
+                <span className="ms-3">{receiverUser?.name || "Chat with User"}</span>
+                <small className={`d-block ms-xxl-3 ${receiverUser?.isAttachment ? 'text-success' : ""}`}>
+                  {
+                    receiverUser?.isAttachment ? `onLine ` : 'offLine'
+                  }
+                </small>
+              </div>
             </div> : ''
           }
 
+          <div className="d-flex flex-column  vh-100">
+            <div className="flex-grow-1 overflow-auto px-3 py-2">
 
-          <div className="flex-grow-1 overflow-auto px-3 py-2">
+              <span className="d-flex justify-content-center ">
+                <small className="bg-body-tertiary rounded-3 m-0 p-0 text-center ps-3 pe-3">
+                  {messages[0]?.createdAt}
+                </small>
+              </span>
 
-            <span className="d-flex justify-content-center ">
-              <small className="bg-body-tertiary rounded-3 m-0 p-0 text-center ps-3 pe-3">
-             {messages[0]?.createdAt}
-              </small>
-            </span>
-
-            {loadingMessages ? (
-              <div className="d-flex  justify-content-center mt-5 mb-5 pb-5">
-                <RiLoader2Fill size={30} className="spinner-border spinner-border-sm text-secondary" />
-              </div>
-            ) :
-            
-              messages.map((msg, index) => (
-                
-                <div
-                  key={index}
-                  className={`d-flex  ${msg.fromMe ? 'justify-content-end' : 'align-items-start'} mb-3`}
-                >
-                  {msg.fromMe ? (
-                    <>
-                     <div className=" d-flex">
-                      <div>
-                      <span className="bg-body-secondary ms-2 me-2 p-2 rounded-3">
-                        {msg.text}
-                      </span>
-                      <small className="d-block mt-2 ">
-                      {
-                            msg.delivered ? <>&#10003;</> :<> &#10003;  &#10003;</>
-                          }
-                        {msg.time}</small>
-                      </div>
-                      <img src={msg.avatar} width={'35'} height={'35'} alt="" srcset="" />
-
-                     </div>
-                    </>
-                  ) : (
-                    <>
-                    
-
-                     <div className=" d-flex">
-                      <img src={msg.avatar} width={'35'} height={'35'} alt="" srcset="" />
-                      <div>
-                      <span className="bg-body-secondary ms-2 p-2 rounded-3">
-                        {msg.text}
-                      </span>
-                      <small className="d-block mt-2 ms-3"> {msg.time}
-                      {
-                            msg.read ? <>&#10003;</> :<> &#10003;  &#10003;</>
-                          }
-                      </small>
-                      </div>
-                     
-
-                     </div>
-                      
-                    </>
-                  )}
-
+              {loadingMessages ? (
+                <div className="d-flex  justify-content-center mt-5 mb-5 pb-5">
+                  <RiLoader2Fill size={30} className="spinner-border spinner-border-sm text-secondary" />
                 </div>
-              ))}
+              ) :
+                messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`d-flex  ${msg.fromMe ? 'justify-content-end' : 'align-items-start'} mb-3`}
+                  >
+                    {msg.fromMe && (
+                      <>
+                        <div className=" d-flex">
+                          <div>
+                            <span className="bg-body-secondary ms-2 me-2 p-2 rounded-3">
+                              {msg.text}
+                            </span>
+                            <small className="d-block mt-2 ">
+                              {
+                                msg.read ? <>&#10003;</> : <> &#10003;  &#10003;</>
+                              }
+                              {msg.time}</small>
+                          </div>
+                          <img src={msg.avatar} className="rounded-circle" width={'35'} height={'35'} alt="" srcset="" />
+
+                        </div>
+                      </>
+                    )}
+                    {
+                      !msg.fromMe && (
+                        <>
+                          <div className=" d-flex">
+                            <img src={msg.avatar} width={'35'} height={'35'} alt="" />
+                            <div>
+                              <span className="bg-body-secondary ms-2 p-2 rounded-3">
+                                {msg.text}
+                              </span>
+                              <small className="d-block mt-2 ms-3"> {msg.time}</small>
+                            </div>
+                          </div>
+                        </>
+                      )
+                    }
+                  </div>
+                ))}
+
+            </div>
             {
               id ? <div className="p-3 border-top bg-white d-flex justify-content-between align-items-center gap-2" style={{ marginBottom: "80px" }}>
                 <input
@@ -308,15 +344,32 @@ const MessagesPage = () => {
                   className="form-control w-100 w-md-75"
                   placeholder="Write a message"
                 />
+                <button
+                  onClick={() => setShowEmojiModal(true)}
+                  className="btn btn-outline-secondary"
+                  title="Choose Emoji"
+                >
+                  😊
+                </button>
                 <button onClick={SendMessage} className="btn btn-dark px-4">Send</button>
               </div> : ""
             }
           </div>
-
-
         </div>
       </div>
       <ToastContainer />
+      <Modal show={showEmojiModal} onHide={() => setShowEmojiModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Select Emoji</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-flex justify-content-center flex-wrap gap-3 fs-3">
+          {["😊", "😂", "❤️", "👍", "🔥", "😍", "🥰", "👎", "🙌", "👏"].map((emoji) => (
+            <span key={emoji} style={{ cursor: 'pointer' }} onClick={() => handleEmojiClick(emoji)}>
+              {emoji}
+            </span>
+          ))}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
