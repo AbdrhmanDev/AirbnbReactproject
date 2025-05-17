@@ -1,0 +1,46 @@
+{
+  "account": "Account",
+  "go_to_profile": "Go to profile",
+  "card": {
+    "personal_info": {
+      "title": "Personal info",
+      "desc": "Manage your name, email and phone."
+    },
+    "login_security": {
+      "title": "Login & security",
+      "desc": "Update your password and secure your account."
+    },
+    "payments": {
+      "title": "Payments & payouts",
+      "desc": "Set up payment methods and view payouts."
+    },
+    "taxes": {
+      "title": "Taxes",
+      "desc": "Manage your tax information and invoices."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "desc": "Choose how you want to stay updated."
+    },
+    "privacy": {
+      "title": "Privacy and sharing",
+      "desc": "Control what you share and with whom."
+    },
+    "global_preferences": {
+      "title": "Global preferences",
+      "desc": "Set your language, currency, and more."
+    },
+    "travel": {
+      "title": "Travel for work",
+      "desc": "Organize business travel easily."
+    },
+    "hosting_tools": {
+      "title": "Professional hosting tools",
+      "desc": "Enhance your hosting experience."
+    },
+    "referrals": {
+      "title": "Guest referrals",
+      "desc": "Invite friends and earn rewards."
+    }
+  }
+}
