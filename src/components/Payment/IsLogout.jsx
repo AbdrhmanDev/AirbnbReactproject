@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { IoArrowBack } from "react-icons/io5";
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { GiLaurels } from "react-icons/gi";
 import { useDispatch, useSelector } from 'react-redux';
 import ModalLogin from '../Login/ModalLogin';
@@ -42,6 +42,7 @@ const IsLogout = () => {
   const endDay = end.getDate();
   const endMonthName = end.toLocaleString('en-EG', { month: 'long' });
   var isLoginIn = useSelector((state) => state.auth.token);
+  var loginIs = localStorage.getItem("token")
   const Hotel = useSelector((state) => state.booking.booking);
   const tripData = useSelector((state) => state.UserTrip.trip) || [];
   const dispatch = useDispatch();
@@ -50,6 +51,9 @@ const IsLogout = () => {
   const hasDispatchedBooking = useRef(false);
   const [showChangValue, setshowChangValue] = useState(false);
   const [BookingID, setBookingID] = useState(null);
+  const [showPriceModal, setShowPriceModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   // Listen for booking updates
   useEffect(() => {
@@ -85,7 +89,7 @@ const IsLogout = () => {
           }
         ]
       }));
-      setBookingID(res.payload.booking._id);  
+      setBookingID(res.payload.booking._id);
       console.log(res);
     };
     console.log(totalPrice);
@@ -106,7 +110,7 @@ const IsLogout = () => {
       window.removeEventListener('focus', handleFocus);
     };
   }, [dispatch]);
-  
+
   useEffect(() => {
     const matchingTrip = tripData.find(trip => trip._id === idHotel);
 
@@ -123,38 +127,45 @@ const IsLogout = () => {
     if (startDate && endDate && pricePerNight) {
       const start = new Date(startDate);
       const end = new Date(endDate);
-  
+
       // فرق الأيام
       const timeDiff = Math.abs(end.getTime() - start.getTime());
       const newDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  
+
       setDays(newDays);
-  
+
       const newTotalPrice = pricePerNight * newDays;
       setTotalPrice(newTotalPrice);
-  
+
       const tax = 0.14;
       const finalPrice = (newTotalPrice + newTotalPrice * tax).toFixed(2);
       setTotalPriceFinal(finalPrice);
     }
   }, [startDate, endDate, pricePerNight]);
-  
+
   var handelPayment = async () => {
     try {
+      setIsLoading(true)
       const response = await dispatch(PaymentFirstThunk(idHotel));
       if (response.payload?.approvalUrl) {
-        window.open(
+        const win=window.open(
           response.payload.approvalUrl,
           'PayPal Payment',
           'width=600,height=600,left=400,top=100'
         );
+        if(win.close){
+          setIsLoading(false)
+        }else{
+          setIsLoading(true)
+        }
       }
     } catch (error) {
       console.error(error)
       alert('Failed to initialize payment. Please try again.');
     }
+    
   };
-  
+
   return (
     <>
       <PayPalScriptProvider options={{ "client-id": "AVpz0jD3i5fe0TQHfA9VoVJWzuQ2TORj4hqs4EynrpzihlimSnm1iWTr5EdfU2afBvqh6mGuB22oPH8a", currency: "USD" }}>
@@ -166,13 +177,13 @@ const IsLogout = () => {
           <div className='row mb-4'>
             <div className='col-lg-5 col-md-12  mt-5'>
               {
-                !isLoginIn ?
+                !isLoginIn || !loginIs ?
                   <div className='col-12 mb-4 shadow rounded-4 bg-body-tertiary p-4' style={{ border: "0.1px solid #ccc" }}>
                     <div className='d-flex flex-column flex-sm-row justify-content-between'>
                       <h5 className='mt-2  mb-3 mb-sm-1'>1. Log in or sign up</h5>
-                      <button className='text-light p-lg-2  ps-lg-3  pe-lg-3 p-md-3 rounded-3 border-0'
+                      <Link className='text-light p-lg-2  ps-lg-3  pe-lg-3 p-md-3 rounded-3 border-0'
                         onClick={() => emitter.emit('open-modal')}
-                        style={{ backgroundColor: "#DC0F63" }}>Continue</button>
+                        style={{ backgroundColor: "#DC0F63" }}>Continue</Link>
                     </div>
                   </div> : " "
               }
@@ -203,15 +214,19 @@ const IsLogout = () => {
                         </div>
                         <div className='m-2  text-end'>
                           {
-                            !statusPayment ? <button className='m-2  px-3 py-2 rounded-2 border-0 text-light'
-                            style={{ backgroundColor: "#0B3382" }}
-                            onClick={handelPayment}
-                          >Connect to paypal</button> :
-                          <button className='m-2  px-3 py-2 rounded-2 border-0 text-light'
-                          style={{ backgroundColor: "#0B3382" }}
-                          
-                          disabled={statusPayment}
-                        > Payment successfully </button>
+                            !statusPayment ? <Link className='m-2  px-3 py-2 rounded-2 border-0 text-light'
+                              style={{ backgroundColor: "#0B3382" }}
+                              onClick={handelPayment}  
+                            >
+                           {
+                            isLoading == false ? 'Connect to paypal' : 'Loading....'
+                           }
+                            </Link> :
+                              <button className='m-2  px-3 py-2 rounded-2 border-0 text-light'
+                                style={{ backgroundColor: "#0B3382" }}
+
+                                disabled={statusPayment}
+                              > Payment successfully </button>
                           }
                         </div>
 
@@ -235,25 +250,25 @@ const IsLogout = () => {
                   {
                     statusPayment &&
                     <div className="card shadow-sm p-3 mb-4 bg-white rounded m-auto mt-5 border-success">
-                    <div className="card-body text-center">
-                    <IoMdCheckmarkCircle size={"40px"} color='#06BA00' />
-                      <h4 className="card-title text-success mb-3 mt-2">Your reservation has been completed successfully</h4>
-                      <p className="card-text mb-2">
-                        <strong> reservation : {startMonthName + " " + startDay} to {endMonthName + " " + endDay}</strong> 
-                      </p>
-                      <p className="card-text mb-2">
-                        <strong>status : completed</strong> 
-                      </p>
-                      <button className='py-2 px-3 border-0 rounded-2 text-light mt-2' 
-                      style={{backgroundColor:"#FF385C"}}> Trips <FaArrowAltCircleRight className='ms-1'
-                      onClick={()=>
-                        navigate('/Trips')
-                      }
-                      />
-                      
-                      </button>
+                      <div className="card-body text-center">
+                        <IoMdCheckmarkCircle size={"40px"} color='#06BA00' />
+                        <h4 className="card-title text-success mb-3 mt-2">Your reservation has been completed successfully</h4>
+                        <p className="card-text mb-2">
+                          <strong> reservation : {startMonthName + " " + startDay} to {endMonthName + " " + endDay}</strong>
+                        </p>
+                        <p className="card-text mb-2">
+                          <strong>status : completed</strong>
+                        </p>
+                        <button className='py-2 px-3 border-0 rounded-2 text-light mt-2'
+                          style={{ backgroundColor: "#FF385C" }}> Trips <FaArrowAltCircleRight className='ms-1'
+                            onClick={() =>
+                              navigate('/Trips')
+                            }
+                          />
+
+                        </button>
+                      </div>
                     </div>
-                  </div>
                   }
                 </div>
               </div>
@@ -273,16 +288,16 @@ const IsLogout = () => {
                 <div className='m-4 border-bottom col-sm-6 pb-4'>
                   <p className='mb-2'>Free cancellation</p>
                   <span className='d-block' style={{ fontSize: "14px" }}>Cancel before 3:00 PM on May 4 for a full refund.</span>
-                  <a href="">Full policy</a>
+                  <Link href="">Full policy</Link>
                 </div>
 
                 <div className='m-4 border-bottom pb-4'>
                   <div className='d-flex justify-content-between'>
                     <span>Trip details</span>
                     <button className='border-0 p-2 rounded-2'
-                    onClick={()=>{
-                      setshowChangValue(true)
-                    }}
+                      onClick={() => {
+                        setshowChangValue(true)
+                      }}
                     >Change</button>
                   </div>
                   <p className='m-0'>{startMonthName + " " + startDay} to {endMonthName + " " + endDay} </p>
@@ -294,8 +309,8 @@ const IsLogout = () => {
                   <div className='d-flex justify-content-between'>
                     <span className='mt-1'>{HotelById?.pricePerNight} <p className='d-inline text-muted'>night</p> x {days}</span>
                     <div>
-                    <p className='mt-1 m-0 '>${totalPrice}</p>
-                    <span className='m-0'> %14 Tax </span>
+                      <p className='mt-1 m-0 '>${totalPrice}</p>
+                      <span className='m-0'> %14 fees </span>
                     </div>
                   </div>
                 </div>
@@ -304,21 +319,45 @@ const IsLogout = () => {
                     <span>Total</span>
                     <p>${totalPriceFinal}</p>
                   </div>
-                  <a href="" className='text-dark m-0 p-0'>Price breakdown</a>
+                  <Link className='text-dark m-0 p-0' onClick={() => setShowPriceModal(true)}>Price breakdown</Link>
                 </div>
               </div>
             </div>
           </div>
           <ModalLogin />
-          <MoadelChangeValue 
-            startDate={startDate} 
-            endDate={endDate} 
+          {showPriceModal && (
+            <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+              <div className="modal-dialog modal-dialog-centered" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Price Breakdown</h5>
+                    <button type="button" className="close btn" onClick={() => setShowPriceModal(false)}>
+                      &times;
+                    </button>
+                  </div>
+                  <div className="modal-body">
+                    <p>Price per night: ${HotelById?.pricePerNight}</p>
+                    <p>Number of nights: {days}</p>
+                    <p>Tax (14%): ${(totalPrice * 0.14).toFixed(2)}</p>
+
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" onClick={() => setShowPriceModal(false)}>Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <MoadelChangeValue
+            startDate={startDate}
+            endDate={endDate}
             _id={_id}
-            adults={adults} 
-            pricePerNight={pricePerNight} 
+            adults={adults}
+            pricePerNight={pricePerNight}
             total={totalPriceFinal}
             BookingID={BookingID}
-            showChangValue={showChangValue} 
+            showChangValue={showChangValue}
             setshowChangValue={setshowChangValue}
           />
         </div>

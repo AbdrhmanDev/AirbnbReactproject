@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
-var token =localStorage.getItem('token');
 
 const PaymentFirst = async (id) => {
     try {
-        
+        var token =localStorage.getItem('token');
         const response = await axios.post(
             `${API_KEY}/payments/create-paypal-payment`,
             { bookingId: id },

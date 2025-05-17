@@ -1,6 +1,6 @@
 import React from 'react';
 import './Details.css';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
@@ -8,14 +8,14 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
   const { lastName, firstName, profileImage, role, createdAt } = hostId;
   const createDate = new Date(createdAt);
   const diffInMonths = Math.floor((new Date() - createDate) / (1000 * 60 * 60 * 24 * 30));
-  const navigate= useNavigate()
-  
+  const navigate = useNavigate()
+
   if (!hostId) return null;
 
-  console.log(hostId._id);
-  
-  
-  const handelSendId =(id)=>{
+  console.log(reviews);
+
+
+  const handelSendId = (id) => {
     console.log(id);
     navigate(`/messages/${id}`)
   }
@@ -28,7 +28,7 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
           ) : (
             reviews.map((item, index) => {
               const user = item.reviewId.userId;
-              const reviewDate = new Date(user.createdAt).toLocaleDateString('en-EG', {
+              const reviewDate = new Date(item.reviewId.createdAt).toLocaleDateString('en-EG', {
                 day: 'numeric',
                 month: 'long',
               });
@@ -38,15 +38,19 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
                   <div className="card review-card">
                     <div className="card-body">
                       <div className="d-flex align-items-center mb-2">
-                        <img src={user.profileImage} alt="avatar" className="review-avatar me-2" />
+                        <img src={user.avatar} alt="avatar" className="review-avatar me-2" />
                         <div>
-                          <div className="review-header">{user.firstName}</div>
+                          <div className="review-header">{user.name}</div>
                           <span className="review-subtitle">{reviewDate}</span>
                         </div>
                       </div>
-                      <span className="rating">
-                        {item.reviewId.rating === 5 ? '★★★★★' : '★★★★'}
-                      </span>
+                      <p className="rating">
+                        {[...Array(5)].map((_, index) => (
+                          <span key={index}>
+                            {index < item.reviewId.rating ? '★' : '☆'}
+                          </span>
+                        ))}
+                      </p>
                       <span className="ms-2 review-subtitle mb-2">{item.reviewId.comment}</span>
                       <p className="review-text">Great stay, I recommend it</p>
                     </div>
@@ -62,7 +66,7 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
             <button className="btn col-10 col-md-2 btn-outline-dark m-auto">
               Show all {reviews.length} reviews
             </button>
-            <a href="#" className="d-block mt-2 text-secondary">Learn how reviews work</a>
+            <Link href="#" className="d-block mt-2 text-secondary">Learn how reviews work</Link>
           </div>
         )}
       </div>
@@ -108,7 +112,7 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
           <p>Response rate: 100%</p>
           <p>Responds within an hour</p>
           <button className="btn btn-dark mt-1"
-          onClick={()=>handelSendId(hostId._id)}
+            onClick={() => handelSendId(hostId._id)}
           >Message host</button>
           <p className="border-bottom pb-4 mt-2">
             You can message the host in Chinese, and Airbnb provides a translation function

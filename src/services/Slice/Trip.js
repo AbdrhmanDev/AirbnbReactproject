@@ -1,15 +1,12 @@
-const API_KEY = import.meta.env.VITE_API;
-const API_TOKEN = import.meta.env.VITE_TOKEN;
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-var token = localStorage.getItem('token');
 
+const API_KEY = import.meta.env.VITE_API;
 const GetUserTrip = async () => {
-    let response;
     try {
-        console.log(API_TOKEN);
-        response = await axios.get(
+        var token = localStorage.getItem('token');
+        let   response = await axios.get(
             `${API_KEY}/bookings/user`,
             {
                 headers: {
@@ -28,6 +25,8 @@ const deleteUserTrip = async (paymentId) => {
     console.log("Payment ID in delete:", paymentId);
 
     try {
+        var token = localStorage.getItem('token');
+
         response = await axios.post(
             `${API_KEY}/payments/${paymentId}/cancel`,
             {},
@@ -49,6 +48,7 @@ const getPaymentId = async (bookingId) => {
     console.log("Booking ID:", bookingId);
 
     try {
+        var token = localStorage.getItem('token');
         response = await axios.get(
             `${API_KEY}/bookings/getPaymentIdByBookingId/${bookingId}`,
             {

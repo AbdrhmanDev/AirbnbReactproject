@@ -17,6 +17,7 @@ import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
 import ModalLogin from '../Login/ModalLogin';
 import { logout } from '../../services/Slice/Login/GoogleLogin';
 import { emitter } from '../../features/emitter';
+import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 
 
 const Navbar = () => {
@@ -27,10 +28,10 @@ const Navbar = () => {
     const navigate = useNavigate();
     var login = localStorage.getItem('token');
     const [isLogin, setIsLogin] = useState(!!login);
-    const auth= useSelector((state)=>state.auth.token)
-    const userProfile= useSelector((state)=>state.userProfile.profile)
-    
+    const auth = useSelector((state) => state.auth.token)
+    var userProfile = useSelector((state) => state.userProfile.profile)
 
+    console.log(userProfile);
 
     const handelLogout = () => {
         dispatch(logout());
@@ -38,6 +39,9 @@ const Navbar = () => {
         localStorage.removeItem('token');
         navigate('/');
     };
+    useEffect(()=>{
+        dispatch(fetchProfileThunk())
+    },[])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -82,8 +86,8 @@ const Navbar = () => {
 
                     <div className="d-flex align-items-center gap-3">
                         <span className="fw-semibold">
-                            <button className='border-0 bg-body p-2 hoverFromNav'>{
-                                isLogin || auth ? "Switch to hosting" : "Airbnb your home"
+                            <button className='border-0 bg-body p-2 hoverFromNav'  >{
+                                isLogin || auth ? "Switch to hosting" : <Link to={'/hostHomePage'} className='text-dark' style={{textDecoration:'none'}} >Airbnb your home</Link>
                             }</button>
                         </span>
 
@@ -100,14 +104,14 @@ const Navbar = () => {
                             ref={menuRef}
                         >
                             <RxHamburgerMenu className='me-2' />
-                           {
-                            isLogin || auth &&
-                            userProfile?.user?.avatar ? 
-                            <img src={userProfile?.user?.avatar} className='rounded-circle' alt="" style={{ width: '30px', height: '30px' }}/>
-                            : <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
-                            {/* img profile */}
-                        </div>
-                           }
+                            {
+                                isLogin || auth &&
+                                    userProfile?.user?.avatar ?
+                                    <img src={userProfile?.user?.avatar} className='rounded-circle' alt="" style={{ width: '30px', height: '30px' }} />
+                                    : <div className="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px' }}>
+                                        {/* img profile */}
+                                    </div>
+                            }
                             <span className="position-absolute top-0 start-100 me-5 mt-1 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '10px' }}>
                                 2
                             </span>
@@ -117,41 +121,49 @@ const Navbar = () => {
                                     className="position-absolute bg-white border rounded shadow p-2"
                                     style={{ top: '120%', right: 0, zIndex: 1000, minWidth: '180px' }}>
                                     {/* ul Login */}
-                                    {isLogin || auth  ?
+                                    {isLogin || auth ?
                                         <ul className="list-unstyled mb-0 m-2">
                                             <li><Link to="/messages" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Messages</Link></li>
                                             <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
                                             <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
                                             <div className='border'></div>
                                             <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
-                                            <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
-                                            <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Refer a Host</Link></li>
+                                            <li><Link to="/HostExperience" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                            <li><Link to="/referrals" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Refer a Host</Link></li>
                                             <li><Link to="/Account" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Account</Link></li>
                                             <div className='border'></div>
-                                            <li><Link to="/settings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                            <li><Link to="/giftCards" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Gift cards</Link></li>
                                             <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
                                             <li><Link className="dropdown-item m-2" onClick={handelLogout} style={{ fontSize: "13px" }}>Logout</Link></li>
                                         </ul>
                                         :
                                         !isLogin && <ul className="list-unstyled mb-0 m-2">
                                             <li>
-                                                    <Link onClick={
-                                                        () => {
-                                                            emitter.emit('open-modal')
-                                                            navigate('/')
-                                                        }} 
-                                                        className="dropdown-item m-2"
-                                                        style={{ fontSize: "13px", cursor: "pointer" }}
-                                                        
-                                                        >
+                                                <Link onClick={
+                                                    () => {
+                                                        emitter.emit('open-modal')
+                                                        navigate('/')
+                                                    }}
+                                                    className="dropdown-item m-2"
+                                                    style={{ fontSize: "13px", cursor: "pointer" }}
+
+                                                >
                                                     login
-                                                    </Link>
+                                                </Link>
                                             </li>
-                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Sign Up</Link></li>
+                                            <li><Link  className="dropdown-item m-2 "
+                                                onClick={
+                                                    () => {
+                                                        emitter.emit('open-modal')
+                                                        navigate('/')
+                                                    }}
+                                                style={{ fontSize: "13px", cursor: "pointer" }}>
+
+                                                Sign Up</Link></li>
                                             <div className='border'></div>
-                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
-                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
-                                            <li><Link to="/bookings" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
+                                            <li><Link to="/giftCards" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
+                                            <li><Link to="/hostHomePage" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
+                                            <li><Link to="/HostExperience" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
                                             <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
                                         </ul>
                                     }
@@ -164,7 +176,7 @@ const Navbar = () => {
             {!isScrolled && (
                 <SearchBar className="w-50" />
             )}
-            <ModalLogin/>
+            <ModalLogin />
         </>
     );
 };

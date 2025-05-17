@@ -23,6 +23,7 @@ import BookingBtIdSlice from "./Slice/Booking/GetBookingById";
 import SendMessageSlice from "./Slice/Chat/ChatSend";
 import conversationsSlice from "./Slice/Chat/conversationsGet";
 import conversationsPersonalSlice from "./Slice/Chat/conversationsPersonal";
+import ReviewsSlice from "./Slice/reviews/Addreviews";
 
 const Store = configureStore({
     reducer: {
@@ -49,7 +50,8 @@ const Store = configureStore({
         BookingByID:BookingBtIdSlice.reducer,
         sendMessage:SendMessageSlice.reducer,
         conversation:conversationsSlice.reducer,
-        conversationsPersonal:conversationsPersonalSlice.reducer
+        conversationsPersonal:conversationsPersonalSlice.reducer,
+        Reviews:ReviewsSlice.reducer
     }
 });
 

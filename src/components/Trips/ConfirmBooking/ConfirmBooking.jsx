@@ -4,7 +4,7 @@ import './ConfirmBooking.css'
 import { differenceInDays, format, parseISO } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { BookingByIdThunk } from '../../../services/Slice/Booking/GetBookingById';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { MdOutlineBedroomParent } from "react-icons/md";
 import { PiPath } from "react-icons/pi";
 import { LuBedSingle } from "react-icons/lu";
@@ -19,7 +19,9 @@ import markerIconPng from 'leaflet/dist/images/marker-icon.png';
 import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
 import { PaymentFirstThunk } from '../../../services/Slice/Payment/Payment';
 import { toast } from 'react-toastify';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { deleteUserTripThunk, getPaymentIdThunk } from '../../../services/Slice/Trip';
+import Reviews from '../reviews/reviews';
 const ConfirmBooking = () => {
 
     const dispatch = useDispatch();
@@ -31,10 +33,12 @@ const ConfirmBooking = () => {
     const dataBooking = Res?.payload?.properties[0]
     const location = dataProperties?.address?.coordinates;
     const isLoading = useSelector((state) => state.PaymentFirst.isLoading);
-    const navigate= useNavigate();
-
-
+    const navigate = useNavigate();
+    const idHotel = dataProperties?._id
+    const [showReview, setShowReview] = useState(false);
     console.log(dataProperties);
+    console.log(idHotel);
+    
 
     console.log(dataBooking);
     let formattedStart = '';
@@ -85,10 +89,10 @@ const ConfirmBooking = () => {
                 throw new Error("Payment ID not found");
             }
             console.log("Payment ID:", paymentId);
-            
 
-            console.log("Cancel booking for trip ID:",idBooking, "Payment ID:", paymentId);
-            
+
+            console.log("Cancel booking for trip ID:", idBooking, "Payment ID:", paymentId);
+
 
             await dispatch(deleteUserTripThunk(paymentId));
             navigate('/trips')
@@ -134,14 +138,14 @@ const ConfirmBooking = () => {
                             {Res?.payload?.properties?.map((prop, index) => (
                                 <span className="" key={index}>
                                     {prop.status === 'completed' ? prop.status :
-                                        <button className='border-0 rounded-2 bg-info mt-2 text-light p-2'
+                                        <Link className='border-0 rounded-2 bg-info mt-2 text-light p-2'
                                             onClick={handelConnecttopaypal}
                                             disabled={isLoading}
                                         >
                                             {
                                                 isLoading ? 'Loading...' : 'Connect to paypal'
                                             }
-                                        </button>
+                                        </Link>
                                     }
                                 </span>
                             ))}
@@ -272,6 +276,7 @@ const ConfirmBooking = () => {
                                 </div>
 
                                 {/* Guest Info */}
+                                <button className="btn btn-primary" onClick={() => setShowReview(true)}>Reviews</button>
 
                                 <>
                                     <hr />
@@ -322,6 +327,11 @@ const ConfirmBooking = () => {
                         </Card>
                     </div>
                 </div>
+
+                    <Reviews show={showReview} onClose={() => setShowReview(false)}
+                    idBooking={idBooking} idHotel={idHotel}
+                    />
+
                 {/* Action Buttons */}
                 <ToastContainer></ToastContainer>
             </div>

@@ -281,7 +281,7 @@ const DetailsContent = ({
                         <div className="p-4 position-sticky custom-edit">
                             <div className='mb-4 card d-block shadow p-2 ps-5 position-sticky custom-edit ' >
                                 <RxDrawingPinFilled size={"22px"} className='text-danger ms-3' />
-                                <span className='ms-2 ps-3' style={{ fontSize: "12px" }}>Prices include all fees</span>
+                                <span className='ms-2 ps-3' style={{ fontSize: "12px" }}>Prices Not include fees</span>
                             </div>
                             <div className="card shadow p-4 position-sticky custom-edit">
                                 <h5 className="card-title mb-4">
@@ -383,9 +383,9 @@ const DetailsContent = ({
                                         </div>
                                     </div>
                                 </form>
-                                <button type="button" className="btn btn-danger w-100 mt-3"
+                                <Link type="button" className="btn btn-danger w-100 mt-3"
                                     onClick={HotelReservation}
-                                >Check availability</button>
+                                >Check availability</Link>
                                 {/* error massage */}
                               {
                                 isErrorBooking ? <span className='text-danger ms-1 mt-2'>{isErrorBooking}</span> : ''

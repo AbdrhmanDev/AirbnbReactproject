@@ -20,7 +20,19 @@ import CheckOut from '../pages/CheckOut/CheckOut'
 import PaymentSuccess from '../pages/Payment/PaymentSuccess'
 import ConfirmBooking from '../components/Trips/ConfirmBooking/ConfirmBooking'
 import MessagesPage from '../pages/MessagesPage/MessagesPage'
-
+import GiftPage from '../pages/GiftPage/GiftPage'
+import HostHome from '../pages/HostHome/HostHome'
+import TaxesPage from '../components/TaxesPage/TaxesPage'
+import Notifications from '../components/Notifications/Notifications'
+import PrivacyPage from '../components/PrivacyPage/PrivacyPage'
+import GlobalPreferences from '../components/GlobalPreferences/GlobalPreferences'
+import TravelForWork from '../components/TravelForWork/TravelForWork'
+import ProfessionalHostingTools from '../components/ProfessionalHostingTools/ProfessionalHostingTools'
+import ReferralCard from '../components/ReferralCard/ReferralCard'
+import LoginSecurity from '../components/Setting/login-security'
+import Payment from '../components/Setting/paymnt'
+import HeroSection from '../components/HostExperience/HeroSection'
+// import Reviews from '../components/Trips/reviews/reviews'
 const RoutesPage = () => {
   const router = createBrowserRouter(
     [
@@ -35,7 +47,11 @@ const RoutesPage = () => {
           {path:'/Trips', element: <Trip/>},
           {path:'/payment/success', element: <PaymentSuccess/> },
           {path:'/Trips/details', element: <ConfirmBooking/>},
-          // Messages routes
+          {path:'/giftCards', element: <GiftPage/>},
+          { path: "/referrals", element: <ReferralCard/> },
+          {path:'/hostHomePage', element: <HostHome/>},
+          {path:'/HostExperience', element: <HeroSection/>},
+          // { path: "/Review", element: <Reviews/> }, // Shows all conversations
           { path: "/messages", element: <MessagesPage /> }, // Shows all conversations
           { path: "/messages/:id", element: <MessagesPage /> }, // Shows specific conversation
           { path: "/user/:id/messages", element: <MessagesPage /> }, // Direct link to chat with specific user
@@ -51,15 +67,15 @@ const RoutesPage = () => {
               { path: "ProfileAbout", element: <ProfileAbout/> },
               { path: "ProfileSection", element: <ProfileSection/> },
               { path: "personal-info", element: <div> <Personalinfo/> </div> },
-              { path: "login-security", element: <div>Login & Security Page</div> },
-              { path: "payments", element: <div>Payments Page</div> },
-              { path: "taxes", element: <div>Taxes Page</div> },
-              { path: "notifications", element: <div>Notifications Page</div> },
-              { path: "privacy", element: <div>Privacy Page</div> },
-              { path: "global-preferences", element: <div>Global Preferences Page</div> },
-              { path: "travel", element: <div>Travel Page</div> },
-              { path: "hosting-tools", element: <div>Hosting Tools Page</div> },
-              { path: "referrals", element: <div>Referrals Page</div> }
+              { path: "login-security", element: <LoginSecurity/> },
+              { path: "payments", element: <Payment/> },
+              { path: "taxes", element: <TaxesPage/> },
+              { path: "notifications", element: <Notifications/> },
+              { path: "privacy", element: <PrivacyPage/>},
+              { path: "global-preferences", element: <GlobalPreferences/>},
+              { path: "travel", element: <TravelForWork/> },
+              { path: "hosting-tools", element: <ProfessionalHostingTools/> },
+              { path: "referrals", element: <ReferralCard/> }
             ]
           },
           {path: "book/stays", element: <CheckOut />}

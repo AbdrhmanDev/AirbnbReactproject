@@ -42,6 +42,7 @@ const Details = () => {
   // console.log(HotelById);
   // console.log("id host",HotelById.hostId._id);
   
+  console.log("asdasd re",reviews);
   
 
 
