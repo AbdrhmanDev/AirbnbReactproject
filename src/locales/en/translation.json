@@ -99,8 +99,10 @@
   "desert": "Desert",
   "tropical": "Tropical",
   "icons":"icons"
-}
-
+},
+"anywhere": "Anywhere",
+  "any_week": "Any week",
+  "add_guests": "Add guests"
 
 
 }
