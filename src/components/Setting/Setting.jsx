@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { fetchProfileThunk } from "../../services/Slice/Profile/ProfileAPI";
-
 const UserInfo = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -68,4 +67,3 @@ const UserInfo = () => {
 };
 
 export default UserInfo;
-

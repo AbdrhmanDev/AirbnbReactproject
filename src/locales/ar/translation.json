@@ -42,5 +42,69 @@
       "title": "دعوات الضيوف",
       "desc": "ادعُ الأصدقاء واحصل على مكافآت."
     }
-  }
+  },
+  "navbar": {
+    "homes": "منازل",
+    "experiences": "تجارب",
+    "switch_to_hosting": "تبديل إلى استضافة",
+    "airbnb_your_home": "استضف منزلك على Airbnb",
+    "messages": "الرسائل",
+    "trips": "رحلاتك",
+    "wishlist": "قائمة الأمنيات",
+    "manage_listings": "إدارة الإعلانات",
+    "host_experience": "استضف تجربة",
+    "refer_host": "دعوة مستضيف",
+    "account": "الحساب",
+    "gift_cards": "بطاقات الهدايا",
+    "help_center": "مركز المساعدة",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "sign_up": "إنشاء حساب"
+
+  },
+   
+  "titles": {
+    "Beachfront Resort": "منتجع على الشاطئ",
+    "Adventure Mountain Lodge": "منتجع الجبل للمغامرات",
+    "Lakeside Cabin": "كوخ بجانب البحيرة",
+    "Budget Beach Resort":" منتج وشاطئ بدجيت ",
+     "Luxury Beachfront Villa":"فيلا شاطئية ",
+    "Mountain View Cabin":"كابينة تطل على الجبل "
+  },
+  "cities": {
+    "Miami": "ميامي",
+    "Tahoe": "تاهو",
+    "Aspen":"اسبن "
+  },
+  "countries":{
+    "USA":"الولايات المتحده الامريكيه "
+  },
+  
+  "event_date": "٤ – ٩ مايو",
+  "cards.price_per_night": "{{price}}$ / ليلة",
+  "search.check_in": "تسجيل الوصول",
+  "search.check_out": "تسجيل المغادرة ",
+  "search.add_dates": "أضف التواريخ",
+  "search.who": "من ",
+   "Add-guests": " اضف ضيوف ",
+ "search.placeholder": " بحث عن المكان ",
+  "serach-Where":"اين",
+  "filter": {
+    "label": "تصفية ",
+     "Display":"السعر قبل الضريبه "
+  },
+  
+  "categories": {
+  "bed___breakfasts": "مبيت وإفطار",
+  "desert": "صحراء",
+  "tropical": "استوائي",
+  "icons":"ايقونات"
+
 }
+
+
+
+}
+
+  
+

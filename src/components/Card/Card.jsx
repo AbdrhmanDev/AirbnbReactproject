@@ -11,7 +11,7 @@ import { toggleWishlist } from '../wishlistHelpers/wishlistHelpers';
 import ModalLogin from '../Login/ModalLogin';
 import { emitter } from '../../features/emitter';
 import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
-
+import { useTranslation } from "react-i18next";
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
     return (
         <div className="container  mt-5 p-1">
@@ -41,7 +41,9 @@ const ImageCard = ({ hotel }) => {
     const dispatch = useDispatch()
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
-    var auth= useSelector((state)=>state.auth.token)
+    var auth= useSelector((state)=>state.auth.token);
+    const { t } = useTranslation();
+    
 
     const { images, title, pricePerNight, rating, address, _id } = hotel;
 
@@ -131,10 +133,13 @@ const ImageCard = ({ hotel }) => {
                     onClick={() => { navigate(`details/${_id}`) }}
                 >
                     <div className="card-body text-start">
-                        <h6 className="card-title pt-1">{title}</h6>
-                        <p className="card-text text-muted mb-1">{address?.city}, {address?.country}</p>
-                        <p className="card-text text-muted mb-1">May 4 – 9</p>
-                        <p className="card-text mb-1">${pricePerNight} / night</p>
+                        <h6 className="card-title pt-1"> {t(`titles.${title}`, { defaultValue: title })}
+</h6>
+                        <p className="card-text text-muted mb-1">  {t(`cities.${address?.city}`, { defaultValue: address?.city })}, {t(`countries.${address?.country}`, { defaultValue: address?.country })}
+</p>
+                        <p className="card-text text-muted mb-1">{t('event_date')}</p>
+                       <p className="card-text text-muted mb-1">{t("cards.price_per_night", { price: pricePerNight })}
+</p>
                     </div>
                     <div className="review">
                         <p className="mb-0">★ {rating}</p>

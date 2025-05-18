@@ -1,6 +1,7 @@
 {
   "account": "Account",
   "go_to_profile": "Go to profile",
+
   "card": {
     "personal_info": {
       "title": "Personal info",
@@ -42,5 +43,66 @@
       "title": "Guest referrals",
       "desc": "Invite friends and earn rewards."
     }
-  }
+  },
+
+  "navbar": {
+    "homes": "Homes",
+    "experiences": "Experiences",
+    "switch_to_hosting": "Switch to hosting",
+    "airbnb_your_home": "Airbnb your home",
+    "messages": "Messages",
+    "trips": "Trips",
+    "wishlist": "Wishlist",
+    "manage_listings": "Manage listings",
+    "host_experience": "Host an experience",
+    "refer_host": "Refer a Host",
+    "account": "Account",
+    "gift_cards": "Gift cards",
+    "help_center": "Help Center",
+    "logout": "Logout",
+    "login": "Login",
+    "sign_up": "Sign Up"
+  },
+
+  "titles": {
+    "Beachfront Resort": "Beachfront Resort",
+    "Adventure Mountain Lodge": "Adventure Mountain Lodge",
+    "Lakeside Cabin": "Lakeside Cabin",
+    "Luxury Beachfront Villa":"Luxury Beachfront Villa",
+    "Mountain View Cabin":"Mountain View Cabin",
+    "Budget Beach Resort":"Budget Beach Resort"
+
+  },
+  "cities": {
+    "Miami": "Miami",
+    "Tahoe": "Tahoe",
+    "Aspen": "Aspen"
+  },
+  "countries":{
+    "USA":"USA"
+  },
+  "event_date": "May 4 – 9",
+  "cards.price_per_night": "{{price}}$ / night",
+  "search.check_in": "Check in",
+  "search.check_out": "Check out",
+  "search.add_dates": "Add Dates",
+  "search.who": "Who",
+ "Add-guests": "add guests",
+ "search.placeholder": "Search destinations",
+ "serach-Where":"Where",
+"filter": {
+    "label": "Filter",
+    "Display":"Display befor taxes "
+  },
+  "categories": {
+  "bed___breakfasts": "Bed & breakfasts",
+  "desert": "Desert",
+  "tropical": "Tropical",
+  "icons":"icons"
 }
+
+
+
+}
+
+

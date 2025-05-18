@@ -16,6 +16,7 @@ const FilterCategory = (props) => {
     beds: '',
     bathrooms: '',
   });
+  
   const handelFilter = () => {
     const allFilters = {
       minPrice: priceRange.minPrice,
@@ -50,7 +51,7 @@ const FilterCategory = (props) => {
             id="contained-modal-title-vcenter"
             className="w-100 fs-6 text-center"
           >
-            Filters
+           Filter
           </Modal.Title>
         </Modal.Header>
 

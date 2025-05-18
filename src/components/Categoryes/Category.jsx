@@ -7,6 +7,7 @@ import { FetchCategoryHotelsAsync } from '../../services/Slice/Hotel';
 import { useState } from 'react';
 import FilterCategory from '../FilterCategory/FilterCategory';
 import HistoriesLoader from '../HistoriesLoader/HistoriesLoader';
+import { useTranslation } from "react-i18next";
 
 const Category = () => {
     const [activeCategoryId, setActiveCategoryId] = useState(null);
@@ -14,11 +15,17 @@ const Category = () => {
     const isLoading = useSelector((state) => state.Category.isLoading)
     const [modalShow, setModalShow] = useState(false);
     const dispatch = useDispatch();
+     const { t } = useTranslation();
+
 
     const getCatogeryHotel = (id) => {
         setActiveCategoryId(id);
         dispatch(FetchCategoryHotelsAsync(id));
     }
+    const normalizeKey = (text) => {
+  return text.toLowerCase().replace(/[^a-z0-9]/gi, "_");
+};
+
 
     return (
         <>
@@ -34,8 +41,7 @@ const Category = () => {
                                         onClick={() => getCatogeryHotel(item._id)}
                                         key={index}>
                                         <img className="icon" width={"17px"} src={item.icon} alt={item.name} />
-                                        <p className={`label2`}>{item.name}</p>
-                                        {activeCategoryId === item._id && <div className="active-underline "></div>}
+                                        <p className="label2">{t(`categories.${normalizeKey(item.name)}`)}</p>                                        {activeCategoryId === item._id && <div className="active-underline "></div>}
                                     </div>
                                 ))
                         }
@@ -45,14 +51,14 @@ const Category = () => {
                 <div className="btn-parent me-2">
                     <button className='btn m-0 btn-outline-light' onClick={() => setModalShow(true)}>
                         <RiListSettingsLine size={"22px"} style={{ paddingRight: "4px" }} />
-                        Filter
+                        {t("filter.label")}
                     </button>
                     <FilterCategory
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                     />
                     <button className='btn m-0 btn-outline-light ms-1'>
-                        Display total before taxes
+                        {t("filter.Display")}
                         <BiToggleLeft size={"28px"} style={{ paddingLeft: "4px" }} />
                     </button>
                 </div>
