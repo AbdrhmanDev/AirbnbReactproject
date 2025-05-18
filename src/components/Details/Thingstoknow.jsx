@@ -23,12 +23,14 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
     <>
       <div className="row">
         <div className="comment w-75 m-auto">
-          {(!reviews || reviews.length === 0) ? (
-            <p>No reviews yet...</p>
+          {(!reviews || reviews?.length === 0 && reviews) ? (
+            <p>No reviews yet... </p>
           ) : (
-            reviews.map((item, index) => {
-              const user = item.reviewId.userId;
-              const reviewDate = new Date(item.reviewId.createdAt).toLocaleDateString('en-EG', {
+            reviews?.map((item, index) => {
+              const user = item?.reviewId?.userId;
+              console.log(user);
+              
+              const reviewDate = new Date(item?.reviewId?.createdAt).toLocaleDateString('en-EG', {
                 day: 'numeric',
                 month: 'long',
               });
@@ -38,20 +40,22 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
                   <div className="card review-card">
                     <div className="card-body">
                       <div className="d-flex align-items-center mb-2">
-                        <img src={user.avatar} alt="avatar" className="review-avatar me-2" />
+                        <img src={user?.avatar} alt="avatar" className="review-avatar me-2" />
                         <div>
-                          <div className="review-header">{user.name}</div>
+                          <div className="review-header">{user?.name}</div>
                           <span className="review-subtitle">{reviewDate}</span>
                         </div>
                       </div>
-                      <p className="rating">
+                      {
+                       <p className="rating">
                         {[...Array(5)].map((_, index) => (
                           <span key={index}>
-                            {index < item.reviewId.rating ? '★' : '☆'}
+                            {index < item?.reviewId?.rating ? '★' : '☆'}
                           </span>
                         ))}
                       </p>
-                      <span className="ms-2 review-subtitle mb-2">{item.reviewId.comment}</span>
+                      }
+                      <span className="ms-2 review-subtitle mb-2">{item?.reviewId?.comment}</span>
                       <p className="review-text">Great stay, I recommend it</p>
                     </div>
                   </div>
@@ -61,10 +65,10 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
           )}
         </div>
 
-        {reviews.length > 4 && (
+        {reviews?.length > 4 && (
           <div className="row coustem-button text-center">
             <button className="btn col-10 col-md-2 btn-outline-dark m-auto">
-              Show all {reviews.length} reviews
+              Show all {reviews?.length} reviews
             </button>
             <Link href="#" className="d-block mt-2 text-secondary">Learn how reviews work</Link>
           </div>
@@ -86,7 +90,7 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
                 <p>No reviews</p>
               ) : (
                 <>
-                  <h3>{reviews.length}</h3>
+                  <h3>{reviews?.length}</h3>
                   <p className="border-bottom py-0 pb-2">Reviews</p>
                 </>
               )}
@@ -99,7 +103,7 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
 
 
           <div className="mt-4">
-            {houseRules.map((rule, index) => (
+            {houseRules?.map((rule, index) => (
               <p key={index}><i className="bi bi-geo-alt-fill"></i> <span>{rule}</span></p>
             ))}
             <p>Hello, I appreciate exchanges and discoveries</p>

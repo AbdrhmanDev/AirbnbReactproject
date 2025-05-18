@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './CardTrips.Module.css';
-import { useDispatch } from 'react-redux';
-import { deleteUserTripThunk, getPaymentIdThunk, getUserTripThunk } from '../../services/Slice/Trip';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -40,7 +38,7 @@ const TripCard = ({ tripData, isLoading, isError, errorMessage }) => {
 };
 
 const TripItem = ({ trip }) => {
-    const dispatch = useDispatch();
+
     const navigate= useNavigate()
     const [localTrip, setLocalTrip] = useState(trip);
     useEffect(() => {
@@ -53,7 +51,6 @@ const TripItem = ({ trip }) => {
     const totalPrice = properties[0]?.totalPrice;
     console.log(localTrip);
     
-    const canCancel = startDate > new Date();
 
     if (!property || !property.images || property.images.length === 0) return null;
 
@@ -69,7 +66,7 @@ const TripItem = ({ trip }) => {
             <div className="mx-auto" style={{ overflow: 'hidden' }}>
                 <img src={property.images[0]} alt="Property" className="trip-img3" />
 
-                <div className="card-body text-start mt-2">
+                <div className="card-body text-start mt-2 m-3">
                     <h6 className="card-title3 fw-bold">{property.title}</h6>
                     <p className="card-text3 text-muted mb-1">
                         {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
@@ -81,27 +78,7 @@ const TripItem = ({ trip }) => {
                         <strong>${totalPrice}</strong> total price
                     </p>
 
-                    {canCancel && (
-                        <button
-                            className="btn btn-danger btn-sm w-100 mt-2"
-                            onClick={ async (e) => {
-                                e.stopPropagation();
-                                try {
-                                    const response = await dispatch(getPaymentIdThunk(trip._id));
-                                    const paymentId = response?.payload?.paymentId;
-                                    if (!paymentId) {
-                                        throw new Error("Payment ID not found");
-                                    }
-                                    await dispatch(deleteUserTripThunk(paymentId));
-                                    await dispatch(getUserTripThunk());
-                                } catch (error) {
-                                    throw new Error("Payment ID not found",error);
-                                }
-                            }}
-                        >
-                            Cancel Booking
-                        </button>
-                    )}
+                    
                 </div>
             </div>
         </div>

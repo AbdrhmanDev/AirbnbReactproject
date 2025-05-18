@@ -288,4 +288,31 @@
       width: 100%;
     }
   }
+  .review-bg {
+    background-color: #0d1b2a;
+  }
+  
+  .review-card {
+    max-width: 600px;
+  }
+  
+  .arrow-down {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid white;
+  }
+  
+  .review-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-top: -20px;
+  }
   

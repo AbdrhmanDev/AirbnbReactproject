@@ -22,6 +22,17 @@ import { toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { deleteUserTripThunk, getPaymentIdThunk } from '../../../services/Slice/Trip';
 import Reviews from '../reviews/reviews';
+import { CiStar } from "react-icons/ci";
+import { Image } from "react-bootstrap";
+import { GetByIdThunk } from '../../../services/Slice/reviews/reviewsGetId';
+import { RiArrowLeftSLine } from "react-icons/ri";
+import { MdDelete } from "react-icons/md";
+import { BiSolidEdit } from "react-icons/bi";
+import { Modal } from 'react-bootstrap';
+import { FaStar } from 'react-icons/fa';
+
+import { DeleteReviewsThunk } from '../../../services/Slice/reviews/Deletereviews';
+import { updateReviewsThunk } from '../../../services/Slice/reviews/UpdateReview';
 const ConfirmBooking = () => {
 
     const dispatch = useDispatch();
@@ -36,11 +47,16 @@ const ConfirmBooking = () => {
     const navigate = useNavigate();
     const idHotel = dataProperties?._id
     const [showReview, setShowReview] = useState(false);
-    console.log(dataProperties);
-    console.log(idHotel);
-    
+    const [ReviewsGetById, setReviewsGetById] = useState([])
+    const [ImageUser, setImageUser] = useState([])
+    const [CheckReviews, setCheckReviews] = useState('')
+    const [IsPayment, setIsPayment] = useState('')
+    const [ReviewId, setReviewId] = useState('')
+    const [commentUpdate, setCommentUpdate] = useState('')
+    const [ratingUpdate, setRatingUpdate] = useState('')
+    const [hover, setHover] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
-    console.log(dataBooking);
     let formattedStart = '';
     let formattedEnd = '';
     let duration = 0;
@@ -54,10 +70,49 @@ const ConfirmBooking = () => {
     L.Marker.prototype.options.icon = DefaultIcon;
 
     useEffect(() => {
+        const getData = async () => {
+            const res = await dispatch(GetByIdThunk(idBooking))
+            setReviewsGetById(res?.payload[0])
+            setCheckReviews(res?.payload)
+            setReviewId(res?.payload[0]?._id)
+            setCommentUpdate(res?.payload[0]?.comment);
+            setRatingUpdate(res?.payload[0]?.rating);
+        }
+        getData()
+
+    }, [showModal])
+
+    const handelDelteReviews = async () => {
+        await dispatch(DeleteReviewsThunk(ReviewId))
+        const newRes = await dispatch(GetByIdThunk(idBooking))
+        setReviewsGetById(newRes?.payload[0]);
+        setCheckReviews(newRes?.payload);
+    }
+    // console.log(ReviewsGetById);
+    const handelUpdateReviews = () => {
+        setShowModal(true)
+    }
+    const handelUpdateDispatch = async ()=>{
+        const res = await dispatch(updateReviewsThunk({
+            id:ReviewId,
+            comment:commentUpdate,
+            rating:ratingUpdate
+        }))
+        if (res?.meta?.requestStatus === 'fulfilled') {
+            setShowModal(false)
+            toast.success('Update successfully From Reviews')
+
+        }
+        
+    }
+
+    useEffect(() => {
         const fetchData = async () => {
             const res = await dispatch(BookingByIdThunk(idBooking))
             setRes(res)
-            console.log(res);
+            setImageUser(res?.payload?.userId?.avatar);
+            setIsPayment(res?.payload?.properties[0]?.status)
+            console.log("resyjbghj", res?.payload?.properties[0]?.status);
         }
         fetchData()
     }, [])
@@ -83,17 +138,10 @@ const ConfirmBooking = () => {
     const CancelPayment = async () => {
         try {
             const response = await dispatch(getPaymentIdThunk(idBooking));
-
             const paymentId = response?.payload?.paymentId;
             if (!paymentId) {
                 throw new Error("Payment ID not found");
             }
-            console.log("Payment ID:", paymentId);
-
-
-            console.log("Cancel booking for trip ID:", idBooking, "Payment ID:", paymentId);
-
-
             await dispatch(deleteUserTripThunk(paymentId));
             navigate('/trips')
 
@@ -101,6 +149,7 @@ const ConfirmBooking = () => {
             console.error("Error cancelling trip:", error);
         }
     }
+
 
     if (!Res) {
         return (
@@ -115,30 +164,29 @@ const ConfirmBooking = () => {
         formattedEnd = format(end, 'PPP');
         duration = differenceInDays(end, start);
     }
+
     return (
         <>
-            <div className="w-75 m-auto">
+            <div className="w-75 m-auto ">
                 {/* Header */}
-                <div className="d-flex mt-3 justify-content-between align-items-center mb-4">
-                    <button className='border-0 rounded-3 text-light bg-danger p-2' >
-                        <i className="bi bi-arrow-left me-2"></i>
-                        Back to Bookings
-                    </button>
-                    <div className=''>
+                <div className="d-flex  mt-3 justify-content-between align-items-center mb-4">
+                    <RiArrowLeftSLine size={'40'} className='bg- bg-body-secondary rounded-circle cursor-pointer'
+                        onClick={() => navigate('/Trips')}
+                    />
+                    <div >
                         <h4>Booking Details</h4>
                     </div>
-
                 </div>
 
                 {/* Status Card */}
-                <Card className="mb-4">
+                <Card className="mb-4 ">
                     <Card.Body className="d-flex justify-content-between text-center">
                         <div>
-                            <div className="fw-bold">Booking Status</div>
+                            <div className="fw-bold mb-2">Booking Status</div>
                             {Res?.payload?.properties?.map((prop, index) => (
                                 <span className="" key={index}>
                                     {prop.status === 'completed' ? prop.status :
-                                        <Link className='border-0 rounded-2 bg-info mt-2 text-light p-2'
+                                        <Link className='border-0 rounded-2 bg-info text-light p-2 text-decoration-none'
                                             onClick={handelConnecttopaypal}
                                             disabled={isLoading}
                                         >
@@ -169,18 +217,18 @@ const ConfirmBooking = () => {
                     </Card.Body>
                 </Card>
 
-                <div className="row">
+                <div className="row ">
                     {/* Property Card */}
                     <div className="col-md-6 mb-4">
                         {/*  src={dataProperties.images[0]} */}
                         <Card>
                             <Card.Header>Property Details</Card.Header>
-                            <img alt="Property" src={dataProperties?.images[0]} className="card-img-top my-2 p-2 rounded-4" />
+                            <img alt="Property" src={dataProperties?.images[0]} className="card-img-top my-2 p-2 rounded-4 " height={'350px'} />
                             <div className='d-block w-100  d-lg-flex justify-content-center '>
-                                <img src={dataProperties?.images[1]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} />
-                                <img src={dataProperties?.images[2]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} />
-                                <img src={dataProperties?.images[3]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} />
-                                <img src={dataProperties?.images[4]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} />
+                                <img src={dataProperties?.images[1]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} height={'130px'} />
+                                <img src={dataProperties?.images[2]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} height={'130px'} />
+                                <img src={dataProperties?.images[3]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} height={'130px'} />
+                                <img src={dataProperties?.images[4]} alt="" className='w-sm-100 p-2 rounded-4' width={'146'} height={'130px'} />
 
                             </div>
                             <Card.Body>
@@ -276,7 +324,6 @@ const ConfirmBooking = () => {
                                 </div>
 
                                 {/* Guest Info */}
-                                <button className="btn btn-primary" onClick={() => setShowReview(true)}>Reviews</button>
 
                                 <>
                                     <hr />
@@ -295,12 +342,7 @@ const ConfirmBooking = () => {
                                             <p className="mb-2">  <FaPhone /> {
                                                 datahostId?.phone ? datahostId?.phone : ' Phone  Not available'
                                             }</p>
-                                            <Button
-                                                variant="outline-primary"
-                                                size="sm"
-                                            >
-                                                View Guest Profile
-                                            </Button>
+                                            
                                         </div>
                                     </div>
                                 </>
@@ -322,19 +364,92 @@ const ConfirmBooking = () => {
                                             </MapContainer>
                                         )}
                                     </div>
+
                                 </>
                             </Card.Body>
                         </Card>
+                        {
+                            IsPayment === 'completed' && CheckReviews.length == 0 &&
+                            <button className="btn btn-dark w-100 mt-3 cursor-pointer" onClick={() => setShowReview(true)}>Add Reviews</button>
+                        }
                     </div>
                 </div>
 
-                    <Reviews show={showReview} onClose={() => setShowReview(false)}
+                <Reviews show={showReview} onClose={() => setShowReview(false)}
                     idBooking={idBooking} idHotel={idHotel}
-                    />
+                />
+
+                {
+                    IsPayment === 'completed' && CheckReviews.length === 1 &&
+                    <>
+
+                        <div className="rounded-3 text-center w-75 m-auto pt-4 pb-4 mt-4 review-bg text-white">
+                            <div className='w-100  text-end '>
+
+                                <MdDelete className='me-2 cursor-pointer' onClick={handelDelteReviews} size={'25'} />
+                                <BiSolidEdit className='me-5 cursor-pointer' size={'25'} onClick={handelUpdateReviews} />
+                            </div>
+                            <h2 className="fw-bold mb-2">Word from our customers</h2>
+                            {new Date(ReviewsGetById?.updatedAt).toLocaleDateString('En-en', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric'
+                            })}
+                            <div className="review-card mx-auto bg-white text-dark p-4 rounded shadow position-relative">
+                                <Image
+                                    src={ImageUser}
+                                    roundedCircle
+                                    className="review-img border border-3 border-white"
+                                />
+                                <p className="text-gray-700 text-sm">{ReviewsGetById?.comment}</p>
+                                <div className="arrow-down"></div>
+                            </div>
+                            <div className="flex text-yellow-500">
+                                {Array.from({ length: 5 }, (_, i) => (
+                                    <CiStar key={i} fill={i < ReviewsGetById?.rating ? "#facc15" : "none"} />
+                                ))}
+                            </div>
+                        </div>
+                    </>
+                }
 
                 {/* Action Buttons */}
                 <ToastContainer></ToastContainer>
-            </div>
+            </div >
+            {
+                showModal &&
+                <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                    <Modal.Body className="text-center">
+                        <h5 className="mb-4">Reviews The Hotel</h5>
+                        <div className="mb-3">
+                            {[...Array(5)].map((_, index) => {
+                                const starValue = index + 1;
+                                return (
+                                    <FaStar
+                                        key={starValue}
+                                        size={30}
+                                        onClick={() => setRatingUpdate(starValue)}
+                                        onMouseEnter={() => setHover(starValue)}
+                                        onMouseLeave={() => setHover(null)}
+                                        color={starValue <= (hover || ratingUpdate) ? "#ffc107" : "#e4e5e9"}
+                                        style={{ cursor: "pointer", transition: "color 200ms" }}
+                                    />
+                                );
+                            })}
+                        </div>
+                        <textarea
+                            className="form-control mb-3"
+                            placeholder="Add your Reviews"
+                            value={commentUpdate}
+                            onChange={(e) => setCommentUpdate(e.target.value)}
+                            style={{ height: '100px', resize: 'none' }}
+                        />
+                        <Button onClick={handelUpdateDispatch} variant="dark" className="w-100 rounded-pill">
+                            send
+                        </Button>
+                    </Modal.Body>
+                </Modal>
+            }
         </>
     )
 }

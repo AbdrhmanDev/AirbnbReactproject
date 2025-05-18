@@ -24,6 +24,9 @@ import SendMessageSlice from "./Slice/Chat/ChatSend";
 import conversationsSlice from "./Slice/Chat/conversationsGet";
 import conversationsPersonalSlice from "./Slice/Chat/conversationsPersonal";
 import ReviewsSlice from "./Slice/reviews/Addreviews";
+import ReviewsGetIdSlice from "./Slice/reviews/reviewsGetId";
+import DeleteReviewsSlice from "./Slice/reviews/Deletereviews";
+import updateReviewsSlice from "./Slice/reviews/UpdateReview";
 
 const Store = configureStore({
     reducer: {
@@ -51,7 +54,10 @@ const Store = configureStore({
         sendMessage:SendMessageSlice.reducer,
         conversation:conversationsSlice.reducer,
         conversationsPersonal:conversationsPersonalSlice.reducer,
-        Reviews:ReviewsSlice.reducer
+        Reviews:ReviewsSlice.reducer,
+        ReviewsGetId:ReviewsGetIdSlice.reducer,
+        DeleteReviews:DeleteReviewsSlice.reducer,
+        updateReview:updateReviewsSlice.reducer
     }
 });
 

@@ -14,19 +14,15 @@ const Reviews = ({ show, onClose, idHotel, idBooking }) => {
   const handleSubmit = async () => {
     if(rating =='' || comment ==''){
       toast.info('Please enter your review.')
-
     }
     else{
     try {
-      const res = await dispatch(AddReviewsThunk({
+       await dispatch(AddReviewsThunk({
         bookingId: idBooking,
         HotelId: idHotel,
         rating: rating,
         comment: comment
       }));
-      console.log(res);
-      console.log("Rating:", rating);
-      console.log("Comment:", comment);
       onClose();
     } catch (err) {
       console.error("Error submitting review:", err);
@@ -59,7 +55,7 @@ const Reviews = ({ show, onClose, idHotel, idBooking }) => {
 
             <textarea
               className="form-control mb-3"
-              placeholder="متن دیدگاه"
+              placeholder="Add your Reviews"
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               style={{ height: '100px', resize: 'none' }}
