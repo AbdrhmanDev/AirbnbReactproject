@@ -12,7 +12,13 @@ import ModalLogin from '../Login/ModalLogin';
 import { emitter } from '../../features/emitter';
 import { getwishlistThunk } from '../../services/Slice/Wishlist/GetWishlist';
 
+
+import { useLocation } from 'react-router-dom';
 const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
+
+    const location = useLocation();
+    //  wishlistPage = location.pathname === '/wishlist';
+   const wishlistPage = (location.pathname === '/wishlist' || location.pathname === '/Filter')
     return (
         <div className="container  mt-5 p-1">
             <ToastContainer position="top-center" autoClose={2000} />
@@ -21,7 +27,7 @@ const Card = ({ hotelData, isLoading, isError, errorMessage }) => {
             ) : isError ? (
                 <p className="text-center text-danger">{errorMessage}</p>
             ) : (
-                <div className="d-flex flex-wrap justify-content-start gap-3 setCard">
+                <div className={`d-flex flex-wrap justify-content-start gap-3 ${wishlistPage ? "" : "setCard"}`}>
                     {hotelData?.length > 0 ? (
                         hotelData?.map((hotel, index) => (
                             <ImageCard key={index} hotel={hotel} />
@@ -41,7 +47,7 @@ const ImageCard = ({ hotel }) => {
     const dispatch = useDispatch()
     const wishlist = useSelector((state) => state.WishlistGet.get); // Assuming this contains an array of wishlist hotels
     const navigate = useNavigate();
-    var auth= useSelector((state)=>state.auth.token)
+    var auth = useSelector((state) => state.auth.token)
 
     const { images, title, pricePerNight, rating, address, _id } = hotel;
 
@@ -53,10 +59,11 @@ const ImageCard = ({ hotel }) => {
     useEffect(() => {
         if (!auth) {
             setIsWished(false);
-        }}
-        )
+        }
+    }
+    )
     useEffect(() => {
-        
+
         if (wishlist && Array.isArray(wishlist)) {
             const isAlreadyWished = wishlist.some((item) => item._id === _id);
             setIsWished(isAlreadyWished);
@@ -115,8 +122,9 @@ const ImageCard = ({ hotel }) => {
                                             hotelTitle: title,
                                             hotelImages: images,
                                             setIsWished,
-                                        });}} /> 
-                                        :
+                                        });
+                                    }} />
+                                :
                                 <FiHeart
                                     style={{ color: isWished ? "red" : "wheat", cursor: "pointer" }}
                                     onClick={(e) => {

@@ -41,7 +41,8 @@ const Navbar = () => {
     };
     useEffect(()=>{
         dispatch(fetchProfileThunk())
-    },[])
+
+    },[auth,isLogin])
 
     useEffect(() => {
         const handleScroll = () => {

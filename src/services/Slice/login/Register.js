@@ -2,21 +2,19 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const API_KEY = import.meta.env.VITE_API;
 
-var token =localStorage.getItem('token');
-
-const registerFun = async ({name,email,dateOfBirth,phone},{ rejectWithValue }) => {
+const registerFun = async ({name,email,dateOfBirth,phone,password},{ rejectWithValue }) => {
     try {
        const response = await axios.post(`${API_KEY}/users/register`,
         {
             phone,
             email, 
             name,
-            dateOfBirth
+            dateOfBirth,
+            password
         },
         {headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
         }}
             );
             console.log(response);
