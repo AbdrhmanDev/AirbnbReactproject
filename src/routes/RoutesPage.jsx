@@ -32,7 +32,7 @@ import ReferralCard from '../components/ReferralCard/ReferralCard'
 import LoginSecurity from '../components/Setting/login-security'
 import Payment from '../components/Setting/paymnt'
 import HeroSection from '../components/HostExperience/HeroSection'
-// import Reviews from '../components/Trips/reviews/reviews'
+import Chat from '../components/ChatAi/Chat'
 const RoutesPage = () => {
   const router = createBrowserRouter(
     [
@@ -51,7 +51,7 @@ const RoutesPage = () => {
           { path: "/referrals", element: <ReferralCard/> },
           {path:'/hostHomePage', element: <HostHome/>},
           {path:'/HostExperience', element: <HeroSection/>},
-          // { path: "/Review", element: <Reviews/> }, // Shows all conversations
+          { path: "/chat", element: <Chat/> }, 
           { path: "/messages", element: <MessagesPage /> }, // Shows all conversations
           { path: "/messages/:id", element: <MessagesPage /> }, // Shows specific conversation
           { path: "/user/:id/messages", element: <MessagesPage /> }, // Direct link to chat with specific user

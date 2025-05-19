@@ -92,11 +92,11 @@ const Navbar = () => {
                             }</button>
                         </span>
 
-                        <a href="#" className="text-dark">
+                        <Link href="#" className="text-dark">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-globe" viewBox="0 0 16 16">
                                 <path d="M0 8a8 8 0 1 0 16 0A8 8 0 0 0 0 8zm8-7a7 7 0 0 1 6.468 4.421C13.5 5.226 12.03 5 10.5 5c-1.45 0-2.798.214-3.963.573A6.97 6.97 0 0 1 1.51 8c0 1.042.248 2.027.686 2.909C3.266 10.176 5.771 9 8.5 9c1.707 0 3.31.475 4.66 1.25A6.971 6.971 0 0 1 8 15a7 7 0 0 1 0-14z" />
                             </svg>
-                        </a>
+                        </Link>
 
                         <div
                             className="bg-white border rounded-pill px-2 py-1 d-flex align-items-center position-relative"
@@ -134,7 +134,7 @@ const Navbar = () => {
                                             <li><Link to="/Account" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Account</Link></li>
                                             <div className='border'></div>
                                             <li><Link to="/giftCards" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Gift cards</Link></li>
-                                            <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
+                                            <li><Link to="/chat" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
                                             <li><Link className="dropdown-item m-2" onClick={handelLogout} style={{ fontSize: "13px" }}>Logout</Link></li>
                                         </ul>
                                         :
@@ -165,7 +165,7 @@ const Navbar = () => {
                                             <li><Link to="/giftCards" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Gift cards</Link></li>
                                             <li><Link to="/hostHomePage" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Airbnb Your Home</Link></li>
                                             <li><Link to="/HostExperience" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
-                                            <li><Link to="/help" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
+                                            <li><Link to="/chat" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Help Center</Link></li>
                                         </ul>
                                     }
                                 </div>

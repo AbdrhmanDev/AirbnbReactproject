@@ -28,6 +28,7 @@ import ReviewsGetIdSlice from "./Slice/reviews/reviewsGetId";
 import DeleteReviewsSlice from "./Slice/reviews/Deletereviews";
 import updateReviewsSlice from "./Slice/reviews/UpdateReview";
 import LoginWithEmailSlice, { LoginWithEmailThunk } from "./Slice/login/LoginWithEmail";
+import ChatAiSlice from "./Slice/ChatAI";
 
 const Store = configureStore({
     reducer: {
@@ -59,7 +60,8 @@ const Store = configureStore({
         ReviewsGetId:ReviewsGetIdSlice.reducer,
         DeleteReviews:DeleteReviewsSlice.reducer,
         updateReview:updateReviewsSlice.reducer,
-        LoginWithEmail:LoginWithEmailSlice.reducer
+        LoginWithEmail:LoginWithEmailSlice.reducer,
+        ChatAi:ChatAiSlice.reducer
     }
 });
 
