@@ -7,7 +7,7 @@ const Counter = ({ label, value, setValue }) => {
   };
 
   const handleIncrement = () => {
-    setValue(value + 1);
+    setValue(+value + 1);
   };
 
   return (

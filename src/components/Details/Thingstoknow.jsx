@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
 
-  const { lastName, firstName, profileImage, role, createdAt } = hostId;
+  const { name, avatar, role, createdAt } = hostId;
   const createDate = new Date(createdAt);
   const diffInMonths = Math.floor((new Date() - createDate) / (1000 * 60 * 60 * 24 * 30));
   const navigate = useNavigate()
@@ -80,8 +80,8 @@ const Thingstoknow = ({ hostId, rating, reviews, houseRules }) => {
         <div className="col-md-4 col-12 mb-4">
           <div className="custom_card p-4 shadow-lg row d-flex flex-column flex-md-row text-center" role="button">
             <div className="col-md-8 mb-4 mb-md-0 ">
-              <img src={profileImage} className="userImg2 rounded-circle" alt="" />
-              <h6 className='mt-2'>{firstName} {lastName}</h6>
+              <img src={avatar} className="userImg2 rounded-circle" alt="" />
+              <h6 className='mt-2'>{name}</h6>
               <p>{role}</p>
             </div>
 

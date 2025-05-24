@@ -88,8 +88,8 @@ function Trip() {
                     )}
                 </div>
 
-                <div className='container p-3 mb-5 d-block '>
-                    <h2 className='h2 fw-bold mb-4  text-center'>Pending <br/> Trips</h2>
+                <div className='container p-3 mb-5 '>
+                    <h2 className='h2 fw-bold mb-4 d-flex '>Pending <br/> Trips</h2>
                     {/* <hr className="mb-4" /> */}
                     {PendingTrips.length > 0 ? (
                         <TripCard tripData={PendingTrips} isLoading={isLoading} isError={isError} errorMessage={errorMessage} />

@@ -65,13 +65,13 @@ const ProfileCard = () => {
   return (
     <>
 
-      <div className="container my-5">
+      <div className="container my-5 ">
         <div className="row justify-content-center">
           <div className="col-12 col-md-10 col-lg-10">
             <div className="row">
               {/* Left side */}
               <div className="col-12 col-lg-5 mb-4 ">
-                <div className={`p-4 shadow-lg rounded-5   ${style.custom_card}`}>
+                <div className={`p-4 shadow-lg rounded-5  `}>
                   <div className="row">
                     <div className="col-6 text-center align-content-center">
                       <img
@@ -98,7 +98,7 @@ const ProfileCard = () => {
                     </div>
                   </div>
                 </div>
-                <div className={`p-4 mt-3 rounded-4 shadow-sm ${style.card}`}>
+                <div className={`p-4 mt-3 rounded-4 shadow-sm `}>
                   <h5 className="fw-bold mb-4">{firstNameNew} confirmed information</h5>
                   <div className="mb-2 d-flex align-items-center">
                     <span className={style.checkmark}>✓</span>

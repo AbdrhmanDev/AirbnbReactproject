@@ -189,7 +189,7 @@ const DetailsContent = ({
 
                         <div className="row border-bottom pb-3 m-1 ">
                             <div className="col-1 ps-3">
-                                <img src={hostId.profileImage} className="rounded-circle userImg" alt="" />
+                                <img src={hostId.avatar} className="rounded-circle userImg" alt="" />
                             </div>
                             <div className="col flex-column ms-4">
                                 <h5 className='' style={{ fontSize: "12px" }}>Hosted by {hostId?.name}</h5>

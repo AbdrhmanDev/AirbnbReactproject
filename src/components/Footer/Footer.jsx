@@ -11,7 +11,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="bg-light text-dark mt-5 p-3 border-top">
+      <footer className="bg-light text-dark mt-5 p-2  border-top">
       {showAccordion && (
           <div className="container mt-3">
             <Accordion defaultActiveKey="0" className='w-100'>

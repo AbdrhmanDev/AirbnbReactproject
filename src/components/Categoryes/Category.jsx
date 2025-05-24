@@ -7,7 +7,7 @@ import { FetchCategoryHotelsAsync } from '../../services/Slice/Hotel';
 import { useState } from 'react';
 import FilterCategory from '../FilterCategory/FilterCategory';
 import HistoriesLoader from '../HistoriesLoader/HistoriesLoader';
-
+import { BsFillPinAngleFill } from "react-icons/bs";
 const Category = () => {
     const [activeCategoryId, setActiveCategoryId] = useState(null);
     const category = useSelector((state) => state.Category.items);
@@ -51,9 +51,10 @@ const Category = () => {
                         show={modalShow}
                         onHide={() => setModalShow(false)}
                     />
-                    <button className='btn m-0 btn-outline-light ms-1'>
-                        Display total before taxes
-                        <BiToggleLeft size={"28px"} style={{ paddingLeft: "4px" }} />
+                    <button className='btn m-0 btn-outline-light border-0 ms-1 me-5 '>
+                        <BsFillPinAngleFill size={'20'} className='text-danger'/>
+                        <span className='ps-2 mt-3 me-2' style={{fontSize:'14px'}}>include all fees</span>
+                        
                     </button>
                 </div>
             </div>

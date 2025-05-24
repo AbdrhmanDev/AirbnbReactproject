@@ -339,10 +339,6 @@ const ConfirmBooking = () => {
                                         <div>
                                             <p className="mb-1">{datahostId?.name}</p>
                                             <p className="mb-1">Role {datahostId?.role}</p>
-                                            <p className="mb-2">  <FaPhone /> {
-                                                datahostId?.phone ? datahostId?.phone : ' Phone  Not available'
-                                            }</p>
-                                            
                                         </div>
                                     </div>
                                 </>

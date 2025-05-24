@@ -8,11 +8,11 @@ const Layout = () => {
   return (
     <>
     
-      <div >
+      <div className="mb-5">
         <Outlet />
       </div>
-      <div className="footer-fixed ">
-        {/* <Footer/> */}
+      <div className="footer-fixed mt-4">
+        <Footer/>
       </div>
     </>
   )

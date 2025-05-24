@@ -10,6 +10,7 @@ import Thingstoknow from '../../components/Details/Thingstoknow';
 import { ClipLoader } from 'react-spinners';
 import Information from '../../components/Details/Information';
 import ShowAllImage from '../../components/Details/ShowAllImage/ShowAllImage';
+import Navbar from '../../components/Navbar/Navbar';
 // import './Details.css'
 const Details = () => {
   const dispatch = useDispatch();
@@ -78,6 +79,7 @@ const Details = () => {
   
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <Navbar/>
       <NavImage  title={title} images={images}  _id={_id}/>
 
       <DetailsContent

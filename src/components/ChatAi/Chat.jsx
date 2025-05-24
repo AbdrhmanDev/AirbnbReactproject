@@ -124,7 +124,7 @@ const Chat = () => {
         {/* Messages Area */}
         <div
           ref={scrollRef}
-          className="card-body overflow-auto"
+          className="card-body overflow-auto "
           style={{ height: '65vh', backgroundColor: '#f8f9fa' }}
         >
           {messages.map((msg, index) => (
@@ -133,7 +133,7 @@ const Chat = () => {
               className={`d-flex ${msg.type === 'user' ? 'justify-content-end' : 'justify-content-start'} mb-3`}
             >
               <div
-                className={`p-2 rounded-3 ${msg.type === 'user' ? 'bg-success text-white' : 'bg-light text-dark'
+                className={`p-2 rounded-3 ${msg.type === 'user' ? 'bg-danger text-white' : 'bg-body-secondary text-dark'
                   }`}
                 style={{ maxWidth: '70%' }}
               >

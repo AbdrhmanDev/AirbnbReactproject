@@ -39,10 +39,10 @@ const Navbar = () => {
         localStorage.removeItem('token');
         navigate('/');
     };
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(fetchProfileThunk())
 
-    },[auth,isLogin])
+    }, [auth, isLogin])
 
     useEffect(() => {
         const handleScroll = () => {
@@ -88,7 +88,7 @@ const Navbar = () => {
                     <div className="d-flex align-items-center gap-3">
                         <span className="fw-semibold">
                             <button className='border-0 bg-body p-2 hoverFromNav'  >{
-                                isLogin || auth ? "Switch to hosting" : <Link to={'/hostHomePage'} className='text-dark' style={{textDecoration:'none'}} >Airbnb your home</Link>
+                                isLogin || auth ? "Switch to hosting" : <Link to={'/hostHomePage'} className='text-dark' style={{ textDecoration: 'none' }} >Airbnb your home</Link>
                             }</button>
                         </span>
 
@@ -113,9 +113,9 @@ const Navbar = () => {
                                         {/* img profile */}
                                     </div>
                             }
-                            <span className="position-absolute top-0 start-100 me-5 mt-1 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '10px' }}>
+                            {/* <span className="position-absolute top-0 start-100 me-5 mt-1 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '10px' }}>
                                 2
-                            </span>
+                            </span> */}
 
                             {showMenu && (
                                 <div
@@ -128,7 +128,7 @@ const Navbar = () => {
                                             <li><Link to="/trips" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Trips</Link></li>
                                             <li><Link to="/wishlist" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Wishlist</Link></li>
                                             <div className='border'></div>
-                                            <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li>
+                                            {/* <li><Link to="/profile" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Manage listings</Link></li> */}
                                             <li><Link to="/HostExperience" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Host an experience</Link></li>
                                             <li><Link to="/referrals" className="dropdown-item m-2" style={{ fontSize: "13px" }}>Refer a Host</Link></li>
                                             <li><Link to="/Account" className="dropdown-item m-2 " style={{ fontSize: "13px" }}>Account</Link></li>
@@ -152,7 +152,7 @@ const Navbar = () => {
                                                     login
                                                 </Link>
                                             </li>
-                                            <li><Link  className="dropdown-item m-2 "
+                                            <li><Link className="dropdown-item m-2 "
                                                 onClick={
                                                     () => {
                                                         emitter.emit('open-modal')
@@ -197,11 +197,13 @@ const SearchBar = () => {
     const [infants, setInfants] = useState(null);
     const [pets, setPets] = useState(null);
 
+    console.log(StartDate);
+
     const destinations = [
-        { name: 'Hurghada, Egypt', reason: 'Because your wishlist has stays in Tenerife', icon: <PiSwimmingPoolBold /> },
-        { name: 'Aspen, USA', reason: 'For sights like Plaza de España', icon: <BsWater color='#81AFF1' /> },
-        { name: 'London, United Kingdom', reason: 'Guests interested in Amsterdam also looked here', icon: <PiBuildingApartmentFill /> },
-        { name: 'Miami, USA', reason: 'For its bustling nightlife', icon: <FaSwimmer color='#81AFF1' /> },
+        { name: 'Hurghada', reason: 'Because your wishlist has stays in Tenerife', icon: <PiSwimmingPoolBold /> },
+        { name: 'Aspen', reason: 'For sights like Plaza de España', icon: <BsWater color='#81AFF1' /> },
+        { name: 'London', reason: 'Guests interested in Amsterdam also looked here', icon: <PiBuildingApartmentFill /> },
+        { name: 'Miami', reason: 'For its bustling nightlife', icon: <FaSwimmer color='#81AFF1' /> },
     ];
 
     useEffect(() => {
@@ -228,13 +230,14 @@ const SearchBar = () => {
     };
 
     const handleSearch = () => {
-        const valuestart = StartDate ? StartDate.toLocaleDateString('en-GB') : "";
-        const valueend = EndDate ? EndDate.toLocaleDateString('en-GB') : "";
+
+        const formattedStartDate = StartDate.toISOString().split("T")[0];
+        const formattedEndDate = EndDate.toISOString().split("T")[0];
 
         const allFilters = {
             city: AddressValue.trim(),
-            startDate: valuestart,
-            endDate: valueend,
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
             capacity: {
                 adults: adults,
                 children: children,
@@ -329,11 +332,11 @@ const SearchBar = () => {
 
                 <div className="search-section">
                     <div className="search-label">Check in</div>
-                    {/* <input type="calender" className="border-0 search-input search-label" placeholder="Add dates" /> */}
+
                     <DatePicker
                         selected={StartDate}
                         onChange={(date) => setStartDate(date)}
-                        dateFormat="MMMM d"
+                        // dateFormat="YYYY-MM-DD"
                         dropdownMode="select"
                         className='border-0 calenderNew'
                         placeholderText="Add Dates"
@@ -342,11 +345,11 @@ const SearchBar = () => {
 
                 <div className="search-section">
                     <div className="search-label">Check out</div>
-                    {/* <input type="text" className="border-0 search-input search-label" placeholder="Add dates" /> */}
+
                     <DatePicker
                         selected={EndDate}
                         onChange={(date) => setEndDate(date)}
-                        dateFormat="MMMM d"
+                        // dateFormat="YYYY-MM-DD"
                         dropdownMode="select"
                         className='border-0 calenderNew'
                         placeholderText="Add Dates"
