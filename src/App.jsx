@@ -1,11 +1,36 @@
 import './App.css'
-import Card from './components/Card/Card.jsx'
+
+import RoutesPage from './routes/RoutesPage';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategoryAsync } from './services/Slice/Category';
+import { fetchAllHotelAsync } from './services/Slice/Hotel';
+import { ToastContainer } from 'react-toastify';
+import { getwishlistThunk } from './services/Slice/Wishlist/GetWishlist';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 function App() {
+  const dispatch = useDispatch()
+  var auth= useSelector((state)=>state.auth.token)
+  var token= localStorage.getItem('token');
 
+  useEffect(() => {
+    dispatch(fetchCategoryAsync())
+    dispatch(fetchAllHotelAsync())
+    
+  }, [dispatch])  
+  useEffect(()=>{
+    if (auth) {
+      dispatch(getwishlistThunk())
+    }
+  },[token])
 
+  
   return (
     <>
-    <Card/>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <RoutesPage/>
     </>
   )
 }

@@ -1,0 +1,352 @@
+@charset "UTF-8";
+.img-bu {
+  bottom: 2%;
+  right: 2%;
+  position: absolute;
+}
+/* display */
+.img-sec2 {
+
+  height: 40px;
+}
+.adsads21{
+  border-radius: 50%;
+}
+.userImg {
+  width: 40px;
+  height: 40px;
+}
+
+.img-room {
+  width: 380px;
+  height: 200px;
+}
+
+.hover:hover {
+  background-color: rgba(128, 128, 128, 0.3);
+}
+
+.imgOpacity:hover {
+  opacity: 0.8;
+}
+.custom1{
+  margin: auto;
+  background-color: #bd83ce;
+ 
+}
+.imagespe{
+ 
+}
+/* =-----=====-----=====------===== */
+.image-box {
+  width: 100%;
+  height: 200px; 
+  object-fit: cover;
+}
+
+.main-left-img {
+  height: 404px; 
+  object-fit: cover;
+}
+/* =-----=====-----=====------===== */
+.sec3 div h1 {
+  font-size: 100px;
+}
+.sec3 img {
+  width: 70px;
+  height: 140px;
+}
+.sec3 .favoriteDesc {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 350px;
+}
+.sec3 .favoriteDesc span {
+  font-size: large;
+  font-weight: bold;
+}
+
+.custom-edit {
+  top: 20px;
+}
+
+.ftco-section {
+  padding: 1em 0;
+}
+
+.calendar-section {
+  margin-bottom: 20px;
+}
+
+.calendar-section {
+  margin-bottom: 20px;
+}
+
+.calendar,
+.calendar_weekdays,
+.calendar_content {
+  max-width: 585px;
+}
+
+.calendar {
+  margin: auto;
+  min-width: 320px;
+  font-weight: 100;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0px 4px 26px -22px rgba(0, 0, 0, 0.14);
+}
+
+.calendar_weekdays {
+  color: #aaa;
+  font-weight: 300;
+}
+
+.calendar_weekdays div {
+  display: inline-block;
+  vertical-align: top;
+  color: #000;
+  font-weight: 700;
+}
+
+.calendar_content,
+.calendar_weekdays,
+.calendar_header {
+  position: relative;
+}
+
+.calendar_content:after,
+.calendar_weekdays:after,
+.calendar_header:after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+
+.calendar_weekdays div,
+.calendar_content div {
+
+  width: 14.28571%;
+  height: 68px;
+
+  overflow: hidden;
+  text-align: center;
+  background-color: transparent;
+}
+
+.calendar_content div {
+  float: left;
+  margin-left: -1px;
+  margin-top: -1px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.calendar_content div:hover {
+  border: 1px solid #ededed;
+
+  cursor: pointer;
+}
+
+.calendar_content div.blank:hover {
+  cursor: default;
+  border: none;
+}
+
+.calendar_content div.past-date {
+  cursor: initial;
+  color: #d5d5d5;
+}
+
+.calendar_content div.today {
+  font-weight: 500;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 60%;
+  background-color: black;
+}
+
+.calendar_content div.selected {
+  background-color: rgba(153, 153, 161, 0.2);
+  border: 1px solid white;
+}
+
+.calendar_header {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  height: 55px;
+  display: table;
+  vertical-align: middle;
+}
+
+.calendar_header h2 {
+  margin-top: 15px;
+  padding: 0;
+  font-weight: 700;
+  font-size: 18px;
+  color: #000 !important;
+  text-transform: uppercase;
+}
+
+button.switch-month {
+  background-color: transparent;
+  padding: 0;
+  outline: none;
+  border: none;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #cccccc;
+  transition: color 0.2s;
+}
+
+button.switch-month.switch-left {
+  left: 0;
+}
+
+button.switch-month.switch-right {
+  right: 0;
+}
+
+button.switch-month:hover {
+  color: #bd83ce;
+}
+
+button.switch-month:active {
+  background-color: transparent;
+}
+
+.progress {
+  height: 8px;
+}
+
+.svgIcon {
+  margin-top: 40px;
+  display: block;
+  height: 35px;
+  width: 35px;
+  fill: currentcolor;
+}
+
+.review-card {
+  border: none;
+}
+
+.review-header {
+  font-weight: bold;
+}
+.homessilder{
+  color: #000000;
+  border: 0;
+}
+.btn-light3 {
+  background-color: rgba(255, 253, 253, 0.85);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.rating {
+  color: #FFD700;
+
+  font-size: 15px;
+}
+
+.review-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-right: 10px;
+}
+
+.custom_card {
+  border-radius: 5%;
+}
+
+.userImg2 {
+  width: 80px;
+  height: 80px;
+}
+
+.star {
+  font-size: 13px;
+}
+
+@media screen and (max-width: 1350px) {
+  .mine {
+    width: 100% !important;
+  }
+  .card-inresponsive {
+    display: block !important;
+  }
+  .card-innormal {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .slider {
+    display: block !important;
+  }
+  .imgs {
+    display: none;
+  }
+  .se1 span {
+    display: none !important;
+  }
+  .se1 h4 {
+    display: none !important;
+  }
+  .se1 h2 {
+    display: block !important;
+  }
+  .right-card {
+    display: none !important;
+  }
+  #calendar_second {
+    display: none !important;
+  }
+  .comment,
+  .detials,
+  .right-f,
+  .card-innormal {
+    /* display: none !important; */
+  }
+  #reviewsCarousel,
+  .card-inresponsive {
+    display: block;
+  }
+  .coustem-button button {
+    width: 100%;
+  }
+  .coustem-button a {
+    text-align: center;
+  }
+}
+.review-card {
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+.custom-data1{
+  border-top-left-radius:6px ;
+  padding-left: 12px;
+}
+.custom-data2{
+  border-top-right-radius:6px ;
+}

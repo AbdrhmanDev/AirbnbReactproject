@@ -1,0 +1,12 @@
+.hover_item{
+    border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+.text_aria{
+    border: 1.2px dotted rgb(59, 58, 58);
+    border-radius: 7px;
+}
+.stylesText{
+    font-size: 8px;
+    background-color: #5f5e5e;
+}

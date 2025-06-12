@@ -1,6 +1,5 @@
 .cursor-icons-all {
-    /* opacity: 0; */
-    transition: opacity 0.3s ease;
+    /* transition: opacity 0.3s ease; */
     position: absolute;
     top: 50%;
     width: 100%;
@@ -8,10 +7,13 @@
     justify-content: space-between;
     padding: 0 10px;
     transform: translateY(-50%);
+    /* opacity: 0; */
 }
-
-.carousel:hover .cursor-icons-all {
-    opacity: 1;
+.setCard{
+    margin-top: 150px;
+}
+.cursor-icons-all:hover {
+    /* opacity: 1; */
 }
 
 .carousel-img {
@@ -70,10 +72,14 @@
 .card-container {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
     background-color: white;
+}
+.review{
+    width: 32%;
+    text-align: end;
 }
 
 @media (max-width: 768px) {
@@ -98,21 +104,7 @@
         border-radius: 12px;
     }
 
-    .cursor-icons-all {
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        position: absolute;
-        top: 50%;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 10px;
-        transform: translateY(-50%);
-    }
-
-    .card-container:hover .cursor-icons-all {
-        opacity: 1;
-    }
+    
 
     .cursor-icons {
         border-radius: 20px;
@@ -177,4 +169,27 @@
     .dot.active {
         background-color: #007bff;
     }
+}
+.custom-toast {
+
+    /* color: #272343 !important; */
+    font-size: 12px !important;
+    font-weight: 500;
+    border-radius: 12px !important;
+    display: flex;
+    align-items: center;
+
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+ 
+}
+
+.toast-img {
+    width: 24px;
+    height: 24px;
+    border-radius: 5%;
 }

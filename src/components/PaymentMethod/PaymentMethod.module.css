@@ -1,0 +1,66 @@
+/* Custom Input Fields */
+.custom-input {
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.custom-input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  outline: none;
+}
+
+/* Custom Select Dropdown */
+.custom-select {
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.custom-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  outline: none;
+}
+
+/* Payment Logos */
+.payment-logo {
+  width: 40px;
+  height: 24px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.payment-logo:hover {
+  filter: grayscale(0%);
+}
+
+/* Custom Button */
+.custom-button {
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #0b5ed7;
+}
+
+/* General Styling */
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
