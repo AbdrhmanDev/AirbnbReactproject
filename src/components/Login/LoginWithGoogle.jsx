@@ -1,7 +1,7 @@
 import React from 'react'
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux';
-import { googleLoginThunk } from '../../services/Slice/Login/GoogleLogin';
+import { googleLoginThunk } from '../../services/Slice/Login/googleLogin';
 import { emitter } from '../../features/emitter';
 import { toast } from 'react-toastify';
 
