@@ -9,7 +9,7 @@ import GetAllFilterSlice from "./Slice/Filter/AllFillter";
 import GetUserTripSlice from "./Slice/Trip";
 import ProfileSlice from "./Slice/Profile/ProfileAPI";
 import ProfileEditSlice from "./Slice/Profile/EditProfileApi";
-import authSlice from "./Slice/Login/GoogleLogin";
+import authSlice from "./Slice/login/googleLogin";
 import BookingHotelSlice from "./Slice/Booking/Booking";
 import PaymentFirstSlice from "./Slice/Payment/Payment";
 import ExecutePaymentSlice from "./Slice/Payment/ExecutePayment";
@@ -32,36 +32,36 @@ import ChatAiSlice from "./Slice/ChatAI";
 
 const Store = configureStore({
     reducer: {
-        Category:CategorySlice.reducer,
-        Hotel:AllHotelSlice.reducer,
-        WishlistPost:AddWishlistSlice.reducer,
+        Category: CategorySlice.reducer,
+        Hotel: AllHotelSlice.reducer,
+        WishlistPost: AddWishlistSlice.reducer,
         WishlistGet: GetWishlistSlice.reducer,
-        WishlistDelete:DeleteWishlistSlice.reducer,
-        HotelByID:GetHotelByIdSlice.reducer,
-        GetAllFilter:GetAllFilterSlice.reducer,
-        UserTrip:GetUserTripSlice.reducer,
-        ProfileEdit:ProfileEditSlice.reducer,
-        userProfile:ProfileSlice.reducer,
-        auth:authSlice.reducer,
-        booking:BookingHotelSlice.reducer,
-        PaymentFirst:PaymentFirstSlice.reducer,
-        ExecutePayment:ExecutePaymentSlice.reducer,
-        CanselPayment:CancelPaymentSlice.reducer,
-        AvailableBooking:AvailableBookingSlice.reducer,
-        ChangeBooking:ChangeBookingSlice.reducer,
-        LoginPhone:LoginPhoneSlice.reducer,
-        verifyOtp:verifyOtpSlice.reducer,
-        register:RegisterSlice.reducer,
-        BookingByID:BookingBtIdSlice.reducer,
-        sendMessage:SendMessageSlice.reducer,
-        conversation:conversationsSlice.reducer,
-        conversationsPersonal:conversationsPersonalSlice.reducer,
-        Reviews:ReviewsSlice.reducer,
-        ReviewsGetId:ReviewsGetIdSlice.reducer,
-        DeleteReviews:DeleteReviewsSlice.reducer,
-        updateReview:updateReviewsSlice.reducer,
-        LoginWithEmail:LoginWithEmailSlice.reducer,
-        ChatAi:ChatAiSlice.reducer
+        WishlistDelete: DeleteWishlistSlice.reducer,
+        HotelByID: GetHotelByIdSlice.reducer,
+        GetAllFilter: GetAllFilterSlice.reducer,
+        UserTrip: GetUserTripSlice.reducer,
+        ProfileEdit: ProfileEditSlice.reducer,
+        userProfile: ProfileSlice.reducer,
+        auth: authSlice.reducer,
+        booking: BookingHotelSlice.reducer,
+        PaymentFirst: PaymentFirstSlice.reducer,
+        ExecutePayment: ExecutePaymentSlice.reducer,
+        CanselPayment: CancelPaymentSlice.reducer,
+        AvailableBooking: AvailableBookingSlice.reducer,
+        ChangeBooking: ChangeBookingSlice.reducer,
+        LoginPhone: LoginPhoneSlice.reducer,
+        verifyOtp: verifyOtpSlice.reducer,
+        register: RegisterSlice.reducer,
+        BookingByID: BookingBtIdSlice.reducer,
+        sendMessage: SendMessageSlice.reducer,
+        conversation: conversationsSlice.reducer,
+        conversationsPersonal: conversationsPersonalSlice.reducer,
+        Reviews: ReviewsSlice.reducer,
+        ReviewsGetId: ReviewsGetIdSlice.reducer,
+        DeleteReviews: DeleteReviewsSlice.reducer,
+        updateReview: updateReviewsSlice.reducer,
+        LoginWithEmail: LoginWithEmailSlice.reducer,
+        ChatAi: ChatAiSlice.reducer
     }
 });
 
