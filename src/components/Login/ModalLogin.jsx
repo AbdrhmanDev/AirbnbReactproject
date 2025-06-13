@@ -21,7 +21,7 @@ const ModalLogin = (props) => {
     };
   }, []);
 
-  const handelSignup =()=>{
+  const handelSignup = () => {
     setCheckClick(true)
     SignUpEmail(true)
   }
@@ -32,70 +32,70 @@ const ModalLogin = (props) => {
   };
   return (
     <>
-    <Modal {...props} onHide={handleClose}
-    show={isOpen}
-    aria-labelledby="contained-modal-title-vcenter">
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter" className='text-center fs-6 w-100'>
-        Log in or sign up
-        </Modal.Title>
-      </Modal.Header>
-    
+      <Modal {...props} onHide={handleClose}
+        show={isOpen}
+        aria-labelledby="contained-modal-title-vcenter">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter" className='text-center fs-6 w-100'>
+            Log in or sign up
+          </Modal.Title>
+        </Modal.Header>
+
         <Modal.Body >
           <Container >
             <div className="p-3 w-100" >
               <div className='d-flex '>
                 {
-                CheckClick ?
-              <IoIosArrowBack className='mb-4 me-3 mt-1' style={{ cursor: 'pointer' }} size={'25'} onClick={()=>setCheckClick(false)}/>
-:''
-              }
-              <h3 className="h4 mb-4">Welcome to Airbnb</h3>
+                  CheckClick ?
+                    <IoIosArrowBack className='mb-4 me-3 mt-1' style={{ cursor: 'pointer' }} size={'25'} onClick={() => setCheckClick(false)} />
+                    : ''
+                }
+                <h3 className="h4 mb-4">Welcome to Airbnb</h3>
               </div>
               <section>
-               <div className='w-100'>
-                {
-                  CheckClick ?'':<LoginWithPhone/>
-                }
-               </div>
-               {
-                !CheckClick ?
-                 <div className="d-flex align-items-center text-muted small">
-                  <div className="flex-grow-1 border-top"></div>
-                  <span className="mx-2">or</span>
-                  <div className="flex-grow-1 border-top"></div>
-                </div> :""
-               }
-                 <div >
-                 {
-                  CheckClick ?'':<LoginWithGoogle />
-                }
-                 
-                 </div>
-
-                 <div className=' d-flex justify-content-center mt-3 '>
-                  
-                 <div className=''>
+                <div className='w-100'>
                   {
-                   CheckClick ? 
-                  <SignUpWithEmail setSignUpEmail={()=>setSignUpEmail(true)}/> :
-                  <button onClick={handelSignup}
-                    className=' rounded-1 border-1 bg-body p-2 py-2 px-5 '>
-                      <span className='pe-4'>
-                  <MdOutlineEmail size={'20'}/>
-                      </span>
-                  Login With Email
-                  </button>
-                  
+                    CheckClick ? '' : <LoginWithPhone />
                   }
-                 </div>
+                </div>
+                {
+                  !CheckClick ?
+                    <div className="d-flex align-items-center text-muted small">
+                      <div className="flex-grow-1 border-top"></div>
+                      <span className="mx-2">or</span>
+                      <div className="flex-grow-1 border-top"></div>
+                    </div> : ""
+                }
+                <div >
+                  {
+                    CheckClick ? '' : <LoginWithGoogle />
+                  }
 
-                 </div>
+                </div>
+
+                <div className=' d-flex justify-content-center mt-3 '>
+
+                  <div className=''>
+                    {
+                      CheckClick ?
+                        <SignUpWithEmail setSignUpEmail={() => setSignUpEmail(true)} /> :
+                        <button onClick={handelSignup}
+                          className=' rounded-1 border-1 bg-body p-2 py-2 px-5 '>
+                          <span className='pe-4'>
+                            <MdOutlineEmail size={'20'} />
+                          </span>
+                          Login With Email
+                        </button>
+
+                    }
+                  </div>
+
+                </div>
               </section>
             </div>
           </Container>
         </Modal.Body>
-    </Modal>
+      </Modal>
     </>
   )
 }
