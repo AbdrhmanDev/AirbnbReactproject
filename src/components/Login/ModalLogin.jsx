@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Container, Form, Button } from 'react-bootstrap';
-import LoginWithGoogle from './LoginwithGoogle';
+import LoginWithGoogle from './LoginWithGoogle';
 import { emitter } from '../../features/emitter';
 import LoginWithPhone from './LoginWithPhone';
 import SignUpWithEmail from './SignUpwithEmail';
