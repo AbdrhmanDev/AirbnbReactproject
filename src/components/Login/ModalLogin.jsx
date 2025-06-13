@@ -3,7 +3,7 @@ import { Modal, Container, Form, Button } from 'react-bootstrap';
 import LoginWithGoogle from './LoginWithGoogle';
 import { emitter } from '../../features/emitter';
 import LoginWithPhone from './LoginWithPhone';
-import SignUpWithEmail from './SignUpwithEmail';
+import SignUpWithEmail from './SignUpWithEmail';
 import { IoIosArrowBack } from "react-icons/io";
 import { MdOutlineEmail } from "react-icons/md";
 
