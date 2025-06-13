@@ -12,7 +12,7 @@ import UserInfo from '../components/Setting/Setting'
 import ProfileCard from '../components/user/Profile'
 import Account from '../pages/Account/Account'
 import ProfileSection from '../features/ProfileSection/ProfileSection'
-import Layout from '../Layout/Layout'
+import Layout from '../layout/Layout'
 import ProfileAbout from '../features/ProfileAbout/ProfileAbout'
 import Personalinfo from '../components/user/Personal info/Personalinfo'
 import ModalLogin from '../components/Login/ModalLogin'
@@ -37,21 +37,21 @@ const RoutesPage = () => {
   const router = createBrowserRouter(
     [
       {
-        path: '', element: <Layout/>, children: [
-          {index:true, element: <Home />},
-          {path:'wishlist', element: <Wishlist/>},
-          {path:'/details/:id', element: <Details/>},
-          {path:'/Filter', element: <Filltration/>},
-          {path:'/images', element: <ShowAllImage/>},  
-          {path:'/Login', element: <ModalLogin/>},
-          {path:'/Trips', element: <Trip/>},
-          {path:'/payment/success', element: <PaymentSuccess/> },
-          {path:'/Trips/details', element: <ConfirmBooking/>},
-          {path:'/giftCards', element: <GiftPage/>},
-          { path: "/referrals", element: <ReferralCard/> },
-          {path:'/hostHomePage', element: <HostHome/>},
-          {path:'/HostExperience', element: <HeroSection/>},
-          { path: "/chat", element: <Chat/> }, 
+        path: '', element: <Layout />, children: [
+          { index: true, element: <Home /> },
+          { path: 'wishlist', element: <Wishlist /> },
+          { path: '/details/:id', element: <Details /> },
+          { path: '/Filter', element: <Filltration /> },
+          { path: '/images', element: <ShowAllImage /> },
+          { path: '/Login', element: <ModalLogin /> },
+          { path: '/Trips', element: <Trip /> },
+          { path: '/payment/success', element: <PaymentSuccess /> },
+          { path: '/Trips/details', element: <ConfirmBooking /> },
+          { path: '/giftCards', element: <GiftPage /> },
+          { path: "/referrals", element: <ReferralCard /> },
+          { path: '/hostHomePage', element: <HostHome /> },
+          { path: '/HostExperience', element: <HeroSection /> },
+          { path: "/chat", element: <Chat /> },
           { path: "/messages", element: <MessagesPage /> }, // Shows all conversations
           { path: "/messages/:id", element: <MessagesPage /> }, // Shows specific conversation
           { path: "/user/:id/messages", element: <MessagesPage /> }, // Direct link to chat with specific user
@@ -61,24 +61,24 @@ const RoutesPage = () => {
             children: [
               {
                 index: true,
-                element: <UserInfo />,  
+                element: <UserInfo />,
               },
               { path: "Profile", element: <ProfileCard /> },
-              { path: "ProfileAbout", element: <ProfileAbout/> },
-              { path: "ProfileSection", element: <ProfileSection/> },
-              { path: "personal-info", element: <div> <Personalinfo/> </div> },
-              { path: "login-security", element: <LoginSecurity/> },
-              { path: "payments", element: <Payment/> },
-              { path: "taxes", element: <TaxesPage/> },
-              { path: "notifications", element: <Notifications/> },
-              { path: "privacy", element: <PrivacyPage/>},
-              { path: "global-preferences", element: <GlobalPreferences/>},
-              { path: "travel", element: <TravelForWork/> },
-              { path: "hosting-tools", element: <ProfessionalHostingTools/> },
-              { path: "referrals", element: <ReferralCard/> }
+              { path: "ProfileAbout", element: <ProfileAbout /> },
+              { path: "ProfileSection", element: <ProfileSection /> },
+              { path: "personal-info", element: <div> <Personalinfo /> </div> },
+              { path: "login-security", element: <LoginSecurity /> },
+              { path: "payments", element: <Payment /> },
+              { path: "taxes", element: <TaxesPage /> },
+              { path: "notifications", element: <Notifications /> },
+              { path: "privacy", element: <PrivacyPage /> },
+              { path: "global-preferences", element: <GlobalPreferences /> },
+              { path: "travel", element: <TravelForWork /> },
+              { path: "hosting-tools", element: <ProfessionalHostingTools /> },
+              { path: "referrals", element: <ReferralCard /> }
             ]
           },
-          {path: "book/stays", element: <CheckOut />}
+          { path: "book/stays", element: <CheckOut /> }
         ]
       },
       { path: '*', element: <h1>404</h1> },
