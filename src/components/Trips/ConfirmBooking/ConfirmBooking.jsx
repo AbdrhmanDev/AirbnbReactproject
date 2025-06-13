@@ -21,7 +21,7 @@ import { PaymentFirstThunk } from '../../../services/Slice/Payment/Payment';
 import { toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { deleteUserTripThunk, getPaymentIdThunk } from '../../../services/Slice/Trip';
-import Reviews from '../reviews/reviews';
+import Reviews from '../reviews/Reviews';
 import { CiStar } from "react-icons/ci";
 import { Image } from "react-bootstrap";
 import { GetByIdThunk } from '../../../services/Slice/reviews/reviewsGetId';
