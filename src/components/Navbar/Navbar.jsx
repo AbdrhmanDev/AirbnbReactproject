@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllFilterThunk } from '../../services/Slice/Filter/AllFillter';
 import ModalLogin from '../Login/ModalLogin';
-import { logout } from '../../services/Slice/Login/googleLogin';
+import { logout } from '../../services/Slice/login/googleLogin';
 import { emitter } from '../../features/emitter';
 import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 
