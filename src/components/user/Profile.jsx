@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import style from './Profile.module.css';
+import style from './profile.module.css';
 import { fetchProfileThunk } from '../../services/Slice/Profile/ProfileAPI';
 import { differenceInDays, differenceInMonths } from 'date-fns';
 import ProfileAbout from '../../features/ProfileAbout/ProfileAbout';
@@ -26,9 +26,9 @@ const ProfileCard = () => {
   const newFirst = firstName?.slice(0, firstName.indexOf(' '));
   //عملت الكوندشن دا علشان لو المسخدم محطش مسافه ميمسحش اخر حرف في اسمه
   const firstNameNew = newFirst !== -1 ? newFirst : "";
-  
 
-  
+
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -47,7 +47,7 @@ const ProfileCard = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showModal]);
-  
+
   useEffect(() => {
     dispatch(fetchProfileThunk())
     var firstLogin = localStorage.getItem('firstLogin');
@@ -111,11 +111,11 @@ const ProfileCard = () => {
                   <hr />
                   <h5 className="fw-bold mt-4 mb-2">Verify your identity</h5>
                   <p className="text-muted mb-4">
-                    Before you book or host on Airbnb, you’ll need to complete this step.
+                    Before you book or host on Airbnb, you'll need to complete this step.
                   </p>
                   <button className="btn btn-outline-dark rounded-3 fw-semibold">Get verified</button>
-                </div>      
-              </div>   
+                </div>
+              </div>
               {/* Right side */}
               <div className="col-12 col-lg-6">
                 {showProfileAbout ? (
@@ -136,7 +136,7 @@ const ProfileCard = () => {
                 ) : (
                   <ProfileAbout firstNameNew={newFirst} />
                 )}
-                
+
               </div>
             </div>
           </div>
